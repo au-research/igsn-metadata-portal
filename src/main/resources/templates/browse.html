@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout.html :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>IGSN Portal - Browser</title>
+</head>
+<body>
+<section>
+    <div class="font-sans flex w-full py-8">
+        <div class="overflow-hidden bg-white rounded w-full shadow-lg">
+            <div class="block p-4 border-b" th:each="identifier : ${identifiers}">
+                <a class="text-grey-darker mb-2"
+                   th:href="@{view/{value}(value=${identifier.value})}"
+                   th:text="${identifier.value}"></a>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row-reverse justify-between">
+        <a th:href="@{/(size=${identifiersResponse.size}, page=${identifiersResponse.number}+1)}">Next</a>
+        <a th:if="${identifiersResponse.number}!=0" th:href="@{/(size=${identifiersResponse.size}, page=${identifiersResponse.number}-1)}">Previous</a>
+    </div>
+</section>
+</body>
+</html>

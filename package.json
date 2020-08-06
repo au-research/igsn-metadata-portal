@@ -1,0 +1,19 @@
+{
+    "name": "igsn-portal",
+    "scripts": {
+        "watch": "gulp watch",
+        "build": "gulp build",
+        "build-prod": "gulp build --env production"
+    },
+    "dependencies": {
+        "tailwindcss": "^1.6.2"
+    },
+    "devDependencies": {
+        "gulp": "^4.0.2",
+        "gulp-environments": "^1.0.1",
+        "gulp-postcss": "^8.0.0",
+        "gulp-purgecss": "^2.3.0",
+        "gulp-uglifycss": "^1.1.0",
+        "gulp-watch": "^5.0.1"
+    }
+}

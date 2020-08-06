@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)">
+<head>
+    <title th:replace="${title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/portal.css}"/>
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css">
+
+</head>
+<body>
+
+<div class="w-full h-40 bg-black">
+    <div class="w-full h-32 bg-black flex items-center">
+        <img class="h-16 mx-6" src="https://ardc.edu.au/wp-content/themes/ardc/img/ardc_logo.svg" alt="ARDC Logo"/>
+        <a th:href="@{/}"><h1 class="text-3xl text-white mx-4">IGSN Portal</h1></a>
+    </div>
+</div>
+
+<div class="container w-10/12 mx-auto p-4 py-4 px-8 shadow-lg rounded-lg border-solid border-1 -mt-8 bg-white">
+    <div th:replace="${content}"></div>
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+
+</body>
+</html>
