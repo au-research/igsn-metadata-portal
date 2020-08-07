@@ -1,2 +1,9 @@
+# Server configuration
+server.port=8086
+server.servlet.context-path=/igsn-portal
+
+# Registry Configuration
+registry.url=https://test.identifiers.ardc.edu.au/igsn-registry/
+
+# Caching Configuration
 #spring.thymeleaf.cache=false
-#registry.url=https://test.identifiers.ardc.edu.au/igsn-registry/

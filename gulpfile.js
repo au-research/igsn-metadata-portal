@@ -21,7 +21,7 @@ gulp.task('css', function () {
 })
 
 gulp.task('copy-template', function () {
-  return gulp.src('src/main/resources/templates/*.html').pipe(gulp.dest('target/classes/templates/'));
+  return gulp.src('src/main/resources/templates/**/*.html').pipe(gulp.dest('target/classes/templates/'));
 })
 
 gulp.task('copy-style', function () {
@@ -31,7 +31,7 @@ gulp.task('copy-style', function () {
 gulp.task('watch', function () {
   watch('src/main/resources/css/portal.css', gulp.series('css'))
   watch('src/main/resources/static/**/*.css', gulp.series('copy-style'))
-  watch('src/main/resources/templates/*.html', gulp.series('copy-template'))
+  watch('src/main/resources/templates/**/*.html', gulp.series('copy-template'))
 });
 
 gulp.task('build', gulp.series('copy-template', 'css', 'copy-style'));
