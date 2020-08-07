@@ -1,43 +1,14 @@
 /* purgecss start ignore */
-@tailwind base;
-@tailwind components;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
 /* purgecss end ignore */
-@tailwind utilities;
+@import "tailwindcss/utilities";
+@import "highlight.js/styles/github.css";
+
+@import './page-view.css';
 
 body {
-    @apply text-gray-900;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    @apply .text-gray-900 .font-sans;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-.page-view h1 {
-    @apply .text-3xl .text-black .mb-3 .font-serif .font-medium;
-}
-
-.page-view h2 {
-    @apply .text-xl .text-black .my-2 .font-serif .text-blue;
-}
-
-.page-view h3 {
-    @apply .text-lg .text-black .mb-1 .font-serif;
-}
-
-.page-view a {
-    @apply .text-blue;
-}
-
-.page-view a:hover {
-    @apply .text-blue-dark;
-}
-
-.page-view ul {
-    @apply .list-disc .mb-2;
-}
-
-.page-view ul > li {
-    @apply .ml-6;
-}
-.page-view .content-block {
-    @apply .mb-4;
 }
