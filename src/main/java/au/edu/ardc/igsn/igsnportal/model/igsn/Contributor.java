@@ -2,14 +2,13 @@ package au.edu.ardc.igsn.igsnportal.model.igsn;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Classification {
-
+public class Contributor {
     @JacksonXmlProperty(isAttribute = true)
-    public String classificationURI;
+    public String contributorType;
 
-    @JacksonXmlText
-    public String value;
+    public String contributorName;
+
+    public ContributorIdentifier contributorIdentifier;
 }

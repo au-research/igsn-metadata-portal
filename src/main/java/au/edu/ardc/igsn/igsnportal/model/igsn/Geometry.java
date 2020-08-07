@@ -5,10 +5,15 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Classification {
+public class Geometry {
+    @JacksonXmlProperty(isAttribute = true)
+    public String srid;
 
     @JacksonXmlProperty(isAttribute = true)
-    public String classificationURI;
+    public String verticalDatum;
+
+    @JacksonXmlProperty(isAttribute = true)
+    public String geometryURI;
 
     @JacksonXmlText
     public String value;

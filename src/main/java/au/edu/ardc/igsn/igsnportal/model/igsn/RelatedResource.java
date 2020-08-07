@@ -5,10 +5,13 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Classification {
+public class RelatedResource {
 
     @JacksonXmlProperty(isAttribute = true)
-    public String classificationURI;
+    public String relatedResourceIdentifierType;
+
+    @JacksonXmlProperty(isAttribute = true)
+    public String relationType;
 
     @JacksonXmlText
     public String value;

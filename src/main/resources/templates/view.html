@@ -5,52 +5,142 @@
 </head>
 <body>
 <section>
-    <div class="flex">
-        <div class="w-1/4 pr-4 border-gray-300 border-r-2">
-            <h1 class="text-2xl text-gray">Location</h1>
-            <img class="w-full" src="https://via.placeholder.com/250" alt="">
-            <p>123 Example, South West St, Moss Vale NSW 2357</p>
+    <div class="flex page-view">
+        <div class="w-1/4 pr-4 border-gray-100 border-r-2" th:if="${resource.location}">
+            <h3>Location</h3>
+            <div class="content-block" th:if="${resource.location.locality}">
+                <div id="map">
+                    <img class="w-full" src="https://via.placeholder.com/250" alt="">
+                </div>
+                <a th:href="${resource.location.locality.localityURI}" th:text="${resource.location.locality.value}"></a>
+            </div>
+
+            <div th:if="${resource.location.geometry}">
+                <div class="content-block" th:if="${resource.location.geometry.verticalDatum}">
+                    <h3>Vertical Datum</h3>
+                    <p th:text="${resource.location.geometry.verticalDatum}"></p>
+                </div>
+
+                <div class="content-block" th:if="${resource.location.geometry.geometryURI}">
+                    <a th:href="${resource.location.geometry.geometryURI}">Geometry URL</a>
+                </div>
+
+                <div class="content-block" th:if="${resource.location.geometry.value}">
+                    <h3>WKT</h3>
+                    <p th:text="${resource.location.geometry.value}"></p>
+                </div>
+            </div>
+
+
+
+<!--            todo curators-->
+
         </div>
         <div class="flex-1 pl-4">
             <div class="flex mb-4">
-                <div class="mr-10">
-                    <h1 class="text-2xl text-gray mb-3" th:text="${resource.resourceTitle}"></h1>
-                    IGSN: <span class="text-grey-darker mb-2" th:text="${resource.resourceIdentifier}"></span>
+                <div class="mr-10 w-full">
+                    <h1 class="text-2xl text-gray mb-3 font-serif" th:text="${resource.resourceTitle}"></h1>
+                    IGSN: <a href="#" th:text="${resource.resourceIdentifier}"></a>
                 </div>
-                <img class="" src="https://via.placeholder.com/100" alt="">
-            </div>
-            <h1>Sample or Item Type:</h1>
-            <ul class="list-disc text-grey-darker mb-2">
-                <li class="ml-6" th:each="resourceType : ${resource.resourceTypes}" th:text="${resourceType.value}"></li>
-            </ul>
-            <h1>Material Type:</h1>
-            <ul class="list-disc text-grey-darker mb-2">
-                <li class="ml-6" th:each="materialType : ${resource.materialTypes}" th:text="${materialType.value}"></li>
-            </ul>
-<!--            <h1>Classifications</h1>-->
-<!--            <ul class="list-disc text-grey-darker mb-2">-->
-<!--                <li class="ml-6" th:each="classification : ${resource.classifications}" th:text="${classification.value}"></li>-->
-<!--            </ul>-->
-            <h1>Sampled Features</h1>
-            <h1>Collection/Creation Date</h1>
-            <h1>Purpose of collection/creation</h1>
-        </div>
-    </div>
+                <div>
+                    <img class="" src="https://via.placeholder.com/100" alt="">
+                </div>
 
-    <div class="font-sans flex w-full py-8">
-        <div class="overflow-hidden bg-white rounded w-full shadow-lg">
-            <div class="block p-4 border-b">
-                <p class="font-bold mb-1 text-black">Registered Object Type</p>
-                <p class="text-grey-darker mb-2" th:text="${resource.registeredObjectType}"></p>
             </div>
-            <div class="block p-4 border-b">
-                <p class="font-bold mb-1 text-black">Landing Page</p>
-                <p class="text-grey-darker mb-2" th:text="${resource.landingPage}"></p>
+            <div class="content-block">
+                <h3>Sample or Item Type</h3>
+                <ul>
+                    <li th:each="resourceType : ${resource.resourceTypes}" th:text="${resourceType.value}"></li>
+                </ul>
             </div>
-            <div class="block p-4 border-b">
-                <p class="font-bold mb-1 text-black">Public</p>
-                <p class="text-grey-darker mb-2" th:text="${resource.isPublic}"></p>
+
+            <div class="content-block">
+                <h3>Material Type</h3>
+                <ul class="list-disc text-grey-darker mb-2">
+                    <li class="ml-6" th:each="materialType : ${resource.materialTypes}" th:text="${materialType.value}"></li>
+                </ul>
             </div>
+
+            <div class="content-block" th:if="${resource.classifications}">
+                <h3>Classifications</h3>
+                <ul>
+                    <li th:each="classification : ${resource.classifications}">
+                        <a th:href="${classification.classificationURI}" th:text="${classification.value}"></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="content-block">
+                <h3>Comments</h3>
+                <p th:text="${resource.comments}"></p>
+            </div>
+
+            <div class="content-block" th:if="${resource.alternateIdentifiers}">
+                <h3>Alternate Identifiers</h3>
+                <ul>
+                    <li th:each="alternateIdentifier : ${resource.alternateIdentifiers}" th:text="alternateIdentifier"></li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <h2>Collection/Creation</h2>
+
+            <div class="content-block">
+                <h3>Sampled Features</h3>
+                <ul>
+                    <li th:each="sampledFeature : ${resource.sampledFeatures}">
+                        <a th:href="${sampledFeature.sampledFeatureURI}" th:text="${sampledFeature.value}"></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="content-block" th:if="${resource.date}">
+                <h3>Date</h3>
+                <p th:if="${resource.date.timePeriod}">
+                    <span th:text="${resource.date.timePeriod.start}"></span> to <span th:text="${resource.date.timePeriod.end}"></span>
+                </p>
+            </div>
+
+            <div class="content-block" th:if="${resource.method}">
+                <h3>Method</h3>
+                <p>
+                    <a th:href="${resource.method.methodURI}" th:text="${resource.method.value}"></a>
+                </p>
+            </div>
+
+            <div class="content-block" th:if="${resource.purpose}">
+                <h3>Purpose</h3>
+                <p th:text="${resource.purpose}"></p>
+            </div>
+
+            <!--Project-->
+            <hr>
+
+            <div class="content-block" th:if="${resource.contributors}">
+                <h2>Contributors</h2>
+                <div th:each="contributor : ${resource.contributors}">
+                    <span th:text="${contributor.contributorType}"></span>
+                    <span th:text="${contributor.contributorName}"></span>
+                    <span th:if="${contributor.contributorIdentifier}">
+                        <span th:if="${contributor.contributorIdentifier.contributorIdentifierType}" th:text="${contributor.contributorIdentifier.contributorIdentifierType}"></span>
+                        <span th:text="${contributor.contributorIdentifier.value}"></span>
+                    </span>
+
+                </div>
+            </div>
+
+            <hr>
+            <div class="content-block" th:if="${resource.relatedResources}">
+                <h2>Related Resources</h2>
+                <div th:each="relatedResource : ${resource.relatedResources}">
+                    <span th:text="${relatedResource.relationType}"></span>
+                    <span th:text="${relatedResource.relatedResourceIdentifierType}"></span>
+                    <span th:text="${relatedResource.value}"></span>
+                </div>
+            </div>
+
+
         </div>
     </div>
 

@@ -5,10 +5,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Classification {
-
+public class LogDate {
     @JacksonXmlProperty(isAttribute = true)
-    public String classificationURI;
+    public String eventType;
 
     @JacksonXmlText
     public String value;
