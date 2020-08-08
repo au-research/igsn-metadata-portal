@@ -29,7 +29,7 @@ gulp.task('css', function () {
       content: ['src/main/resources/templates/**/*.html']
     })))
     .pipe(uglifycss())
-    .pipe(rename("bundle.min.css"))
+    .pipe(rename("bundle.css"))
     .pipe(gulp.dest('src/main/resources/static/css/'))
 })
 
@@ -59,7 +59,6 @@ gulp.task('js-libs', function () {
     .pipe(buffer())
     .pipe(sourcemaps.init())
     .pipe(uglify())
-    .pipe(rename("bundle.min.js"))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest('./src/main/resources/static/js/'));
 });
@@ -82,13 +81,13 @@ gulp.task("js", function(){
     .pipe(buffer())
     .pipe(sourcemaps.init())
     .pipe(uglify())
-    .pipe(rename("bundle.min.js"))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest("./src/main/resources/static/js/"));
 });
 
 gulp.task('watch', function () {
   watch('src/main/resources/css/portal.css', gulp.series('css'))
+  watch('src/main/resources/js/**/*.js', gulp.series('js'))
   watch('src/main/resources/static/**/*', gulp.series('copy-static'))
   watch('src/main/resources/templates/**/*.html', gulp.series('copy-template'))
 });

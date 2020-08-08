@@ -5,6 +5,8 @@
 @import "tailwindcss/utilities";
 @import "highlight.js/styles/github.css";
 
+@import "leaflet/dist/leaflet.css";
+
 @import './page-view.css';
 
 body {

@@ -3520,6 +3520,11 @@ lead@^1.0.0:
   dependencies:
     flush-write-stream "^1.0.2"
 
+leaflet@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.6.0.tgz#aecbb044b949ec29469eeb31c77a88e2f448f308"
+  integrity sha512-CPkhyqWUKZKFJ6K8umN5/D2wrJ2+/8UIpXppY7QDnUZW5bZL5+SEI2J7GBpwh4LIupOKqbNSQXgqmrEJopHVNQ==
+
 leven@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/leven/-/leven-3.1.0.tgz#77891de834064cccba82ae7842bb6b14a13ed7f2"
@@ -5546,6 +5551,11 @@ which@~1.0.5:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/which/-/which-1.0.9.tgz#460c1da0f810103d0321a9b633af9e575e64486f"
   integrity sha1-RgwdoPgQED0DIam2M6+eV15kSG8=
+
+wicket@^1.3.6:
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/wicket/-/wicket-1.3.6.tgz#f1c8bfca78205a533e696cd8ee77ea0bcaa612c3"
+  integrity sha512-062Cc5HHbzy6PYATPugoEezg4gotGmrUf7RD7B15lV866NwWMD1qK/vEZmaNhXC7cMNioA0VAWx8KjotNDb5gw==
 
 window-size@0.1.0:
   version "0.1.0"
