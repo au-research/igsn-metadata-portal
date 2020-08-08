@@ -86,7 +86,7 @@ gulp.task("js", function(){
 });
 
 gulp.task('watch', function () {
-  watch('src/main/resources/css/portal.css', gulp.series('css'))
+  watch('src/main/resources/css/**/*.css', gulp.series('css'))
   watch('src/main/resources/js/**/*.js', gulp.series('js'))
   watch('src/main/resources/static/**/*', gulp.series('copy-static'))
   watch('src/main/resources/templates/**/*.html', gulp.series('copy-template'))

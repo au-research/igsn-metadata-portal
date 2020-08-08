@@ -28,3 +28,11 @@
 .page-view .content-block {
     @apply .mb-4;
 }
+
+a.social-sharing{
+    @apply .text-black .text-3xl .animate-bounce;
+}
+
+a.social-sharing:hover{
+    @apply .text-blue;
+}

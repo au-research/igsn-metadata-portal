@@ -9,8 +9,8 @@
         <div class="w-1/4 pr-4 border-gray-100 border-r-2" th:if="${resource.location}">
             <h2>Location</h2>
             <div class="content-block" th:if="${resource.location.locality}">
-                <div id="map" class="w-full" th:attr="wkt=${resource.location.geometry.value}" th:if="${resource.location.geometry}">
-                    <img class="w-full" src="https://via.placeholder.com/250" alt="">
+                <div id="map" class="w-full h-64" th:attr="wkt=${resource.location.geometry.value}" th:if="${resource.location.geometry}">
+
                 </div>
                 <a th:href="${resource.location.locality.localityURI}" th:text="${resource.location.locality.value}"></a>
             </div>
@@ -30,8 +30,7 @@
                     <pre class="whitespace-normal"><code th:text="${resource.location.geometry.value}"></code></pre>
                 </div>
             </div>
-
-<!--            todo curators-->
+            <hr>
             <div class="content-block" th:if="${resource.curationDetails}">
                 <h2>Curators</h2>
                 <div class="content-block" th:each="curation : ${resource.curationDetails}">
@@ -50,6 +49,12 @@
                     </div>
 
                 </div>
+            </div>
+
+            <div class="content-block">
+                <a href="" class="social-sharing"><i class="fas fa-download"></i></a>
+                <a href="" class="social-sharing"><i class="fab fa-facebook"></i></a>
+                <a href="" class="social-sharing"><i class="fab fa-twitter"></i></a>
             </div>
 
         </div>
