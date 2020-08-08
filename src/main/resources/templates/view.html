@@ -7,7 +7,7 @@
 <section>
     <div class="flex page-view">
         <div class="w-1/4 pr-4 border-gray-100 border-r-2" th:if="${resource.location}">
-            <h3>Location</h3>
+            <h2>Location</h2>
             <div class="content-block" th:if="${resource.location.locality}">
                 <div id="map" class="w-full" th:attr="wkt=${resource.location.geometry.value}" th:if="${resource.location.geometry}">
                     <img class="w-full" src="https://via.placeholder.com/250" alt="">
@@ -31,9 +31,26 @@
                 </div>
             </div>
 
-
-
 <!--            todo curators-->
+            <div class="content-block" th:if="${resource.curationDetails}">
+                <h2>Curators</h2>
+                <div class="content-block" th:each="curation : ${resource.curationDetails}">
+                    <h3 th:text="${curation.curator}"></h3>
+                    <div class="mb-2" th:if="${curation.curationDate}">
+                        <p>Curation Date</p>
+                        <p th:text="${curation.curationDate}"></p>
+                    </div>
+                    <div class="mb-2"th:if="${curation.curationLocation}">
+                        <p>Curation Location</p>
+                        <p th:text="${curation.curationLocation}"></p>
+                    </div>
+                    <div class="mb-2" th:if="${curation.curatingInstitution}">
+                        <p>Curating Institution</p>
+                        <a th:href="${curation.curatingInstitution.institutionURI}" th:text="${curation.curatingInstitution.value} ?: ${curation.curatingInstitution.institutionURI}"></a>
+                    </div>
+
+                </div>
+            </div>
 
         </div>
         <div class="flex-1 pl-4">
