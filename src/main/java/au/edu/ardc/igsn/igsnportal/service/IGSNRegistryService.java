@@ -1,7 +1,11 @@
 package au.edu.ardc.igsn.igsnportal.service;
 
+import au.edu.ardc.igsn.igsnportal.exception.NotFoundException;
+import au.edu.ardc.igsn.igsnportal.model.igsn.Resources;
+import au.edu.ardc.igsn.igsnportal.response.ErrorResponse;
 import au.edu.ardc.igsn.igsnportal.response.PaginatedIdentifiersResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -35,20 +39,21 @@ public class IGSNRegistryService {
         return recordsResponse;
     }
 
-    public String getContentForIdentifierValue(String identifier) {
+    public String getContentForIdentifierValue(String identifier) throws IOException {
         OkHttpClient client = getClient();
         HttpUrl url = HttpUrl.parse(baseUrl + "api/public/igsn-description/").newBuilder()
                 .addQueryParameter("identifier", identifier)
                 .build();
         Request request = new Request.Builder().url(url).build();
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Response response = client.newCall(request).execute();
+        if (response.code() == 404) {
+            String exceptionString = response.body().string();
+            ObjectMapper objMapper = new ObjectMapper();
+            ErrorResponse errorResponse = objMapper.readValue(exceptionString, ErrorResponse.class);
+            throw new NotFoundException(errorResponse.message);
         }
 
-        // todo throw exception here
-        return "";
+        return response.body().string();
     }
 
     public OkHttpClient getClient() {

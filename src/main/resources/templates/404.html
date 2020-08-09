@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout.html :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>IGSN Portal - Error</title>
+</head>
+<body>
+<section>
+    <div class="flex justify-center">
+        <div>
+            <h1 class="text-5xl text-center mb-4">We're sorry!</h1>
+            <div class="text-left">
+                <p class="mb-2">The page or record you are looking for cannot be found or displayed.</p>
+                <p class="mb-2">We've let our engineers know so that they can take a look at the problem.</p>
+                <p class="font-bold" th:if="${exception} and ${exception.getMessage()}" th:text="${exception.getMessage()}"></p>
+<!--                <p class="mb-2">You may wish to return to the home page or contact services@ardc.edu.au for further support.</p>-->
+            </div>
+        </div>
+    </div>
+<!--    <h1 th:text="${exception.getMessage()}"></h1>-->
+<!--    <p th:text="${url}"></p>-->
+</section>
+</body>
+</html>

@@ -41,6 +41,5 @@ class ViewControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("CSTSTDOCO1")))
                 .andExpect(content().string(containsString("A title worthy for kings")));
-
     }
 }
