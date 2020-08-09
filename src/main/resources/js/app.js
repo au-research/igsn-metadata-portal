@@ -5,4 +5,7 @@ import {leafletMap} from './map'
 hljs.initHighlightingOnLoad()
 
 // display the leafletMap on the view page where the #map[wkt=*] exists
-leafletMap('map')
+let mapElement = document.getElementById("map");
+if (mapElement) {
+  leafletMap('map')
+}
