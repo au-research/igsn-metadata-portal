@@ -108,7 +108,7 @@
 
             <h2>Collection/Creation</h2>
 
-            <div class="content-block">
+            <div class="content-block" th:if="${resource.sampledFeatures}">
                 <h3>Sampled Features</h3>
                 <ul>
                     <li th:each="sampledFeature : ${resource.sampledFeatures}">
@@ -136,7 +136,11 @@
                 <p th:text="${resource.purpose}"></p>
             </div>
 
-            <!--Project-->
+            <div class="content-block" th:if="${resource.campaign}">
+                <h3>Project</h3>
+                <p th:text="${resource.campaign}"></p>
+            </div>
+
             <hr>
 
             <div class="content-block" th:if="${resource.contributors}">
