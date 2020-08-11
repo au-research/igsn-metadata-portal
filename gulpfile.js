@@ -12,6 +12,7 @@ const buffer = require('vinyl-buffer')
 const sourcemaps = require('gulp-sourcemaps')
 const uglify = require('gulp-terser')
 const rename = require('gulp-rename')
+const size = require('gulp-size')
 
 gulp.task('css', function () {
   const postcss = require('gulp-postcss')
@@ -28,6 +29,7 @@ gulp.task('css', function () {
     })))
     .pipe(production(uglifycss()))
     .pipe(rename('bundle.css'))
+    .pipe(size({showFiles:true}))
     .pipe(gulp.dest('src/main/resources/static/css/'))
 })
 
@@ -41,6 +43,10 @@ gulp.task('copy-static', function () {
 
 const libs = [
   'highlight.js',
+  'qrcode-generator',
+  'wicket',
+  'leaflet',
+  'wicket/wicket-leaflet'
 ]
 
 gulp.task('js-libs', function () {
@@ -58,6 +64,7 @@ gulp.task('js-libs', function () {
     .pipe(sourcemaps.init())
     .pipe(uglify())
     .pipe(sourcemaps.write('./maps'))
+    .pipe(size({showFiles:true}))
     .pipe(gulp.dest('./src/main/resources/static/js/'))
 })
 
@@ -80,6 +87,7 @@ gulp.task('js', function () {
     .pipe(sourcemaps.init())
     .pipe(production(uglify()))
     .pipe(sourcemaps.write('./maps'))
+    .pipe(size({showFiles:true}))
     .pipe(gulp.dest('./src/main/resources/static/js/'))
 })
 

@@ -42,6 +42,7 @@ public class ViewController {
         if (userService.isLoggedIn(request)) {
             canEdit = service.canEdit(identifierValue, userService.getPlainAccessToken(request));
         }
+        model.addAttribute("igsnURL", "http://igsn.org/" + resources.resource.resourceIdentifier);
         model.addAttribute("canEdit", canEdit);
         return "view";
     }
