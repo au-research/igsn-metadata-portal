@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -29,7 +30,7 @@ public class ViewController {
             HttpServletRequest request,
             Model model,
             @PathVariable String prefix, @PathVariable String namespace
-    ) throws IOException {
+    ) throws IOException, ServletException {
         String identifierValue = String.format("%s/%s", prefix, namespace);
         String xml = service.getContentForIdentifierValue(identifierValue);
         XmlMapper xmlMapper = new XmlMapper();
@@ -37,7 +38,11 @@ public class ViewController {
         model.addAttribute("identifierValue", identifierValue);
         model.addAttribute("resource", resources.resource);
         model.addAttribute("xml", xml);
-        model.addAttribute("canEdit", service.canEdit(identifierValue, userService.getPlainAccessToken(request)));
+        boolean canEdit = false;
+        if (userService.isLoggedIn(request)) {
+            canEdit = service.canEdit(identifierValue, userService.getPlainAccessToken(request));
+        }
+        model.addAttribute("canEdit", canEdit);
         return "view";
     }
 }
