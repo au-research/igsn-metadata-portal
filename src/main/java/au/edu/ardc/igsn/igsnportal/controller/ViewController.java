@@ -4,7 +4,8 @@ import au.edu.ardc.igsn.igsnportal.model.igsn.Resources;
 import au.edu.ardc.igsn.igsnportal.service.IGSNRegistryService;
 import au.edu.ardc.igsn.igsnportal.service.UserService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.io.IOException;
 
 @Controller
 public class ViewController {
+    Logger logger = LoggerFactory.getLogger(ViewController.class);
 
     IGSNRegistryService service;
     UserService userService;
@@ -32,9 +34,12 @@ public class ViewController {
             @PathVariable String prefix, @PathVariable String namespace
     ) throws IOException, ServletException {
         String identifierValue = String.format("%s/%s", prefix, namespace);
+        logger.debug("Viewing identifier value: %s" + identifierValue);
         String xml = service.getContentForIdentifierValue(identifierValue);
+        logger.debug("Obtained xml from getContentForIdentifierValue");
         XmlMapper xmlMapper = new XmlMapper();
         Resources resources = xmlMapper.readValue(xml, Resources.class);
+        logger.debug("Mapped xml to resources");
         model.addAttribute("identifierValue", identifierValue);
         model.addAttribute("resource", resources.resource);
         model.addAttribute("xml", xml);
