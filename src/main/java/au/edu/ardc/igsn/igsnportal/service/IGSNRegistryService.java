@@ -10,6 +10,8 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import java.io.IOException;
 
 @Service
 public class IGSNRegistryService {
+    Logger logger = LoggerFactory.getLogger(IGSNRegistryService.class);
 
     @Value("${registry.url}")
     private String baseUrl;
@@ -54,6 +57,23 @@ public class IGSNRegistryService {
         }
 
         return response.body().string();
+    }
+
+    public boolean canEdit(String identifierValue, String accessToken) throws IOException {
+        logger.debug(String.format("Attempting to find out if user can edit record, identifierValue:%s accessToken:%s", identifierValue, accessToken));
+        OkHttpClient client = getClient();
+        Request request = new Request.Builder()
+                .url(baseUrl + "api/services/auth-check/?identifier="+identifierValue)
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .build();
+        Response response = client.newCall(request).execute();
+        logger.debug(String.format("Response Code: %s", response.code()));
+        logger.debug(String.format("Response Body: %s", response.body().string()));
+        if (response.code() == 200) {
+            return true;
+        }
+
+        return false;
     }
 
     public OkHttpClient getClient() {

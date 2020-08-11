@@ -63,11 +63,13 @@
                 <div class="mr-10 w-full">
                     <h1 class="text-2xl text-gray mb-3 font-serif" th:text="${resource.resourceTitle}"></h1>
                     IGSN: <a href="#" th:text="${resource.resourceIdentifier}"></a>
+                    <p class="my-6">
+                        <a href="" class="px-6 py-3 text-white bg-blue hover:text-white hover:bg-blue-dark" th:if="${canEdit}"><i class="fas fa-edit"></i> Edit this record</a>
+                    </p>
                 </div>
                 <div>
                     <img class="" src="https://via.placeholder.com/100" alt="">
                 </div>
-
             </div>
             <div class="content-block">
                 <h3>Sample or Item Type</h3>

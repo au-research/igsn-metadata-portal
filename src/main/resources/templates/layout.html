@@ -16,11 +16,11 @@
 
         <div class="flex items-center mr-10" th:with="isLoggedIn=${@userService.isLoggedIn(#request)}">
             <div th:if="!${isLoggedIn}" class="text-white">
-                <a class="px-6 py-3 rounded-lg border-2 border-white hover:text-white hover:bg-blue hover:border-blue-dark uppercase" th:href="@{/login(redirect=${@userService.getCurrentPath(#request)} )}">Login</a>
+                <a class="px-6 py-3 rounded-lg border-2 border-white text-white hover:text-white hover:bg-blue hover:border-blue-dark uppercase" th:href="@{/login(redirect=${@userService.getCurrentPath(#request)} )}">Login</a>
             </div>
             <div th:if="${isLoggedIn}" class="text-white flex items-center">
                 <p class="mr-5 text-lg" th:text="${@userService.getPrincipal(#request).getName()}"></p>
-                <a class="px-6 py-3 rounded-lg border-2 border-white hover:text-white hover:bg-blue hover:border-blue-dark uppercase" th:href="@{/logout(redirect=${@userService.getCurrentPath(#request)})}">Logout</a>
+                <a class="px-6 py-3 rounded-lg border-2 border-white text-white hover:text-white hover:bg-blue hover:border-blue-dark uppercase" th:href="@{/logout(redirect=${@userService.getCurrentPath(#request)})}">Logout</a>
             </div>
         </div>
 
