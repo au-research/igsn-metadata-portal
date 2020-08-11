@@ -7,3 +7,11 @@ registry.url=https://test.identifiers.ardc.edu.au/igsn-registry/
 
 # Caching Configuration
 #spring.thymeleaf.cache=false
+
+# Versioning Content Path
+spring.resources.chain.strategy.content.enabled=true
+spring.resources.chain.strategy.content.paths=/js/**,/css/*.css
+spring.resources.cache.cachecontrol.max-age=365d
+spring.resources.cache.cachecontrol.no-cache=false
+spring.resources.cache.cachecontrol.no-store=false
+spring.resources.cache.cachecontrol.cache-public=true

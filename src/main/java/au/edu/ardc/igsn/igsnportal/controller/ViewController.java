@@ -14,13 +14,17 @@ import java.io.IOException;
 @Controller
 public class ViewController {
 
-    @Autowired
     IGSNRegistryService service;
+
+    public ViewController(IGSNRegistryService service) {
+        this.service = service;
+    }
 
     @GetMapping("/view/{prefix}/{namespace}")
     public String show(
             Model model,
-            @PathVariable String prefix, @PathVariable String namespace) throws IOException {
+            @PathVariable String prefix, @PathVariable String namespace
+    ) throws IOException {
         String identifierValue = String.format("%s/%s", prefix, namespace);
         String xml = service.getContentForIdentifierValue(identifierValue);
         XmlMapper xmlMapper = new XmlMapper();
