@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/bundle.css}"/>
 
 </head>
-<body>
+<body class="flex flex-col min-h-screen">
 <div class="w-full h-40 bg-black">
     <div class="w-full h-32 bg-black flex items-center justify-between">
         <div class="flex items-center">
@@ -27,7 +27,7 @@
     </div>
 </div>
 
-<div class="container w-10/12 mx-auto p-4 py-4 px-8 shadow-lg rounded-lg border-solid border-1 -mt-8 bg-white">
+<div class="flex-grow container w-10/12 mx-auto p-4 py-4 px-8 shadow-lg rounded-lg border-solid border-1 -mt-8 bg-white">
     <div th:replace="${content}"></div>
 </div>
 
