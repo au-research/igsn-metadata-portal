@@ -34,7 +34,7 @@
             <div class="content-block" th:if="${resource.curationDetails}">
                 <h2>Curators</h2>
                 <div class="content-block" th:each="curation : ${resource.curationDetails}">
-                    <h3 th:text="${curation.curator}"></h3>
+                    <h3 th:text="${curation.curator.curatorName}"></h3>
                     <div class="mb-2" th:if="${curation.curationDate}">
                         <p>Curation Date</p>
                         <p th:text="${curation.curationDate}"></p>
@@ -151,8 +151,11 @@
                     <span th:text="${contributor.contributorType}"></span>
                     <span th:text="${contributor.contributorName}"></span>
                     <span th:if="${contributor.contributorIdentifier}">
-                        <span th:if="${contributor.contributorIdentifier.contributorIdentifierType}" th:text="${contributor.contributorIdentifier.contributorIdentifierType}"></span>
-                        <span th:text="${contributor.contributorIdentifier.value}"></span>
+                        <span th:each="identifier : ${contributor.contributorIdentifier}">
+                            <span th:text="${identifier.contributorIdentifierType}"></span>
+                            <span th:text="${identifier.value}"></span>
+                        </span>
+
                     </span>
 
                 </div>
@@ -163,8 +166,12 @@
                 <h2>Related Resources</h2>
                 <div th:each="relatedResource : ${resource.relatedResources}">
                     <span th:text="${relatedResource.relationType}"></span>
-                    <span th:text="${relatedResource.relatedResourceIdentifierType}"></span>
-                    <span th:text="${relatedResource.value}"></span>
+                    <span th:if="${relatedResource.relatedResourceIdentifier}">
+                        <span th:each="identifier : ${relatedResource.relatedResourceIdentifier}">
+                            <span th:text="${identifier.relatedResourceIdentifierType}"></span>
+                            <span th:text="${identifier.value}"></span>
+                        </span>
+                    </span>
                 </div>
             </div>
 

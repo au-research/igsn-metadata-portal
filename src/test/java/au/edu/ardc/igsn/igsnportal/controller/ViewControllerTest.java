@@ -33,13 +33,13 @@ class ViewControllerTest {
     IGSNRegistryService service;
 
     @Test
-    void show() throws Exception {
-        String xml = TestHelper.readFile("src/test/resources/xml/sample_igsn_csiro_v3.xml");
+    void show_validRecord_returnsHTML() throws Exception {
+        String xml = TestHelper.readFile("src/test/resources/xml/sample_ardc_v1.xml");
         when(service.getContentForIdentifierValue(anyString())).thenReturn(xml);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/view/10273/CSTSTDOCO1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/view/10273/XX0TUIAYLV"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("CSTSTDOCO1")))
-                .andExpect(content().string(containsString("A title worthy for kings")));
+                .andExpect(content().string(containsString("XX0TUIAYLV")))
+                .andExpect(content().string(containsString("This Tiltle also left blank on purpose")));
     }
 }
