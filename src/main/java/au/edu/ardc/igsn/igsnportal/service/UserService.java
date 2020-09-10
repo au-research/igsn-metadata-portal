@@ -95,4 +95,8 @@ public class UserService {
 		return request.getRequestURI().substring(request.getContextPath().length());
 	}
 
+	public String getCurrentURL(HttpServletRequest request) {
+		return request.getRequestURL().toString();
+	}
+
 }

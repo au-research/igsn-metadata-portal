@@ -4,7 +4,7 @@
     <title th:replace="${title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" th:href="@{/css/bundle.css}"/>
-    <link rel="icon" type="image/png" th:href="@{favicon.ico}">
+    <link rel="icon" type="image/png" th:href="@{/favicon.ico}">
 
 </head>
 <body class="flex flex-col min-h-screen">
@@ -17,14 +17,15 @@
 
         <div class="flex items-center mr-10" th:with="isLoggedIn=${@userService.isLoggedIn(#request)}">
             <div th:if="!${isLoggedIn}" class="text-white">
-                <a class="px-6 py-3 rounded-lg border-2 border-white text-white hover:text-white hover:bg-blue hover:border-blue-dark uppercase" th:href="@{/login(redirect=${@userService.getCurrentPath(#request)} )}">Login</a>
+                <a class="px-6 py-3 rounded-lg border-2 border-white text-white hover:text-white hover:bg-blue hover:border-blue-dark uppercase"
+                   th:href="@{/login(redirect=${@userService.getCurrentPath(#request)} )}">Login</a>
             </div>
             <div th:if="${isLoggedIn}" class="text-white flex items-center">
                 <p class="mr-5 text-lg" th:text="${@userService.getPrincipal(#request).getName()}"></p>
-                <a class="px-6 py-3 rounded-lg border-2 border-white text-white hover:text-white hover:bg-blue hover:border-blue-dark uppercase" th:href="@{/logout(redirect=${@userService.getCurrentPath(#request)})}">Logout</a>
+                <a class="px-6 py-3 rounded-lg border-2 border-white text-white hover:text-white hover:bg-blue hover:border-blue-dark uppercase"
+                   th:href="@{/logout(redirect=${@userService.getCurrentPath(#request)})}">Logout</a>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -33,12 +34,46 @@
 </div>
 
 <div class="w-full bg-black mt-8 flex px-8 py-10 pb-16 justify-between">
-    <div class="w-1/4">
-        <img class="h-16 mx-6" src="https://ardc.edu.au/wp-content/themes/ardc/img/ardc_logo.svg" alt="ARDC Logo"/>
+
+    <div class="flex space-x-6">
+        <div>
+            <a href="https://ardc.edu.au/">
+                <img src="" class="h-16 mx-6" th:src="@{/images/ardc_logo_white.png}" alt="ARDC Logo"/>
+            </a>
+        </div>
+        <div id="footer-links">
+            <ul class="space-y-2">
+                <li>
+                    <a href="https://test.identifiers.ardc.edu.au/igsn-editor/" target="_blank">IGSN Editor</a></li>
+                <li>
+                    <a href="https://documentation.ardc.edu.au/display/DOC/IGSN+Service"
+                       target="_blank">Documentation</a>
+                </li>
+                <li>
+                    <a href="https://ardc.edu.au/privacy-policy/" target="_blank">ARDC Privacy Policy</a>
+                </li>
+                <li>
+                    <a href="https://ardc.edu.au/" target="_blank">ARDC Website</a>
+                </li>
+                <li>
+                    <a th:href="@{${@userService.getCurrentURL(#request)}}" target="_blank">Current</a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="w-1/4 pr-10" style="width:210px;">
-        <p class="text-white xl:text-xs">The Australian Research Data Commons (ARDC) is enabled by NCRIS.</p>
-        <img src="https://researchdata.edu.au/assets/core/images/NCRIS_PROVIDER_rev.png" alt="">
+
+    <div class="flex space-x-6">
+        <div class="w-1/4" style="width:140px;">
+            <p class="text-white xl:text-xs">The Australian Research Data Commons (ARDC) is enabled by NCRIS.</p>
+            <a href="https://education.gov.au/national-collaborative-research-infrastructure-strategy-ncris">
+                <img src="https://researchdata.edu.au/assets/core/images/NCRIS_PROVIDER_rev.png" alt="">
+            </a>
+        </div>
+        <div class="w-1/4" style="width:140px">
+            <a href="https://www.igsn.org/">
+                <img src="" alt="" th:src="@{/images/igsn-original.jpg}">
+            </a>
+        </div>
     </div>
 </div>
 

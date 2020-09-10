@@ -18,3 +18,11 @@ body {
 a {
     @apply .text-blue-dark;
 }
+
+#footer-links li a{
+    @apply .text-white .font-semibold .text-sm .uppercase;
+}
+
+#footer-links li a:hover {
+    @apply .text-gray-400;
+}

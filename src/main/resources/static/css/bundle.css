@@ -17138,6 +17138,21 @@ a {
   color: rgba(0, 129, 157, var(--text-opacity));
 }
 
+#footer-links li a{
+  --text-opacity: 1;
+  color: #fff;
+  color: rgba(255, 255, 255, var(--text-opacity));
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
+
+#footer-links li a:hover {
+  --text-opacity: 1;
+  color: #cbd5e0;
+  color: rgba(203, 213, 224, var(--text-opacity));
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
