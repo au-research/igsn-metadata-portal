@@ -6,9 +6,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Method {
-    @JacksonXmlProperty(isAttribute = true)
-    public String methodURI;
 
-    @JacksonXmlText
-    public String value;
+	@JacksonXmlProperty(isAttribute = true)
+	public String methodURI;
+
+	@JacksonXmlText
+	public String value;
+
 }

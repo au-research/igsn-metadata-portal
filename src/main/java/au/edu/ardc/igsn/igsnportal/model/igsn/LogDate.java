@@ -6,9 +6,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LogDate {
-    @JacksonXmlProperty(isAttribute = true)
-    public String eventType;
 
-    @JacksonXmlText
-    public String value;
+	@JacksonXmlProperty(isAttribute = true)
+	public String eventType;
+
+	@JacksonXmlText
+	public String value;
+
 }

@@ -7,9 +7,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ContributorIdentifier {
 
-    @JacksonXmlProperty(isAttribute = true)
-    public String contributorIdentifierType;
+	@JacksonXmlProperty(isAttribute = true)
+	public String contributorIdentifierType;
 
-    @JacksonXmlText
-    public String value;
+	@JacksonXmlText
+	public String value;
+
 }

@@ -11,25 +11,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class BrowseController {
-    Logger logger = LoggerFactory.getLogger(BrowseController.class);
 
-    IGSNRegistryService service;
+	Logger logger = LoggerFactory.getLogger(BrowseController.class);
 
-    public BrowseController(IGSNRegistryService service) {
-        this.service = service;
-    }
+	IGSNRegistryService service;
 
-    @GetMapping(value = {"/", "browse"})
-    public String index(
-            Model model,
-            @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int size
-    ) {
-        logger.debug(String.format("Browsing page %s size %s", page, size));
-        PaginatedIdentifiersResponse identifiersResponse = service.getPublicIdentifiers(page, size);
-        logger.debug("Obtained identifiersResponse totalElements:" + identifiersResponse.totalElements);
-        model.addAttribute("identifiersResponse", identifiersResponse);
-        model.addAttribute("identifiers", identifiersResponse.content);
-        return "browse";
-    }
+	public BrowseController(IGSNRegistryService service) {
+		this.service = service;
+	}
+
+	@GetMapping(value = { "/", "browse" })
+	public String index(Model model, @RequestParam(required = false, defaultValue = "0") int page,
+			@RequestParam(required = false, defaultValue = "10") int size) {
+		logger.debug(String.format("Browsing page %s size %s", page, size));
+		PaginatedIdentifiersResponse identifiersResponse = service.getPublicIdentifiers(page, size);
+		logger.debug("Obtained identifiersResponse totalElements:" + identifiersResponse.totalElements);
+		model.addAttribute("identifiersResponse", identifiersResponse);
+		model.addAttribute("identifiers", identifiersResponse.content);
+		return "browse";
+	}
+
 }

@@ -5,9 +5,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 public class RelatedResourceIdentifier {
 
-    @JacksonXmlProperty(isAttribute = true)
-    public String relatedResourceIdentifierType;
+	@JacksonXmlProperty(isAttribute = true)
+	public String relatedResourceIdentifierType;
 
-    @JacksonXmlText
-    public String value;
+	@JacksonXmlText
+	public String value;
+
 }

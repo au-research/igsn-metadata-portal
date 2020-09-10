@@ -4,7 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Pageable {
-    public int pageNumber;
-    public int pageSize;
-    public int offset;
+
+	public int pageNumber;
+
+	public int pageSize;
+
+	public int offset;
+
 }

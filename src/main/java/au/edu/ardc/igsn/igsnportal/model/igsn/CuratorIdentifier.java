@@ -7,9 +7,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CuratorIdentifier {
 
-    @JacksonXmlProperty(isAttribute = true)
-    public String curatorIdentifierType;
+	@JacksonXmlProperty(isAttribute = true)
+	public String curatorIdentifierType;
 
-    @JacksonXmlText
-    public String value;
+	@JacksonXmlText
+	public String value;
+
 }

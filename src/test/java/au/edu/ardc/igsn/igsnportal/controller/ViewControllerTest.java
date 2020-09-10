@@ -26,20 +26,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class ViewControllerTest {
 
-    @Autowired
-    MockMvc mockMvc;
+	@Autowired
+	MockMvc mockMvc;
 
-    @MockBean
-    IGSNRegistryService service;
+	@MockBean
+	IGSNRegistryService service;
 
-    @Test
-    void show_validRecord_returnsHTML() throws Exception {
-        String xml = TestHelper.readFile("src/test/resources/xml/sample_ardc_v1.xml");
-        when(service.getContentForIdentifierValue(anyString())).thenReturn(xml);
+	@Test
+	void show_validRecord_returnsHTML() throws Exception {
+		String xml = TestHelper.readFile("src/test/resources/xml/sample_ardc_v1.xml");
+		when(service.getContentForIdentifierValue(anyString())).thenReturn(xml);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/view/10273/XX0TUIAYLV"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("XX0TUIAYLV")))
-                .andExpect(content().string(containsString("This Tiltle also left blank on purpose")));
-    }
+		mockMvc.perform(MockMvcRequestBuilders.get("/view/10273/XX0TUIAYLV")).andExpect(status().isOk())
+				.andExpect(content().string(containsString("XX0TUIAYLV")))
+				.andExpect(content().string(containsString("This Tiltle also left blank on purpose")));
+	}
+
 }

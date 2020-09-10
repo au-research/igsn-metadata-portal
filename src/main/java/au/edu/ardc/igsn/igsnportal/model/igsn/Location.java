@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Location {
-    public Locality locality;
-    public Geometry geometry;
+
+	public Locality locality;
+
+	public Geometry geometry;
+
 }

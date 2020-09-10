@@ -7,9 +7,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Classification {
 
-    @JacksonXmlProperty(isAttribute = true)
-    public String classificationURI;
+	@JacksonXmlProperty(isAttribute = true)
+	public String classificationURI;
 
-    @JacksonXmlText
-    public String value;
+	@JacksonXmlText
+	public String value;
+
 }

@@ -7,9 +7,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SampledFeature {
 
-    @JacksonXmlProperty(isAttribute = true)
-    public String sampledFeatureURI;
+	@JacksonXmlProperty(isAttribute = true)
+	public String sampledFeatureURI;
 
-    @JacksonXmlText
-    public String value;
+	@JacksonXmlText
+	public String value;
+
 }

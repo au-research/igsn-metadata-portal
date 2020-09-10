@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
 
-    @ExceptionHandler(NotFoundException.class)
-    public String handleNotFound(Exception ex, HttpServletRequest request, Model model) {
-        model.addAttribute("exception", ex);
-        model.addAttribute("url", request.getRequestURL());
-        return "404";
-    }
+	@ExceptionHandler(NotFoundException.class)
+	public String handleNotFound(Exception ex, HttpServletRequest request, Model model) {
+		model.addAttribute("exception", ex);
+		model.addAttribute("url", request.getRequestURL());
+		return "404";
+	}
+
 }

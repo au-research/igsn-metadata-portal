@@ -17,38 +17,38 @@ import java.io.IOException;
 
 @Controller
 public class ViewController {
-    Logger logger = LoggerFactory.getLogger(ViewController.class);
 
-    IGSNRegistryService service;
-    UserService userService;
+	Logger logger = LoggerFactory.getLogger(ViewController.class);
 
-    public ViewController(IGSNRegistryService service, UserService userService) {
-        this.service = service;
-        this.userService = userService;
-    }
+	IGSNRegistryService service;
 
-    @GetMapping("/view/{prefix}/{namespace}")
-    public String show(
-            HttpServletRequest request,
-            Model model,
-            @PathVariable String prefix, @PathVariable String namespace
-    ) throws IOException, ServletException {
-        String identifierValue = String.format("%s/%s", prefix, namespace);
-        logger.debug("Viewing identifier value: %s" + identifierValue);
-        String xml = service.getContentForIdentifierValue(identifierValue);
-        logger.debug("Obtained xml from getContentForIdentifierValue");
-        XmlMapper xmlMapper = new XmlMapper();
-        Resources resources = xmlMapper.readValue(xml, Resources.class);
-        logger.debug("Mapped xml to resources");
-        model.addAttribute("identifierValue", identifierValue);
-        model.addAttribute("resource", resources.resource);
-        model.addAttribute("xml", xml);
-        boolean canEdit = false;
-        if (userService.isLoggedIn(request)) {
-            canEdit = service.canEdit(identifierValue, userService.getPlainAccessToken(request));
-        }
-        model.addAttribute("igsnURL", "http://igsn.org/" + resources.resource.resourceIdentifier);
-        model.addAttribute("canEdit", canEdit);
-        return "view";
-    }
+	UserService userService;
+
+	public ViewController(IGSNRegistryService service, UserService userService) {
+		this.service = service;
+		this.userService = userService;
+	}
+
+	@GetMapping("/view/{prefix}/{namespace}")
+	public String show(HttpServletRequest request, Model model, @PathVariable String prefix,
+			@PathVariable String namespace) throws IOException, ServletException {
+		String identifierValue = String.format("%s/%s", prefix, namespace);
+		logger.debug("Viewing identifier value: %s" + identifierValue);
+		String xml = service.getContentForIdentifierValue(identifierValue);
+		logger.debug("Obtained xml from getContentForIdentifierValue");
+		XmlMapper xmlMapper = new XmlMapper();
+		Resources resources = xmlMapper.readValue(xml, Resources.class);
+		logger.debug("Mapped xml to resources");
+		model.addAttribute("identifierValue", identifierValue);
+		model.addAttribute("resource", resources.resource);
+		model.addAttribute("xml", xml);
+		boolean canEdit = false;
+		if (userService.isLoggedIn(request)) {
+			canEdit = service.canEdit(identifierValue, userService.getPlainAccessToken(request));
+		}
+		model.addAttribute("igsnURL", "http://igsn.org/" + resources.resource.resourceIdentifier);
+		model.addAttribute("canEdit", canEdit);
+		return "view";
+	}
+
 }

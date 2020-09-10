@@ -10,14 +10,15 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RelatedResource {
 
-    public String relatedResourceTitle;
+	public String relatedResourceTitle;
 
-    @JacksonXmlElementWrapper(useWrapping = false)
-    public List<RelatedResourceIdentifier> relatedResourceIdentifier;
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<RelatedResourceIdentifier> relatedResourceIdentifier;
 
-    @JacksonXmlProperty(isAttribute = true)
-    public String relationType;
+	@JacksonXmlProperty(isAttribute = true)
+	public String relationType;
 
-    @JacksonXmlText
-    public String value;
+	@JacksonXmlText
+	public String value;
+
 }

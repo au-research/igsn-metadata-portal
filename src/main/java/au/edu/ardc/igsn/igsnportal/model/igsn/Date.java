@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Date {
-    public String timeInstant;
-    public TimePeriod timePeriod;
+
+	public String timeInstant;
+
+	public TimePeriod timePeriod;
+
 }

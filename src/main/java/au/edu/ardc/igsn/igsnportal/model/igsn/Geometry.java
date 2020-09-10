@@ -6,15 +6,17 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Geometry {
-    @JacksonXmlProperty(isAttribute = true)
-    public String srid;
 
-    @JacksonXmlProperty(isAttribute = true)
-    public String verticalDatum;
+	@JacksonXmlProperty(isAttribute = true)
+	public String srid;
 
-    @JacksonXmlProperty(isAttribute = true)
-    public String geometryURI;
+	@JacksonXmlProperty(isAttribute = true)
+	public String verticalDatum;
 
-    @JacksonXmlText
-    public String value;
+	@JacksonXmlProperty(isAttribute = true)
+	public String geometryURI;
+
+	@JacksonXmlText
+	public String value;
+
 }

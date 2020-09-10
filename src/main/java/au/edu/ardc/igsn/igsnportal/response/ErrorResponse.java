@@ -6,6 +6,9 @@ import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ErrorResponse {
-    public String message;
-    public Date timestamp;
+
+	public String message;
+
+	public Date timestamp;
+
 }

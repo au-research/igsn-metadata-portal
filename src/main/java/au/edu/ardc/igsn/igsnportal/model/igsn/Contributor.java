@@ -8,11 +8,13 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Contributor {
-    @JacksonXmlProperty(isAttribute = true)
-    public String contributorType;
 
-    public String contributorName;
+	@JacksonXmlProperty(isAttribute = true)
+	public String contributorType;
 
-    @JacksonXmlElementWrapper(useWrapping = false)
-    public List<ContributorIdentifier> contributorIdentifier;
+	public String contributorName;
+
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<ContributorIdentifier> contributorIdentifier;
+
 }
