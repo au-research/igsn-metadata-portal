@@ -1,6 +1,7 @@
 package au.edu.ardc.igsn.igsnportal.model.igsn;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
