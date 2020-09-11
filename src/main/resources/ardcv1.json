@@ -382,59 +382,59 @@
   "relationTypes": [
     {
       "label": "Has digital representation",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/HasDigitalRepresentation"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/HasDigitalRepresentation"
     },
     {
       "label": "Has reference resource",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/HasReferenceResource"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/HasReferenceResource"
     },
     {
       "label": "Has sampling feature",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/HasSamplingFeature"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/HasSamplingFeature"
     },
     {
       "label": "Is aggregate of",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsAggregateOf"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/IsAggregateOf"
     },
     {
       "label": "Is derived from",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDerivedFrom"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/IsDerivedFrom"
     },
     {
       "label": "Is digital representation of",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDigitalRepresentationOf"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/IsDigitalRepresentationOf"
     },
     {
       "label": "Is documented by",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDocumentedBy"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/IsDocumentedBy"
     },
     {
       "label": "Is identical to",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsIdenticalTo"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/IsIdenticalTo"
     },
     {
       "label": "Is member of",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsMemberOf"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/IsMemberOf"
     },
     {
       "label": "Is sampling feature of",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsSamplingFeatureOf"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/IsSamplingFeatureOf"
     },
     {
       "label": "Is source of",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsSourceOf"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/IsSourceOf"
     },
     {
       "label": "Participates",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/Participates"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/Participates"
     },
     {
       "label": "Has association with",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/hasAssociationWith"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/hasAssociationWith"
     },
     {
       "label": "Collected as part of",
-      "value": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/collectedAsPartOf"
+      "value": "http://pid.geoscience.gov.au/def/voc/ga/igsncode/collectedAsPartOf"
     }
   ],
   "ePSG": [
