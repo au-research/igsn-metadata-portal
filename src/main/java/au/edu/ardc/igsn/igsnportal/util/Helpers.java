@@ -1,6 +1,12 @@
 package au.edu.ardc.igsn.igsnportal.util;
 
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
+
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class Helpers {
 
@@ -21,6 +27,11 @@ public class Helpers {
 			}
 		}
 		return request.getRemoteAddr();
+	}
+
+	public static String readFileOnClassPath(String path) throws IOException {
+		InputStream resource = new ClassPathResource(path).getInputStream();
+		return IOUtils.toString(resource, StandardCharsets.UTF_8.name());
 	}
 
 }

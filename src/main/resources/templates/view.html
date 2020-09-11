@@ -9,10 +9,12 @@
         <div class="w-1/4 pr-4 border-gray-100 border-r-2" th:if="${resource.location}">
             <h2>Location</h2>
             <div class="content-block" th:if="${resource.location.locality}">
-                <div id="map" class="w-full h-64" th:attr="wkt=${resource.location.geometry.value}" th:if="${resource.location.geometry}">
+                <div id="map" class="w-full h-64" th:attr="wkt=${resource.location.geometry.value}"
+                     th:if="${resource.location.geometry}">
 
                 </div>
-                <a th:href="${resource.location.locality.localityURI}" th:text="${resource.location.locality.value}"></a>
+                <a th:href="${resource.location.locality.localityURI}"
+                   th:text="${resource.location.locality.value}"></a>
             </div>
 
             <div th:if="${resource.location.geometry}">
@@ -39,13 +41,14 @@
                         <p>Curation Date</p>
                         <p th:text="${curation.curationDate}"></p>
                     </div>
-                    <div class="mb-2"th:if="${curation.curationLocation}">
+                    <div class="mb-2" th:if="${curation.curationLocation}">
                         <p>Curation Location</p>
                         <p th:text="${curation.curationLocation}"></p>
                     </div>
                     <div class="mb-2" th:if="${curation.curatingInstitution}">
                         <p>Curating Institution</p>
-                        <a th:href="${curation.curatingInstitution.institutionURI}" th:text="${curation.curatingInstitution.value} ?: ${curation.curatingInstitution.institutionURI}"></a>
+                        <a th:href="${curation.curatingInstitution.institutionURI}"
+                           th:text="${curation.curatingInstitution.value} ?: ${curation.curatingInstitution.institutionURI}"></a>
                     </div>
 
                 </div>
@@ -64,7 +67,8 @@
                     <h1 class="text-2xl text-gray mb-3 font-serif" th:text="${resource.resourceTitle}"></h1>
                     IGSN: <a href="#" th:text="${resource.resourceIdentifier}"></a>
                     <p class="my-6">
-                        <a href="" class="px-6 py-3 text-white bg-blue hover:text-white hover:bg-blue-dark" th:if="${canEdit}"><i class="fas fa-edit"></i> Edit this record</a>
+                        <a href="" class="px-6 py-3 text-white bg-blue hover:text-white hover:bg-blue-dark"
+                           th:if="${canEdit}"><i class="fas fa-edit"></i> Edit this record</a>
                     </p>
                 </div>
                 <div id="qrcode" th:attr="url=${igsnURL}">
@@ -74,14 +78,24 @@
             <div class="content-block">
                 <h3>Sample or Item Type</h3>
                 <ul>
-                    <li th:each="resourceType : ${resource.resourceTypes}" th:text="${resourceType.value}"></li>
+                    <li th:each="resourceType : ${resource.resourceTypes}">
+                        <a th:if="${@vocabService.resolvable(resourceType.value)}" th:href="${resourceType.value}"
+                           th:text="${@vocabService.getVocabTermForURI(resourceType.value)}"></a>
+                        <span th:if="${!@vocabService.resolvable(resourceType.value)}"
+                              th:text="${resourceType.value}"></span>
+                    </li>
                 </ul>
             </div>
 
             <div class="content-block">
                 <h3>Material Type</h3>
                 <ul class="list-disc text-grey-darker mb-2">
-                    <li class="ml-6" th:each="materialType : ${resource.materialTypes}" th:text="${materialType.value}"></li>
+                    <li class="ml-6" th:each="materialType : ${resource.materialTypes}">
+                        <a th:if="${@vocabService.resolvable(materialType.value)}" th:href="${materialType.value}"
+                           th:text="${@vocabService.getVocabTermForURI(materialType.value)}"></a>
+                        <span th:if="${!@vocabService.resolvable(materialType.value)}"
+                              th:text="${materialType.value}"></span>
+                    </li>
                 </ul>
             </div>
 
@@ -89,7 +103,9 @@
                 <h3>Classifications</h3>
                 <ul>
                     <li th:each="classification : ${resource.classifications}">
-                        <a th:href="${classification.classificationURI}" th:text="${classification.value}"></a>
+                        <a th:if="${classification.classificationURI}" th:href="${classification.classificationURI}"
+                           th:text="${classification.value}"></a>
+                        <span th:if="!${classification.classificationURI}" th:text="${classification.value}"></span>
                     </li>
                 </ul>
             </div>
@@ -102,7 +118,8 @@
             <div class="content-block" th:if="${resource.alternateIdentifiers}">
                 <h3>Alternate Identifiers</h3>
                 <ul>
-                    <li th:each="alternateIdentifier : ${resource.alternateIdentifiers}" th:text="alternateIdentifier"></li>
+                    <li th:each="alternateIdentifier : ${resource.alternateIdentifiers}"
+                        th:text="alternateIdentifier"></li>
                 </ul>
             </div>
 
@@ -122,7 +139,8 @@
             <div class="content-block" th:if="${resource.date}">
                 <h3>Date</h3>
                 <p th:if="${resource.date.timePeriod}">
-                    <span th:text="${resource.date.timePeriod.start}"></span> to <span th:text="${resource.date.timePeriod.end}"></span>
+                    <span th:text="${resource.date.timePeriod.start}"></span> to <span
+                        th:text="${resource.date.timePeriod.end}"></span>
                 </p>
             </div>
 
@@ -148,16 +166,14 @@
             <div class="content-block" th:if="${resource.contributors}">
                 <h2>Contributors</h2>
                 <div th:each="contributor : ${resource.contributors}">
-                    <span th:text="${contributor.contributorType}"></span>
+                    <span th:text="${@vocabService.getVocabTermForURI(contributor.contributorType)}"></span>
                     <span th:text="${contributor.contributorName}"></span>
                     <span th:if="${contributor.contributorIdentifier}">
                         <span th:each="identifier : ${contributor.contributorIdentifier}">
-                            <span th:text="${identifier.contributorIdentifierType}"></span>
+                            <span th:text="${@vocabService.getVocabTermForURI(identifier.contributorIdentifierType)}"></span>
                             <span th:text="${identifier.value}"></span>
                         </span>
-
                     </span>
-
                 </div>
             </div>
 
@@ -165,10 +181,10 @@
             <div class="content-block" th:if="${resource.relatedResources}">
                 <h2>Related Resources</h2>
                 <div th:each="relatedResource : ${resource.relatedResources}">
-                    <span th:text="${relatedResource.relationType}"></span>
+                    <span th:text="${@vocabService.getVocabTermForURI(relatedResource.relationType)}"></span>
                     <span th:if="${relatedResource.relatedResourceIdentifier}">
                         <span th:each="identifier : ${relatedResource.relatedResourceIdentifier}">
-                            <span th:text="${identifier.relatedResourceIdentifierType}"></span>
+                            <span th:text="${@vocabService.getVocabTermForURI(identifier.relatedResourceIdentifierType)}"></span>
                             <span th:text="${identifier.value}"></span>
                         </span>
                     </span>
