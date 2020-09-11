@@ -58,7 +58,7 @@ public class VocabService {
 
 	/**
 	 * Loading the local ardcv1.json file into the local lookup table the ardcv1.json file
-	 * can be found in the classpath and contains all the label & value for each
+	 * can be found in the classpath and contains all the label and value for each
 	 * vocabulary term
 	 */
 	public void loadLocalARDCv1Vocab() {
@@ -71,7 +71,7 @@ public class VocabService {
 					new TypeReference<Map<String, List<Map<String, String>>>>() {
 					});
 			data.forEach((key, value) -> value.forEach(kv -> lookupTable.put(kv.get("value"), kv.get("label"))));
-			log.debug("Loading vocabularies completed, look-up table size: {}", lookupTable.size());
+			log.info("Loading ardcv1 vocabulary completed, look-up table size: {}", lookupTable.size());
 		}
 		catch (IOException e) {
 			log.error("Error encountered while loading local ARDCv1 vocabularies {}", e.getMessage());

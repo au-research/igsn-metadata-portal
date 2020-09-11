@@ -43,6 +43,7 @@
             <AppenderRef ref="RollingFile"/>
         </Root>
 
+        <Logger name="au.edu.ardc.igsn.igsnportal" level="info"/>
 
         <Logger name="au.edu.ardc.igsn.igsnportal.service.EventLoggingService" level="info">
             <AppenderRef ref="Events"/>
