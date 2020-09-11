@@ -13,14 +13,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 _highlight["default"].initHighlightingOnLoad(); // display the leafletMap on the view page where the #map[wkt=*] exists
 
 
-var mapElement = document.getElementById("map");
+var mapElement = document.getElementById('map');
 
 if (mapElement) {
-  (0, _map.leafletMap)('map');
+  var mapID = 'map';
+  var mapDetailID = 'map-detail';
+  var map = (0, _map.leafletMap)(mapID, mapDetailID);
+
+  if (map === null) {
+    document.getElementById(mapID).classList.add("hidden");
+    document.getElementById(mapDetailID).classList.remove("hidden");
+  }
 } // display qrcode on the view page where the #qrcode[url=*] exists
 
 
-var qrcodeElement = document.getElementById("qrcode");
+var qrcodeElement = document.getElementById('qrcode');
 
 if (qrcodeElement) {
   var typeNumber = 0;
@@ -62,7 +69,7 @@ var getWKTFromString = function getWKTFromString(wktValue) {
   } catch (e1) {
     try {
       // try sanitization
-      wkt.read(el.value.replace('\n', '').replace('\r', '').replace('\t', ''));
+      wkt.read(wktValue.replace('\n', '').replace('\r', '').replace('\t', ''));
     } catch (e2) {
       if (e2.name === 'WKTError') {
         console.error('Error parsing WKT', wktValue);
@@ -83,7 +90,7 @@ var getWKTFromString = function getWKTFromString(wktValue) {
 
 exports.getWKTFromString = getWKTFromString;
 
-var leafletMap = function leafletMap(elemID) {
+var leafletMap = function leafletMap(elemID, popUpContentID) {
   var wktValue = document.getElementById(elemID).getAttribute('wkt');
   var wkt = getWKTFromString(wktValue);
 
@@ -92,7 +99,9 @@ var leafletMap = function leafletMap(elemID) {
     return null;
   }
 
-  var map = _leaflet["default"].map(elemID).setView({
+  var map = _leaflet["default"].map(elemID, {
+    scrollWheelZoom: false
+  }).setView({
     lon: 0,
     lat: 0
   }, 2); // add the OpenStreetMap tiles, need to attribute openstreetmap.org
@@ -112,10 +121,12 @@ var leafletMap = function leafletMap(elemID) {
   if (_wicket["default"].isArray(obj)) {
     obj.forEach(function (i) {
       if (obj.hasOwnProperty(i) && !_wicket["default"].isArray(obj[i])) {
+        obj[i].bindPopup(document.getElementById(popUpContentID).innerHTML).openPopup();
         obj[i].addTo(map);
       }
     });
   } else {
+    obj.bindPopup(document.getElementById(popUpContentID).innerHTML).openPopup();
     obj.addTo(map);
   } // focus on the obj
 

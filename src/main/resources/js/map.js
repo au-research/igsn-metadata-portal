@@ -10,14 +10,13 @@ import 'wicket/wicket-leaflet'
  */
 export const getWKTFromString = wktValue => {
   let wkt = new Wkt.Wkt()
-
   // Attempt to catch malformed wkt string
   try {
     wkt.read(wktValue)
   } catch (e1) {
     try {
       // try sanitization
-      wkt.read(el.value.replace('\n', '').replace('\r', '').replace('\t', ''))
+      wkt.read(wktValue.replace('\n', '').replace('\r', '').replace('\t', ''))
     } catch (e2) {
       if (e2.name === 'WKTError') {
         console.error('Error parsing WKT', wktValue)
@@ -35,7 +34,7 @@ export const getWKTFromString = wktValue => {
  * @param {string} elemID - The id of the element on the page
  * @return {Map} map - the leaflet map object
  */
-export const leafletMap = elemID => {
+export const leafletMap = (elemID, popUpContentID) => {
   let wktValue = document.getElementById(elemID).getAttribute('wkt')
 
   let wkt = getWKTFromString(wktValue)
@@ -44,12 +43,13 @@ export const leafletMap = elemID => {
     return null
   }
 
-  let map = L.map(elemID).setView({lon: 0, lat: 0}, 2)
+  let map = L.map(elemID, { scrollWheelZoom: false }).
+    setView({ lon: 0, lat: 0 }, 2)
 
   // add the OpenStreetMap tiles, need to attribute openstreetmap.org
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
   }).addTo(map)
 
   // show the scale bar on the lower left corner
@@ -62,10 +62,13 @@ export const leafletMap = elemID => {
   if (Wkt.isArray(obj)) {
     obj.forEach(i => {
       if (obj.hasOwnProperty(i) && !Wkt.isArray(obj[i])) {
+        obj[i].bindPopup(document.getElementById(popUpContentID).innerHTML).
+          openPopup()
         obj[i].addTo(map)
       }
     })
   } else {
+    obj.bindPopup(document.getElementById(popUpContentID).innerHTML).openPopup()
     obj.addTo(map)
   }
 
@@ -73,7 +76,8 @@ export const leafletMap = elemID => {
   if (obj.getBounds !== undefined && typeof obj.getBounds === 'function') {
     // For objects that have defined bounds or a way to get them, eg, POLYGON
     map.fitBounds(obj.getBounds())
-  } else if (obj.getLatLng !== undefined && typeof obj.getLatLng === 'function') {
+  } else if (obj.getLatLng !== undefined && typeof obj.getLatLng ===
+    'function') {
     // for obj that has a Latlng, primarily eg, POINT
     map.panTo(obj.getLatLng())
   }

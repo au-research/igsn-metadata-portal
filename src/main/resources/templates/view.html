@@ -6,30 +6,33 @@
 <body>
 <section>
     <div class="flex page-view">
-        <div class="lg:w-1/4 lg:pr-4 md:w-1/2 print:w-1/2 border-gray-100 border-r-2" th:if="${resource.location}">
+        <div class="lg:w-1/4 lg:pr-4 md:w-1/2 print:w-1/2 border-gray-100 border-r-2">
             <h2>Location</h2>
             <div class="content-block" th:if="${resource.location.locality}">
                 <div id="map" class="w-full h-64" th:attr="wkt=${resource.location.geometry.value}"
                      th:if="${resource.location.geometry}">
+                </div>
+                <div id="map-detail" class="hidden">
+                    <p th:if="${resource.location.geometry}">
+                        <strong>WKT:</strong> <span th:text="${resource.location.geometry.value}"></span>
+                    </p>
+                    <p th:if="${resource.location.geometry.srid}">
+                        <strong>SRID: </strong> <span th:text="${resource.location.geometry.srid}"></span>
+                    </p>
+                    <p th:if="${resource.location.geometry.verticalDatum}">
+                        <strong>Vertical Datum: </strong> <span th:text="${resource.location.geometry.verticalDatum}"></span>
+                    </p>
                 </div>
                 <a th:href="${resource.location.locality.localityURI}"
                    th:text="${resource.location.locality.value}"></a>
             </div>
 
             <div th:if="${resource.location.geometry}">
-                <div class="content-block" th:if="${resource.location.geometry.verticalDatum}">
-                    <h3>Vertical Datum</h3>
-                    <p th:text="${resource.location.geometry.verticalDatum}"></p>
-                </div>
 
                 <div class="content-block" th:if="${resource.location.geometry.geometryURI}">
                     <a th:href="${resource.location.geometry.geometryURI}">Geometry URL</a>
                 </div>
 
-                <div class="content-block" th:if="${resource.location.geometry.value}">
-                    <h3>WKT</h3>
-                    <pre class="whitespace-normal"><code th:text="${resource.location.geometry.value}"></code></pre>
-                </div>
             </div>
             <hr>
             <div class="content-block" th:if="${resource.curationDetails}">

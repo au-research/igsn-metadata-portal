@@ -28,8 +28,7 @@
         </sampledFeatures>
         <location>
             <locality localityURI="locality URL">Locality</locality>
-            <geometry srid="https://epsg.io/4326" verticalDatum="https://epsg.io/4326" geometryURI="GeoURL">POLYGON
-                ((10.689 -25.092, 34.595 -20.17, 38.814 -35.639, 13.502 -39.155, 10.689 -25.092))
+            <geometry srid="https://epsg.io/4326" verticalDatum="https://epsg.io/4326" geometryURI="GeoURL">bad value
             </geometry>
         </location>
         <date>
