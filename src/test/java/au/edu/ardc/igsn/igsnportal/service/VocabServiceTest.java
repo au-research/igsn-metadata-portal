@@ -20,10 +20,10 @@ class VocabServiceTest {
     @DisplayName("Provides the correct terms for a given URI")
 	void getVocabTermForURI() {
 	    // standard resolve ardcv1 with lookup table
-	    assertThat(vocabService.getVocabTermForURI("http://vocabulary.odm2.org/medium/other")).isEqualTo("Other");
+	    assertThat(vocabService.resolve("http://vocabulary.odm2.org/medium/other")).isEqualTo("Other");
 
 	    // return raw when not resolvable
-        assertThat(vocabService.getVocabTermForURI("NOTRESOLVABLE")).isEqualTo("NOTRESOLVABLE");
+        assertThat(vocabService.resolve("NOTRESOLVABLE")).isEqualTo("NOTRESOLVABLE");
 	}
 
 	@Test

@@ -43,7 +43,7 @@ public class VocabService {
 	 * @param uri the uri string of the vocab
 	 * @return the human readable form of the vocab uri. returns raw uri if not found
 	 */
-	public String getVocabTermForURI(String uri) {
+	public String resolve(String uri) {
 		log.debug("Resolving {}", uri);
 
 		// attempt resolve using local look up table first

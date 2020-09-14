@@ -38,7 +38,7 @@
                         <li th:each="resourceType : ${resource.resourceTypes}">
                             <a th:if="${@vocabService.resolvable(resourceType.value)}"
                                th:href="${resourceType.value}"
-                               th:text="${@vocabService.getVocabTermForURI(resourceType.value)}"></a>
+                               th:text="${@vocabService.resolve(resourceType.value)}"></a>
                             <span th:if="${!@vocabService.resolvable(resourceType.value)}"
                                   th:text="${resourceType.value}"></span>
                         </li>
@@ -51,7 +51,7 @@
                         <li class="ml-6" th:each="materialType : ${resource.materialTypes}">
                             <a th:if="${@vocabService.resolvable(materialType.value)}"
                                th:href="${materialType.value}"
-                               th:text="${@vocabService.getVocabTermForURI(materialType.value)}"></a>
+                               th:text="${@vocabService.resolve(materialType.value)}"></a>
                             <span th:if="${!@vocabService.resolvable(materialType.value)}"
                                   th:text="${materialType.value}"></span>
                         </li>
@@ -187,14 +187,19 @@
         <div class="content-block" th:if="${resource.contributors}">
             <h2>Contributors</h2>
             <div th:each="contributor : ${resource.contributors}">
-                <span th:text="${@vocabService.getVocabTermForURI(contributor.contributorType)}"></span>
+                <span th:if="${@vocabService.resolvable(contributor.contributorType)}">
+                    <a th:href="${contributor.contributorType}"
+                       th:text="${@vocabService.resolve(contributor.contributorType)}"></a>
+                </span>
+                <span th:if="!${@vocabService.resolvable(contributor.contributorType)}"
+                      th:text="${contributor.contributorType}"></span>
                 <span th:text="${contributor.contributorName}"></span>
                 <span th:if="${contributor.contributorIdentifier}">
-                        <span th:each="identifier : ${contributor.contributorIdentifier}">
-                            <span th:text="${@vocabService.getVocabTermForURI(identifier.contributorIdentifierType)}"></span>
-                            <span th:text="${identifier.value}"></span>
-                        </span>
+                    <span th:each="identifier : ${contributor.contributorIdentifier}">
+                        <span th:text="${@vocabService.resolve(identifier.contributorIdentifierType)}"></span>
+                        <span th:text="${identifier.value}"></span>
                     </span>
+                </span>
             </div>
         </div>
 
@@ -202,10 +207,10 @@
         <div class="content-block" th:if="${resource.relatedResources}">
             <h2>Related Resources</h2>
             <div th:each="relatedResource : ${resource.relatedResources}">
-                <span th:text="${@vocabService.getVocabTermForURI(relatedResource.relationType)}"></span>
+                <span th:text="${@vocabService.resolve(relatedResource.relationType)}"></span>
                 <span th:if="${relatedResource.relatedResourceIdentifier}">
                         <span th:each="identifier : ${relatedResource.relatedResourceIdentifier}">
-                            <span th:text="${@vocabService.getVocabTermForURI(identifier.relatedResourceIdentifierType)}"></span>
+                            <span th:text="${@vocabService.resolve(identifier.relatedResourceIdentifierType)}"></span>
                             <span th:text="${identifier.value}"></span>
                         </span>
                     </span>
