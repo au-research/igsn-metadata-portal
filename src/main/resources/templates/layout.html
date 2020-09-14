@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content, script)">
 <head>
     <title th:replace="${title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" th:href="@{/css/bundle.css}"/>
     <link rel="icon" type="image/png" th:href="@{/favicon.ico}">
-
+    <script th:replace="${script}"></script>
 </head>
 <body class="flex flex-col min-h-screen">
 <div class="w-full h-40 bg-black">
@@ -54,9 +54,6 @@
                 </li>
                 <li>
                     <a href="https://ardc.edu.au/" target="_blank">ARDC Website</a>
-                </li>
-                <li>
-                    <a th:href="@{${@userService.getCurrentURL(#request)}}" target="_blank">Current</a>
                 </li>
             </ul>
         </div>

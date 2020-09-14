@@ -1,10 +1,7 @@
 package au.edu.ardc.igsn.igsnportal.controller;
 
 import au.edu.ardc.igsn.igsnportal.TestHelper;
-import au.edu.ardc.igsn.igsnportal.model.igsn.Resources;
 import au.edu.ardc.igsn.igsnportal.service.IGSNRegistryService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,8 +30,8 @@ class ViewControllerTest {
 
 	@Test
 	void show_validRecord_returnsHTML() throws Exception {
-		String xml = TestHelper.readFile("src/test/resources/xml/sample_ardc_v1.xml");
-		when(service.getContentForIdentifierValue(anyString())).thenReturn(xml);
+		when(service.getContentForIdentifierValue("10273/XX0TUIAYLV", IGSNRegistryService.ARDCv1))
+				.thenReturn(TestHelper.readFile("src/test/resources/xml/sample_ardc_v1.xml"));
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/view/10273/XX0TUIAYLV")).andExpect(status().isOk())
 				.andExpect(content().string(containsString("XX0TUIAYLV")))

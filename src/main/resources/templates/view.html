@@ -1,10 +1,12 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout.html :: layout(~{::title}, ~{::section})}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout.html :: layout(~{::title}, ~{::section}, ~{::script})}">
 <head>
     <title th:text="${resource.resourceTitle}"></title>
+    <script type="application/ld+json" th:if="${jsonld}" th:utext="${jsonld}"></script>
 </head>
 <body>
 <section>
+
     <div class="flex flex-col page-view">
         <div class="flex mb-4">
             <div class="mr-10 w-full">

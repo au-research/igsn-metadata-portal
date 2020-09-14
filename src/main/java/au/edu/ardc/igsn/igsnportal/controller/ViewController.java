@@ -31,12 +31,30 @@ public class ViewController {
 		this.userService = userService;
 	}
 
+	/**
+	 * Primary Controller for generating landing page for IGSN
+	 *
+	 * @param request the current {@link HttpServletRequest} to check if the user is logged in
+	 * @param model the {@link Model} for UI rendering
+	 * @param prefix IGSN is in the form of {prefix}/{namespace+value} so this route will capture it
+	 * @param namespace the namespace+value field
+	 * @return the thymeleaf template string that will be used
+	 * @throws IOException is thrown when getContentForIdentifierValue failed to generate any plausible result
+	 * @throws ServletException is thrown when failing to check for user logged in status
+	 */
 	@GetMapping("/view/{prefix}/{namespace}")
 	public String show(HttpServletRequest request, Model model, @PathVariable String prefix,
 			@PathVariable String namespace) throws IOException, ServletException {
 		String identifierValue = String.format("%s/%s", prefix, namespace);
 		logger.debug("Viewing identifier value: %s" + identifierValue);
-		String xml = service.getContentForIdentifierValue(identifierValue);
+
+		// obtain the XML to generate view page from
+		String xml = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1);
+
+		// obtain the JSON-LD to embed within the view page
+		String jsonld = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1JSONLD);
+		model.addAttribute("jsonld", jsonld);
+
 		logger.debug("Obtained xml from getContentForIdentifierValue");
 		XmlMapper xmlMapper = new XmlMapper();
 		Resources resources = xmlMapper.readValue(xml, Resources.class);
@@ -58,48 +76,7 @@ public class ViewController {
 		}
 		model.addAttribute("igsnURL", "http://igsn.org/" + resources.resource.resourceIdentifier);
 		model.addAttribute("canEdit", canEdit);
-		return "view";
-	}
 
-	/**
-	 * Development usage only
-	 *
-	 * Enable loading of pre-existing test XML files for rendering test in-browser
-	 * @param request Dependency Injected request
-	 * @param model Dependency Injected UI Model
-	 * @param testCase path variable that determine which test case to load
-	 * @return String of the view
-	 * @throws IOException when it can't find the file
-	 * @throws ServletException when it can't render
-	 */
-	@GetMapping("/test/{case}")
-	public String test(HttpServletRequest request, Model model, @PathVariable("case") String testCase)
-			throws IOException, ServletException {
-		String identifierValue = "10273/XX0TUIAYLV";
-		String xml = "";
-		boolean canEdit = true;
-		if ("badWKT".equals(testCase)) {
-			xml = Helpers.readFile("src/test/resources/xml/sample_ardc_v1_badWkt.xml");
-		}
-		else {
-			xml = Helpers.readFile("src/test/resources/xml/sample_ardc_v1.xml");
-		}
-		XmlMapper xmlMapper = new XmlMapper();
-		Resources resources = xmlMapper.readValue(xml, Resources.class);
-
-		try {
-			sanitize(resources.resource);
-		}
-		catch (Exception ex) {
-			logger.error("Failed to sanitize resource {}", ex.getMessage());
-		}
-
-		logger.debug("Mapped xml to resources");
-		model.addAttribute("identifierValue", identifierValue);
-		model.addAttribute("xml", xml);
-		model.addAttribute("resource", resources.resource);
-		model.addAttribute("igsnURL", "http://igsn.org/" + resources.resource.resourceIdentifier);
-		model.addAttribute("canEdit", canEdit);
 		return "view";
 	}
 
