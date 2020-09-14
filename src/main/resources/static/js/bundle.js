@@ -21,8 +21,9 @@ if (mapElement) {
   var map = (0, _map.leafletMap)(mapID, mapDetailID);
 
   if (map === null) {
-    document.getElementById(mapID).classList.add("hidden");
-    document.getElementById(mapDetailID).classList.remove("hidden");
+    document.getElementById(mapID).classList.add('hidden');
+    document.getElementById(mapDetailID).classList.remove('hidden');
+    document.getElementById('location-heading').classList.remove('hidden');
   }
 } // display qrcode on the view page where the #qrcode[url=*] exists
 

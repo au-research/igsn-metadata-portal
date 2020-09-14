@@ -12,8 +12,9 @@ if (mapElement) {
   const mapDetailID = 'map-detail'
   let map = leafletMap(mapID, mapDetailID)
   if (map === null) {
-    document.getElementById(mapID).classList.add("hidden")
-    document.getElementById(mapDetailID).classList.remove("hidden")
+    document.getElementById(mapID).classList.add('hidden')
+    document.getElementById(mapDetailID).classList.remove('hidden')
+    document.getElementById('location-heading').classList.remove('hidden')
   }
 }
 
