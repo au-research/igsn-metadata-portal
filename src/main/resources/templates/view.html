@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout.html :: layout(~{::title}, ~{::section}, ~{::script})}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout.html :: layout(~{::title}, ~{::section}, ~{::script})}">
 <head>
     <title th:text="${resource.resourceTitle}"></title>
     <script type="application/ld+json" th:if="${jsonld}" th:utext="${jsonld}"></script>
@@ -22,11 +23,11 @@
                     <img class="" src="https://via.placeholder.com/100" alt="">
                 </div>
                 <div class="flex items-center justify-center space-x-2">
-                    <a href="">
-                        <i class="fa fa-download"></i>
+                    <a href="javascript:void(0);" class="tip-content" data-template="download">
+                        <i class="fa fa-download" data-tippy-content="Download"></i>
                     </a>
                     <a href="javascript:window.print()">
-                        <i class="fa fa-print"></i>
+                        <i class="fa fa-print" data-tippy-content="Print"></i>
                     </a>
                 </div>
             </div>
@@ -120,10 +121,30 @@
             <p th:text="${resource.comments}"></p>
         </div>
 
+
         <div class="content-block">
-            <a href="" class="social-sharing"><i class="fas fa-download"></i></a>
-            <a href="" class="social-sharing"><i class="fab fa-facebook"></i></a>
-            <a href="" class="social-sharing"><i class="fab fa-twitter"></i></a>
+            <a href="" class="social-sharing">
+                <i data-tippy-content="Share with Facebook" class="fab fa-facebook"></i>
+            </a>
+            <a href="" class="social-sharing">
+                <i data-tippy-content="Share with Twitter" class="fab fa-twitter"></i>
+            </a>
+        </div>
+
+        <div id="download" class="hidden">
+            <h3>Download formats</h3>
+            <ul class="space-y-3 items-center">
+                <li>
+                    <a th:href="@{/download(identifierValue=${identifierValue}, schema=${@IGSNRegistryService.ARDCv1})}">
+                        <i class="fa fa-download"></i> ARDC IGSN Descriptive v1.0 <span class="tag">xml</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/download(identifierValue=${identifierValue}, schema=${@IGSNRegistryService.ARDCv1JSONLD})}">
+                        <i class="fa fa-download"></i> IGSN JSON-LD <span class="tag">json</span>
+                    </a>
+                </li>
+            </ul>
         </div>
 
         <hr>

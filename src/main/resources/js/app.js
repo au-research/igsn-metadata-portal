@@ -1,6 +1,7 @@
 import hljs from 'highlight.js'
 import { leafletMap } from './map'
 import qrcode from 'qrcode-generator'
+import tippy from 'tippy.js'
 
 // intitialise highlighting
 hljs.initHighlightingOnLoad()
@@ -30,3 +31,18 @@ if (qrcodeElement) {
   qr.make()
   document.getElementById('qrcode').innerHTML = qr.createImgTag(3)
 }
+
+// tooltip init
+tippy('[data-tippy-content]')
+
+tippy('.tip-content', {
+  content(reference) {
+    const id = reference.getAttribute('data-template');
+    const template = document.getElementById(id);
+    return template.innerHTML;
+  },
+  allowHTML: true,
+  trigger: 'click',
+  theme: 'light-border',
+  interactive: true,
+});

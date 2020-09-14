@@ -7,6 +7,9 @@
 /* purgecss end ignore */
 @import "tailwindcss/utilities";
 
+@import 'tippy.js/dist/tippy.css';
+@import 'tippy.js/themes/light-border.css';
+
 @import './page-view.css';
 
 body {
@@ -19,10 +22,20 @@ a {
     @apply .text-blue-dark;
 }
 
+a:hover {
+    @apply .text-blue;
+}
+
 #footer-links li a{
     @apply .text-white .font-semibold .text-sm .uppercase;
 }
 
 #footer-links li a:hover {
     @apply .text-gray-400;
+}
+
+/*components*/
+
+.tag {
+    @apply .px-2 .inline-flex .text-xs .leading-5 .font-semibold .rounded-full .bg-blue-dark .text-white;
 }
