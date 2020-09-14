@@ -465,6 +465,14 @@
     {
       "label": "EPSG:8311",
       "value": "https://epsg.io/8311"
+    },
+    {
+      "label": "EPSG:5714",
+      "value": "https://epsg.io/5714"
+    },
+    {
+      "label": "EPSG:5715",
+      "value": "https://epsg.io/5715"
     }
   ],
   "eventType": [
@@ -483,6 +491,44 @@
     {
       "label": "Destroyed",
       "value": "destroyed"
+    }
+  ],
+  "samplingFeature": [
+    {
+      "label": "Borehole",
+      "value": "http://vocabulary.odm2.org/samplingfeaturetype/borehole/"
+    },
+    {
+      "label": "Cross section",
+      "value": "http://vocabulary.odm2.org/samplingfeaturetype/crossSection/"
+    },
+    {
+      "label": "CTD",
+      "value": "http://vocabulary.odm2.org/samplingfeaturetype/CTD/"
+    },
+    {
+      "label": "Scene",
+      "value": "http://vocabulary.odm2.org/samplingfeaturetype/scene/"
+    },
+    {
+      "label": "Quadrat",
+      "value": "http://vocabulary.odm2.org/samplingfeaturetype/quadrat/"
+    },
+    {
+      "label": "Soil pit section",
+      "value": "http://vocabulary.odm2.org/samplingfeaturetype/soilPitSection/"
+    },
+    {
+      "label": "Observation well",
+      "value": "http://vocabulary.odm2.org/samplingfeaturetype/observationWell/"
+    },
+    {
+      "label": "Field area",
+      "value": "http://vocabulary.odm2.org/samplingfeaturetype/fieldArea/"
+    },
+    {
+      "label": "Excavation",
+      "value": "http://vocabulary.odm2.org/samplingfeaturetype/excavation/"
     }
   ]
 }

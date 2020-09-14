@@ -70,7 +70,12 @@ public class VocabService {
 			Map<String, List<Map<String, String>>> data = mapper.readValue(json,
 					new TypeReference<Map<String, List<Map<String, String>>>>() {
 					});
-			data.forEach((key, value) -> value.forEach(kv -> lookupTable.put(kv.get("value"), kv.get("label"))));
+			data.forEach((key, value) -> value.forEach(kv -> {
+				if (lookupTable.get(kv.get("value")) != null) {
+					log.warn("Value {} already existed in lookup table, overwriting", kv.get("value"));
+				}
+				lookupTable.put(kv.get("value"), kv.get("label"));
+			}));
 			log.info("Loading ardcv1 vocabulary completed, look-up table size: {}", lookupTable.size());
 		}
 		catch (IOException e) {
