@@ -35,7 +35,7 @@
 
 <div class="w-full bg-black mt-8 flex px-8 py-10 pb-16 justify-between">
 
-    <div class="flex space-x-6">
+    <div class="flex flex-col space-x-6 space-y-6 md:flex-row md:space-y-0">
         <div>
             <a href="https://ardc.edu.au/">
                 <img src="" class="h-16 mx-6" th:src="@{/images/ardc_logo_white.png}" alt="ARDC Logo"/>
@@ -62,14 +62,14 @@
         </div>
     </div>
 
-    <div class="flex space-x-6">
-        <div class="w-1/4" style="width:140px;">
+    <div class="flex flex-col md:space-x-6 space-y-6 md:flex-row md:space-y-0">
+        <div style="width:140px;">
             <p class="text-white xl:text-xs">The Australian Research Data Commons (ARDC) is enabled by NCRIS.</p>
             <a href="https://education.gov.au/national-collaborative-research-infrastructure-strategy-ncris">
                 <img src="https://researchdata.edu.au/assets/core/images/NCRIS_PROVIDER_rev.png" alt="">
             </a>
         </div>
-        <div class="w-1/4" style="width:140px">
+        <div style="width:140px">
             <a href="https://www.igsn.org/">
                 <img src="" alt="" th:src="@{/images/igsn-original.jpg}">
             </a>
