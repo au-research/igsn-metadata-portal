@@ -1,11 +1,12 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content, script)">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)">
 <head>
     <title th:replace="${title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" th:href="@{/css/bundle.css}"/>
     <link rel="icon" type="image/png" th:href="@{/favicon.ico}">
-    <script th:replace="${script}"></script>
+
+    <script type="application/ld+json" th:if="${jsonld}" th:utext="${jsonld}"></script>
 </head>
 <body class="flex flex-col min-h-screen">
 <div class="w-full h-40 bg-black">

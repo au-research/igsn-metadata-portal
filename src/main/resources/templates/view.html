@@ -1,9 +1,8 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout.html :: layout(~{::title}, ~{::section}, ~{::script})}">
+      th:replace="~{layout.html :: layout(~{::title}, ~{::section})}" th:with="jsonld=${jsonld}">
 <head>
     <title th:text="${resource.resourceTitle}"></title>
-    <script type="application/ld+json" th:if="${jsonld}" th:utext="${jsonld}"></script>
 </head>
 <body>
 <section>
