@@ -2,6 +2,7 @@ package au.edu.ardc.igsn.igsnportal.service;
 
 import au.edu.ardc.igsn.igsnportal.response.ErrorResponse;
 import au.edu.ardc.igsn.igsnportal.response.PaginatedIdentifiersResponse;
+import au.edu.ardc.igsn.igsnportal.response.PaginatedRecordsResponse;
 import au.edu.ardc.igsn.igsnportal.util.Helpers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.HttpUrl;
@@ -26,6 +27,24 @@ public class IGSNRegistryService {
 
 	@Value("${registry.url}")
 	private String baseUrl;
+
+	public PaginatedRecordsResponse getPublicRecords(int page, int size) {
+		OkHttpClient client = getClient();
+		HttpUrl url = HttpUrl.parse(baseUrl + "api/public/records/").newBuilder()
+				.addQueryParameter("page", Integer.toString(page)).addQueryParameter("size", Integer.toString(size))
+				.build();
+		Request request = new Request.Builder().url(url).build();
+
+		PaginatedRecordsResponse recordsResponse = null;
+		try (Response response = client.newCall(request).execute()){
+			ObjectMapper objectMapper = new ObjectMapper();
+			recordsResponse = objectMapper.readValue(response.body().string(), PaginatedRecordsResponse.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return recordsResponse;
+	}
 
 	public PaginatedIdentifiersResponse getPublicIdentifiers(int page, int size) {
 		logger.debug(String.format("Obtaining content for public identifiers page %s size %s ", page, size));
