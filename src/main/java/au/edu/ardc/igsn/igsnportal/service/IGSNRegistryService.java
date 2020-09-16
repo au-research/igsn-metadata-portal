@@ -32,14 +32,15 @@ public class IGSNRegistryService {
 		OkHttpClient client = getClient();
 		HttpUrl url = HttpUrl.parse(baseUrl + "api/public/records/").newBuilder()
 				.addQueryParameter("page", Integer.toString(page)).addQueryParameter("size", Integer.toString(size))
-				.build();
+				.addQueryParameter("type", "IGSN").build();
 		Request request = new Request.Builder().url(url).build();
 
 		PaginatedRecordsResponse recordsResponse = null;
-		try (Response response = client.newCall(request).execute()){
+		try (Response response = client.newCall(request).execute()) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			recordsResponse = objectMapper.readValue(response.body().string(), PaginatedRecordsResponse.class);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 

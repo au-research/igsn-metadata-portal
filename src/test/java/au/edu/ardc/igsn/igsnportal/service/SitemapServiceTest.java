@@ -1,10 +1,14 @@
 package au.edu.ardc.igsn.igsnportal.service;
 
 import au.edu.ardc.igsn.igsnportal.model.Identifier;
+import au.edu.ardc.igsn.igsnportal.model.Record;
+import au.edu.ardc.igsn.igsnportal.model.Version;
 import au.edu.ardc.igsn.igsnportal.response.PaginatedIdentifiersResponse;
+import au.edu.ardc.igsn.igsnportal.response.PaginatedRecordsResponse;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,19 +45,31 @@ class SitemapServiceTest {
 	String dataDir;
 
 	@Test
+	@DisplayName("When creating sitemap, sitemap.xml file is created and contains all provided links")
 	void testGenerateSitemap() throws IOException {
 		int count = 2000;
 
 		// given ${count} results from the Registry
-		PaginatedIdentifiersResponse response = new PaginatedIdentifiersResponse();
+		PaginatedRecordsResponse response = new PaginatedRecordsResponse();
 		response.content = new ArrayList<>();
 		for (int i = 0; i < count; i++) {
+			Version version = new Version();
+
 			Identifier identifier = new Identifier();
+			identifier.type = "IGSN";
 			identifier.value = "10273/" + UUID.randomUUID().toString();
-			response.content.add(identifier);
+
+			Record record = new Record();
+			record.modifiedAt = new Date();
+			record.currentVersions = new ArrayList<>();
+			record.currentVersions.add(version);
+			record.identifiers = new ArrayList<>();
+			record.identifiers.add(identifier);
+
+			response.content.add(record);
 		}
 		response.size = count;
-		when(igsnRegistryService.getPublicIdentifiers(anyInt(), anyInt())).thenReturn(response);
+		when(igsnRegistryService.getPublicRecords(anyInt(), anyInt())).thenReturn(response);
 
 		// when creating sitemap
 		sitemapService.generate();
