@@ -110,7 +110,7 @@ public class ViewController {
 		model.addAttribute("resource", resources.resource);
 		model.addAttribute("xml", xml);
 
-		model.addAttribute("igsnURL", "http://igsn.org/" + resources.resource.resourceIdentifier);
+		model.addAttribute("igsnURL", service.getIGSNURL(identifierValue));
 		model.addAttribute("canEdit", canEdit);
 
 		return "view";

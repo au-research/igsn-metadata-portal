@@ -135,4 +135,33 @@ public class IGSNRegistryService {
 		return new OkHttpClient.Builder().build();
 	}
 
+	/**
+	 * Check if an identifierValue is a TEST IGSN. Current business rule only require the
+	 * prefix check for now
+	 * @since 1.0
+	 * @param identifierValue the IGSN value in the form of prefix/igsn
+	 * @return true if the identifierValue is a Test one, false if not
+	 *
+	 */
+	public boolean isTestIGSN(String identifierValue) {
+		String[] values = identifierValue.split("/");
+		String prefix = values[0];
+		return prefix.equals("20.500.11812");
+	}
+
+	/**
+	 * This URL will be used to display in the page as well as generating QR Code
+	 * @param identifierValue in the form of prefix/igsn
+	 * @return String URL of the IGSN URL
+	 */
+	public String getIGSNURL(String identifierValue) {
+		// test IGSN will have the handle value instead
+		if (isTestIGSN(identifierValue)) {
+			return String.format("http://hdl.net/%s", identifierValue);
+		}
+
+		// production IGSN will only have the value bit
+		String[] values = identifierValue.split("/");
+		return String.format("http://igsn.org/%s", values[1]);
+	}
 }
