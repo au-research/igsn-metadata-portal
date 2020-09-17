@@ -3,7 +3,7 @@
 }
 
 .page-view h2 {
-    @apply .text-xl .text-black .my-2 .font-serif .text-blue;
+    @apply .text-xl .text-black .my-2 .font-serif;
 }
 
 .page-view h3 {

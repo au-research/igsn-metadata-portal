@@ -17281,9 +17281,6 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-family: Spectral, Georgia, Cambria, "Times New Roman", Times, serif;
-  --text-opacity: 1;
-  color: #00B0D5;
-  color: rgba(0, 176, 213, var(--text-opacity));
 }
 
 .page-view h3 {
