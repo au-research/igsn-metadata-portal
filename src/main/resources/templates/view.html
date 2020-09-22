@@ -101,7 +101,7 @@
 
             </div>
 
-            <div class="flex-1">
+            <div class="flex-1" th:if="${resource.location}">
                 <h2 id="location-heading" class="hidden">Location</h2>
 
                 <div class="content-block" th:if="${resource.location.locality}">
@@ -151,7 +151,7 @@
 
         <hr>
 
-        <h2>Collection/Creation</h2>
+        <h2 th:if="${resource.sampledFeatures} or ${resource.date} or ${resource.method} or ${resource.campaign}">Collection/Creation</h2>
 
         <div class="content-block" th:if="${resource.sampledFeatures}">
             <h3>Sampled Features</h3>
@@ -242,9 +242,6 @@
             </div>
         </div>
     </div>
-
-    <h2 class="text-2xl text-gray mb-3">XML</h2>
-    <pre><code class="lang-xml" th:text="${xml}"></code></pre>
 </section>
 </body>
 </html>

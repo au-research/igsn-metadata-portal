@@ -1,10 +1,6 @@
-import hljs from 'highlight.js'
 import { leafletMap } from './map'
 import qrcode from 'qrcode-generator'
 import tippy from 'tippy.js'
-
-// intitialise highlighting
-hljs.initHighlightingOnLoad()
 
 // display the leafletMap on the view page where the #map[wkt=*] exists
 let mapElement = document.getElementById('map')

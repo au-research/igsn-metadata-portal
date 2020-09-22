@@ -42,11 +42,11 @@ gulp.task('copy-static', function () {
 })
 
 const libs = [
-  'highlight.js',
   'qrcode-generator',
   'wicket',
   'leaflet',
-  'wicket/wicket-leaflet'
+  'wicket/wicket-leaflet',
+  'tippy.js'
 ]
 
 gulp.task('js-libs', function () {
