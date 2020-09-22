@@ -16,7 +16,7 @@ import java.io.IOException;
 @Controller
 public class DownloadController {
 
-	Logger logger = LoggerFactory.getLogger(ViewController.class);
+	Logger log = LoggerFactory.getLogger(ViewController.class);
 
 	IGSNRegistryService service;
 
@@ -27,8 +27,9 @@ public class DownloadController {
 	@GetMapping("/download")
 	public ResponseEntity<ByteArrayResource> download(@RequestParam String identifierValue, @RequestParam String schema)
 			throws IOException {
-
+		log.debug("Download request for identifier = {}, schema = {}", identifierValue, schema);
 		String data = service.getContentForIdentifierValue(identifierValue, schema);
+		log.debug("data length = {}", data.length());
 		String fileName = identifierValue + ".xml";
 		MediaType mediaType = MediaType.APPLICATION_XML;
 		if (schema.equals(IGSNRegistryService.ARDCv1JSONLD)) {

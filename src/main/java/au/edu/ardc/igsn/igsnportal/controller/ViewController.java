@@ -18,10 +18,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+* Controller serving the view page
+*/
 @Controller
 public class ViewController {
 
-	Logger logger = LoggerFactory.getLogger(ViewController.class);
+	Logger log = LoggerFactory.getLogger(ViewController.class);
 
 	IGSNRegistryService service;
 
@@ -47,7 +50,7 @@ public class ViewController {
 	public String show(HttpServletRequest request, Model model, @PathVariable String prefix,
 			@PathVariable String namespace) throws Exception {
 		String identifierValue = String.format("%s/%s", prefix, namespace);
-		logger.debug("Viewing identifier value: %s" + identifierValue);
+		log.debug("Viewing identifier value: %s" + identifierValue);
 
 		// obtain the XML to generate view page from
 		String xml = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1);
@@ -70,6 +73,7 @@ public class ViewController {
 	@GetMapping("/preview")
 	public String preview(HttpServletRequest request, Model model, @RequestParam String identifierValue,
 			@RequestParam String xml) throws Exception {
+		log.debug("Previewing identifier = {}", identifierValue);
 		return renderViewPage(request, model, identifierValue, xml, "");
 	}
 
@@ -86,7 +90,7 @@ public class ViewController {
 			String jsonld) throws IOException, ServletException {
 		model.addAttribute("jsonld", jsonld);
 
-		logger.debug("Obtained xml from getContentForIdentifierValue");
+		log.debug("Obtained xml from getContentForIdentifierValue");
 		XmlMapper xmlMapper = new XmlMapper();
 		Resources resources = xmlMapper.readValue(xml, Resources.class);
 
@@ -94,10 +98,10 @@ public class ViewController {
 			sanitize(resources.resource);
 		}
 		catch (Exception ex) {
-			logger.error("Failed to sanitize resource {}", ex.getMessage());
+			log.error("Failed to sanitize resource {}", ex.getMessage());
 		}
 
-		logger.debug("Mapped xml to resources");
+		log.debug("Mapped xml to resources");
 		model.addAttribute("identifierValue", identifierValue);
 		model.addAttribute("resource", resources.resource);
 		model.addAttribute("xml", xml);

@@ -11,12 +11,12 @@
 <body class="flex flex-col min-h-screen">
 <div class="w-full h-40 bg-black">
     <div class="w-full h-32 bg-black flex items-center justify-between">
-        <div class="flex items-center">
+        <div class="flex items-center print:flex-col">
             <img class="h-16 mx-6" src="https://ardc.edu.au/wp-content/themes/ardc/img/ardc_logo.svg" alt="ARDC Logo"/>
-            <a th:href="@{/}"><h1 class="text-3xl text-white mx-4 font-serif">IGSN Portal</h1></a>
+            <a th:href="@{/}"><h1 class="text-3xl text-white mx-4 font-serif print:text-black">IGSN Portal</h1></a>
         </div>
 
-        <div class="flex items-center mr-10" th:with="isLoggedIn=${@userService.isLoggedIn(#request)}">
+        <div class="flex items-center mr-10 print:hidden" th:with="isLoggedIn=${@userService.isLoggedIn(#request)}">
             <div th:if="!${isLoggedIn}" class="text-white">
                 <a class="px-6 py-3 rounded-lg border-2 border-white text-white hover:text-white hover:bg-blue hover:border-blue-dark uppercase"
                    th:href="@{/login(redirect=${@userService.getCurrentPath(#request)} )}">Login</a>
@@ -34,10 +34,10 @@
     <div th:replace="${content}"></div>
 </div>
 
-<div class="w-full bg-black mt-8 flex px-8 py-10 pb-16 justify-between">
+<div class="w-full bg-black mt-8 flex px-8 py-10 pb-16 justify-between print:hidden">
 
     <div class="flex flex-col space-x-6 space-y-6 md:flex-row md:space-y-0">
-        <div>
+        <div class="print:hidden">
             <a href="https://ardc.edu.au/">
                 <img src="" class="h-16 mx-6" th:src="@{/images/ardc_logo_white.png}" alt="ARDC Logo"/>
             </a>
@@ -75,7 +75,7 @@
     </div>
 </div>
 
-<div class="fixed flex bottom-0 right-0 mr-4 mb-2">
+<div class="fixed flex bottom-0 right-0 mr-4 mb-2 print:hidden">
     <a href="https://documentation.ardc.edu.au/display/DOC/IGSN+Service"
        class="mr-2 relative uppercase inline-flex items-center px-4 py-2 text-xs leading-5 font-medium rounded-md text-black bg-yellow hover:text-black focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 shadow-lg">
         <i class="fas fa-question-circle mr-1"></i> Help

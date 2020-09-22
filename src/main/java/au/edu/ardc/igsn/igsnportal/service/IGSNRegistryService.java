@@ -1,6 +1,7 @@
 package au.edu.ardc.igsn.igsnportal.service;
 
 import au.edu.ardc.igsn.igsnportal.config.ApplicationProperties;
+import au.edu.ardc.igsn.igsnportal.exception.NotFoundException;
 import au.edu.ardc.igsn.igsnportal.response.ErrorResponse;
 import au.edu.ardc.igsn.igsnportal.response.PaginatedIdentifiersResponse;
 import au.edu.ardc.igsn.igsnportal.response.PaginatedRecordsResponse;

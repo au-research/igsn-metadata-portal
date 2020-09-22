@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class SessionController {
 
-	Logger logger = LoggerFactory.getLogger(SessionController.class);
+	Logger log = LoggerFactory.getLogger(SessionController.class);
 
 	@GetMapping("/login")
 	public String login(@RequestParam(required = false) String redirect) {
-		logger.debug("Logged In, redirect to: " + redirect);
+		log.debug("Logged In, redirecting to = {}", redirect);
 		String redirectTo = redirect != null ? redirect : "/";
 		return "redirect:" + redirectTo;
 	}
@@ -24,10 +24,10 @@ public class SessionController {
 	@GetMapping("/logout")
 	public String logout(@RequestParam(required = false) String redirect, HttpServletRequest request)
 			throws ServletException {
-		logger.debug("Logging Out");
+		log.debug("Logging Out");
 		String redirectTo = redirect != null ? redirect : "/";
 		request.logout();
-		logger.debug("Logged Out, redirect to: " + redirect);
+		log.debug("Logged Out, redirecting to = {}", redirect);
 		return "redirect:" + redirectTo;
 	}
 
