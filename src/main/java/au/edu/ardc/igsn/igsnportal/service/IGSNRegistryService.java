@@ -1,17 +1,18 @@
 package au.edu.ardc.igsn.igsnportal.service;
 
+import au.edu.ardc.igsn.igsnportal.config.ApplicationProperties;
 import au.edu.ardc.igsn.igsnportal.response.ErrorResponse;
 import au.edu.ardc.igsn.igsnportal.response.PaginatedIdentifiersResponse;
 import au.edu.ardc.igsn.igsnportal.response.PaginatedRecordsResponse;
 import au.edu.ardc.igsn.igsnportal.util.Helpers;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -23,14 +24,19 @@ public class IGSNRegistryService {
 
 	public static final String ARDCv1JSONLD = "ardc-igsn-desc-1.0-jsonld";
 
+	final ApplicationProperties applicationProperties;
+
 	Logger logger = LoggerFactory.getLogger(IGSNRegistryService.class);
 
-	@Value("${registry.url}")
-	private String baseUrl;
+	public IGSNRegistryService(ApplicationProperties applicationProperties) {
+		this.applicationProperties = applicationProperties;
+	}
 
 	public PaginatedRecordsResponse getPublicRecords(int page, int size) {
+		String registryUrl = applicationProperties.getRegistryUrl();
+
 		OkHttpClient client = getClient();
-		HttpUrl url = HttpUrl.parse(baseUrl + "api/public/records/").newBuilder()
+		HttpUrl url = HttpUrl.parse(registryUrl + "api/public/records/").newBuilder()
 				.addQueryParameter("page", Integer.toString(page)).addQueryParameter("size", Integer.toString(size))
 				.addQueryParameter("type", "IGSN").build();
 		Request request = new Request.Builder().url(url).build();
@@ -50,7 +56,7 @@ public class IGSNRegistryService {
 	public PaginatedIdentifiersResponse getPublicIdentifiers(int page, int size) {
 		logger.debug(String.format("Obtaining content for public identifiers page %s size %s ", page, size));
 		OkHttpClient client = getClient();
-		HttpUrl url = HttpUrl.parse(baseUrl + "api/public/identifiers/").newBuilder()
+		HttpUrl url = HttpUrl.parse(applicationProperties.getRegistryUrl() + "api/public/identifiers/").newBuilder()
 				.addQueryParameter("page", Integer.toString(page)).addQueryParameter("size", Integer.toString(size))
 				.build();
 		logger.debug(String.format("GET url:", url.toString()));
@@ -91,8 +97,8 @@ public class IGSNRegistryService {
 
 		logger.debug("Obtaining content for identifier: " + identifier);
 		OkHttpClient client = getClient();
-		HttpUrl url = HttpUrl.parse(baseUrl + "api/public/igsn-description/").newBuilder()
-				.addQueryParameter("identifier", identifier).addQueryParameter("schema", schema).build();
+		HttpUrl url = HttpUrl.parse(applicationProperties.getRegistryUrl() + "api/public/igsn-description/")
+				.newBuilder().addQueryParameter("identifier", identifier).addQueryParameter("schema", schema).build();
 		logger.debug("GET url: " + url.toString());
 		Request request = new Request.Builder().url(url).build();
 		Response response = client.newCall(request).execute();
@@ -123,7 +129,8 @@ public class IGSNRegistryService {
 		logger.debug(String.format("Attempting to find out if user can edit record, identifierValue:%s accessToken:%s",
 				identifierValue, accessToken));
 		OkHttpClient client = getClient();
-		Request request = new Request.Builder().url(baseUrl + "api/services/auth-check/?identifier=" + identifierValue)
+		Request request = new Request.Builder()
+				.url(applicationProperties.getRegistryUrl() + "api/services/auth-check/?identifier=" + identifierValue)
 				.addHeader("Authorization", "Bearer " + accessToken).build();
 		Response response = client.newCall(request).execute();
 		logger.debug(String.format("Response Code: %s", response.code()));
@@ -164,4 +171,36 @@ public class IGSNRegistryService {
 		String[] values = identifierValue.split("/");
 		return String.format("http://igsn.org/%s", values[1]);
 	}
+
+	/**
+	 * Obtain the URL to edit identifier. Identifier - record - version the url would be
+	 * {app.editor.url}/#/edit/{schema}/{version.id}
+	 * @param identifierValue the identifier string
+	 * @param accessToken the accessToken to access the protected resources
+	 * @return the URL to edit the identifier
+	 * @throws IOException when failing to contact the Registry API
+	 */
+	public String getEditIGSNLink(String identifierValue, String accessToken) throws IOException {
+		// identifierValue -> recordID
+		Response recordResponse = getClient().newCall(new Request.Builder()
+				.url(HttpUrl.parse(applicationProperties.getRegistryUrl() + "api/resources/identifiers/").newBuilder()
+						.addQueryParameter("value", identifierValue).build())
+				.addHeader("Authorization", "Bearer " + accessToken).build()).execute();
+		String recordID = JsonPath.read(recordResponse.body().string(), "$.content[0].record");
+
+		// recordID -> versionID
+		Response versionResponse = getClient().newCall(new Request.Builder()
+				.url(HttpUrl
+						.parse(applicationProperties.getRegistryUrl() + "api/resources/records/" + recordID
+								+ "/versions")
+						.newBuilder().addQueryParameter("schema", ARDCv1).addQueryParameter("current", "true").build())
+				.addHeader("Authorization", "Bearer " + accessToken).build()).execute();
+		String versionID = JsonPath.read(versionResponse.body().string(), "$.content[0].id");
+
+		// only supports ARDCv1 editing right now,
+		// otherwise obtain the schema from the record
+		return String.format("%s/#/edit/%s/%s", applicationProperties.getEditorUrl(), IGSNRegistryService.ARDCv1,
+				versionID);
+	}
+
 }

@@ -41,13 +41,11 @@ public class ViewController {
 	 * capture it
 	 * @param namespace the namespace+value field
 	 * @return the thymeleaf template string that will be used
-	 * @throws IOException is thrown when getContentForIdentifierValue failed to generate
-	 * any plausible result
-	 * @throws ServletException is thrown when failing to check for user logged in status
+	 * @throws Exception bubbled up exception
 	 */
 	@GetMapping("/view/{prefix}/{namespace}")
 	public String show(HttpServletRequest request, Model model, @PathVariable String prefix,
-			@PathVariable String namespace) throws IOException, ServletException {
+			@PathVariable String namespace) throws Exception {
 		String identifierValue = String.format("%s/%s", prefix, namespace);
 		logger.debug("Viewing identifier value: %s" + identifierValue);
 
@@ -57,27 +55,22 @@ public class ViewController {
 		// obtain the JSON-LD to embed within the view page
 		String jsonld = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1JSONLD);
 
-		boolean canEdit = false;
-		if (userService.isLoggedIn(request)) {
-			canEdit = service.canEdit(identifierValue, userService.getPlainAccessToken(request));
-		}
-
-		return renderViewPage(model, identifierValue, xml, jsonld, canEdit);
+		return renderViewPage(request, model, identifierValue, xml, jsonld);
 	}
 
 	/**
 	 * A method to preview record without having them stored
+	 * @param request the current {@link HttpServletRequest}
 	 * @param model the UI {@link Model}
 	 * @param identifierValue request parameter identifierValue for rendering
 	 * @param xml string ardc-igsn-desc-1.0 schema
 	 * @return String of the thymeleaf template
-	 * @throws JsonProcessingException bubbled up exception from
-	 * {{@link #renderViewPage(Model, String, String, String, boolean)}}
+	 * @throws Exception bubbled up exception
 	 */
 	@GetMapping("/preview")
-	public String preview(Model model, @RequestParam String identifierValue, @RequestParam String xml)
-			throws JsonProcessingException {
-		return renderViewPage(model, identifierValue, xml, "", true);
+	public String preview(HttpServletRequest request, Model model, @RequestParam String identifierValue,
+			@RequestParam String xml) throws Exception {
+		return renderViewPage(request, model, identifierValue, xml, "");
 	}
 
 	/**
@@ -86,12 +79,11 @@ public class ViewController {
 	 * @param identifierValue string identifier in the form of {prefix/namespace+value}
 	 * @param xml string ardc-igsn-desc-1.0 schema
 	 * @param jsonld string ardc-json-ld
-	 * @param canEdit boolean value to indicate if the edit button is showing
 	 * @return String of the thymeleaf template
 	 * @throws JsonProcessingException when failing to map xml to {@link Resources}
 	 */
-	private String renderViewPage(Model model, String identifierValue, String xml, String jsonld, boolean canEdit)
-			throws JsonProcessingException {
+	private String renderViewPage(HttpServletRequest request, Model model, String identifierValue, String xml,
+			String jsonld) throws IOException, ServletException {
 		model.addAttribute("jsonld", jsonld);
 
 		logger.debug("Obtained xml from getContentForIdentifierValue");
@@ -111,7 +103,17 @@ public class ViewController {
 		model.addAttribute("xml", xml);
 
 		model.addAttribute("igsnURL", service.getIGSNURL(identifierValue));
+
+		// editing capabilities
+		boolean canEdit = false;
+		String editURL = "";
+		if (userService.isLoggedIn(request)) {
+			String accessToken = userService.getPlainAccessToken(request);
+			canEdit = service.canEdit(identifierValue, accessToken);
+			editURL = service.getEditIGSNLink(identifierValue, accessToken);
+		}
 		model.addAttribute("canEdit", canEdit);
+		model.addAttribute("editURL", editURL);
 
 		return "view";
 	}

@@ -1,9 +1,9 @@
 package au.edu.ardc.igsn.igsnportal.service;
 
+import au.edu.ardc.igsn.igsnportal.config.ApplicationProperties;
 import au.edu.ardc.igsn.igsnportal.model.Identifier;
 import au.edu.ardc.igsn.igsnportal.model.Record;
 import au.edu.ardc.igsn.igsnportal.model.Version;
-import au.edu.ardc.igsn.igsnportal.response.PaginatedIdentifiersResponse;
 import au.edu.ardc.igsn.igsnportal.response.PaginatedRecordsResponse;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -12,7 +12,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -31,7 +30,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { SitemapService.class })
+@ContextConfiguration(classes = { SitemapService.class, ApplicationProperties.class })
 @TestPropertySource(locations = "/application.properties")
 class SitemapServiceTest {
 
@@ -41,8 +40,8 @@ class SitemapServiceTest {
 	@MockBean
 	IGSNRegistryService igsnRegistryService;
 
-	@Value("${datadir}")
-	String dataDir;
+	@Autowired
+	ApplicationProperties applicationProperties;
 
 	@Test
 	@DisplayName("When creating sitemap, sitemap.xml file is created and contains all provided links")
@@ -75,7 +74,7 @@ class SitemapServiceTest {
 		sitemapService.generate();
 
 		// expects sitemap.xml is created
-		File sitemapFile = new File(dataDir + "sitemap.xml");
+		File sitemapFile = new File(applicationProperties.getDataPath() + "sitemap.xml");
 		assertThat(sitemapFile).exists();
 
 		// sitemap.xml contains ${count}
@@ -85,13 +84,13 @@ class SitemapServiceTest {
 
 	@BeforeEach
 	void setUp() throws IOException {
-		FileUtils.deleteDirectory(new File(dataDir));
-		FileUtils.forceMkdir(new File(dataDir));
+		FileUtils.deleteDirectory(new File(applicationProperties.getDataPath()));
+		FileUtils.forceMkdir(new File(applicationProperties.getDataPath()));
 	}
 
 	@AfterEach
 	void tearDown() throws IOException {
-		FileUtils.deleteDirectory(new File(dataDir));
+		FileUtils.deleteDirectory(new File(applicationProperties.getDataPath()));
 	}
 
 }

@@ -17,13 +17,13 @@ class VocabServiceTest {
 	VocabService vocabService;
 
 	@Test
-    @DisplayName("Provides the correct terms for a given URI")
+	@DisplayName("Provides the correct terms for a given URI")
 	void getVocabTermForURI() {
-	    // standard resolve ardcv1 with lookup table
-	    assertThat(vocabService.resolve("http://vocabulary.odm2.org/medium/other")).isEqualTo("Other");
+		// standard resolve ardcv1 with lookup table
+		assertThat(vocabService.resolve("http://vocabulary.odm2.org/medium/other")).isEqualTo("Other");
 
-	    // return raw when not resolvable
-        assertThat(vocabService.resolve("NOTRESOLVABLE")).isEqualTo("NOTRESOLVABLE");
+		// return raw when not resolvable
+		assertThat(vocabService.resolve("NOTRESOLVABLE")).isEqualTo("NOTRESOLVABLE");
 	}
 
 	@Test
@@ -33,7 +33,7 @@ class VocabServiceTest {
 		assertThat(vocabService.getLookupTable().isEmpty()).isFalse();
 
 		// sanity check, there should be more than 50 terms
-       assertThat(vocabService.getLookupTable().size()).isGreaterThan(50);
+		assertThat(vocabService.getLookupTable().size()).isGreaterThan(50);
 	}
 
 }

@@ -17,6 +17,7 @@ import java.util.Map;
 public class VocabService {
 
 	Logger log = LoggerFactory.getLogger(VocabService.class);
+
 	private Map<String, String> lookupTable;
 
 	@PostConstruct

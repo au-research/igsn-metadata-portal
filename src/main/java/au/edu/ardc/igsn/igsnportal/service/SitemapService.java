@@ -1,5 +1,6 @@
 package au.edu.ardc.igsn.igsnportal.service;
 
+import au.edu.ardc.igsn.igsnportal.config.ApplicationProperties;
 import au.edu.ardc.igsn.igsnportal.model.Identifier;
 import au.edu.ardc.igsn.igsnportal.model.Record;
 import au.edu.ardc.igsn.igsnportal.response.PaginatedRecordsResponse;
@@ -7,7 +8,6 @@ import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +22,11 @@ public class SitemapService {
 
 	final IGSNRegistryService service;
 
-	@Value("${datadir}")
-	private String dataDir;
+	final ApplicationProperties applicationProperties;
 
-	@Value("${baseUrl}")
-	private String baseUrl;
-
-	public SitemapService(IGSNRegistryService service) {
+	public SitemapService(IGSNRegistryService service, ApplicationProperties applicationProperties) {
 		this.service = service;
+		this.applicationProperties = applicationProperties;
 	}
 
 	/**
@@ -38,6 +35,8 @@ public class SitemapService {
 	 */
 	@Scheduled(fixedRate = 60 * 60 * 1000)
 	public void generate() throws MalformedURLException {
+		String dataDir = applicationProperties.getDataPath();
+		String baseUrl = applicationProperties.getPortalUrl();
 		log.debug("Generating Sitemap");
 		if (!check()) {
 			log.error("Directory {} is not accessible, skipping sitemap generation", dataDir);
@@ -84,6 +83,7 @@ public class SitemapService {
 	 * @return true if the dataDir is writable
 	 */
 	private boolean check() {
+		String dataDir = applicationProperties.getDataPath();
 		log.debug("Checking directory {}", dataDir);
 		File outputDir = new File(dataDir);
 		if (!outputDir.exists()) {
