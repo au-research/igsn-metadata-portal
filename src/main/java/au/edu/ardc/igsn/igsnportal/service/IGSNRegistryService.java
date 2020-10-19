@@ -182,26 +182,33 @@ public class IGSNRegistryService {
 	 * @throws IOException when failing to contact the Registry API
 	 */
 	public String getEditIGSNLink(String identifierValue, String accessToken) throws IOException {
-		// identifierValue -> recordID
-		Response recordResponse = getClient().newCall(new Request.Builder()
-				.url(HttpUrl.parse(applicationProperties.getRegistryUrl() + "api/resources/identifiers/").newBuilder()
-						.addQueryParameter("value", identifierValue).build())
-				.addHeader("Authorization", "Bearer " + accessToken).build()).execute();
-		String recordID = JsonPath.read(recordResponse.body().string(), "$.content[0].record");
 
-		// recordID -> versionID
-		Response versionResponse = getClient().newCall(new Request.Builder()
-				.url(HttpUrl
-						.parse(applicationProperties.getRegistryUrl() + "api/resources/records/" + recordID
-								+ "/versions")
-						.newBuilder().addQueryParameter("schema", ARDCv1).addQueryParameter("current", "true").build())
-				.addHeader("Authorization", "Bearer " + accessToken).build()).execute();
-		String versionID = JsonPath.read(versionResponse.body().string(), "$.content[0].id");
+		try {
+			// identifierValue -> recordID
+			Response recordResponse = getClient().newCall(new Request.Builder()
+					.url(HttpUrl.parse(applicationProperties.getRegistryUrl() + "api/resources/identifiers/").newBuilder()
+							.addQueryParameter("value", identifierValue).build())
+					.addHeader("Authorization", "Bearer " + accessToken).build()).execute();
+			String recordID = JsonPath.read(recordResponse.body().string(), "$.content[0].record");
 
-		// only supports ARDCv1 editing right now,
-		// otherwise obtain the schema from the record
-		return String.format("%s/#/edit/%s/%s", applicationProperties.getEditorUrl(), IGSNRegistryService.ARDCv1,
-				versionID);
+			// recordID -> versionID
+			Response versionResponse = getClient().newCall(new Request.Builder()
+					.url(HttpUrl
+							.parse(applicationProperties.getRegistryUrl() + "api/resources/records/" + recordID
+									+ "/versions")
+							.newBuilder().addQueryParameter("schema", ARDCv1).addQueryParameter("current", "true").build())
+					.addHeader("Authorization", "Bearer " + accessToken).build()).execute();
+
+			String versionID = JsonPath.read(versionResponse.body().string(), "$.content[0].id");
+
+			// only supports ARDCv1 editing right now,
+			// otherwise obtain the schema from the record
+			return String.format("%s/#/edit/%s/%s", applicationProperties.getEditorUrl(), IGSNRegistryService.ARDCv1,
+					versionID);
+		}
+		catch(Exception e){
+			return null;
+		}
 	}
 
 }
