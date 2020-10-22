@@ -31,7 +31,11 @@ public class ARDCv1DeserialiseTest {
 		assertThat(resource.campaign).isEqualTo("Project");
 		assertThat(resource.comments).isEqualTo("Comments");
 
+
 		// todo test alternateIdentifiers
+		assertThat(resource.alternateIdentifiers).hasSize(2);
+		assertThat(resource.alternateIdentifiers.get(0)).isEqualTo("AltID2134");
+		assertThat(resource.alternateIdentifiers.get(1)).isEqualTo("AltID2135");
 
 		// materialTypes
 		assertThat(resource.materialTypes).hasSize(1);

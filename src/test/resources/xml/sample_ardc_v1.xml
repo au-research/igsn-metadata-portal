@@ -9,7 +9,7 @@
         <resourceTitle>This Tiltle also left blank on purpose</resourceTitle>
         <alternateIdentifiers>
             <alternateIdentifier>AltID2134</alternateIdentifier>
-            <alternateIdentifier/>
+            <alternateIdentifier>AltID2135</alternateIdentifier>
         </alternateIdentifiers>
         <resourceTypes>
             <resourceType>http://vocabulary.odm2.org/specimentype/core</resourceType>
