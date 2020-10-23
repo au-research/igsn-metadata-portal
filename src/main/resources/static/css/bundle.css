@@ -17274,6 +17274,15 @@ a:hover {
   color: rgba(255, 255, 255, var(--text-opacity));
 }
 
+@media print {
+  a:after {
+    content: " (" attr(href) ") ";
+    text-decoration: underline;
+    display: inline;
+    text-decoration: underline;
+  }
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

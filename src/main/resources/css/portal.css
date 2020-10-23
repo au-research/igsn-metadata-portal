@@ -38,3 +38,12 @@ a:hover {
 .tag {
     @apply .px-2 .inline-flex .text-xs .leading-5 .font-semibold .rounded-full .bg-blue-dark .text-white;
 }
+
+@media print {
+    a:after {
+        content: " (" attr(href) ") ";
+        text-decoration: underline;
+        display: inline;
+        text-decoration: underline;
+    }
+}

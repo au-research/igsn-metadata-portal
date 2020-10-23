@@ -17,16 +17,16 @@
                     <img src="https://via.placeholder.com/100" alt="">
                 </div>
                 <div class="flex items-end justify-center space-x-2 ">
-                    <a href="javascript:void(0);" class="tip-content" data-template="download">
+                    <a href="javascript:void(0);" class="tip-content print:hidden" data-template="download">
                         <i class="fa fa-download" data-tippy-content="Download"></i>
                     </a>
-                    <a href="javascript:window.print()">
+                    <a class="print:hidden" href="javascript:window.print()">
                         <i class="fa fa-print" data-tippy-content="Print"></i>
                     </a>
-                    <a href="" class="">
+                    <a href="" class="print:hidden">
                         <i data-tippy-content="Share with Facebook" class="fab fa-facebook"></i>
                     </a>
-                    <a href="" class="">
+                    <a href="" class="print:hidden">
                         <i data-tippy-content="Share with Twitter" class="fab fa-twitter"></i>
                     </a>
                 </div>
@@ -39,10 +39,10 @@
                 <div class="content-block">
                     <h3>IGSN</h3>
                     <p>
-                        <a th:href="${igsnURL}" th:text="${resource.resourceIdentifier}" target="_blank"></a>
+                        <a th:href="${igsnURL}" th:text="${resource.resourceIdentifier}" target="_blank" class="print:underline"></a>
                     </p>
                     <p class="mt-3" th:if="${canEdit}">
-                        <a th:href="${editURL}" target="_blank" ><i class="fas fa-edit"></i> Edit this record</a>
+                        <a th:href="${editURL}" target="_blank" class="print:underline" ><i class="fas fa-edit"></i> Edit this record</a>
                     </p>
                 </div>
 
@@ -52,7 +52,7 @@
                         <li th:each="resourceType : ${resource.resourceTypes}">
                             <a th:if="${@vocabService.resolvable(resourceType.value)}"
                                th:href="${resourceType.value}"
-                               th:text="${@vocabService.resolve(resourceType.value)}"></a>
+                               th:text="${@vocabService.resolve(resourceType.value)}" class="print:underline"></a>
                             <span th:if="${!@vocabService.resolvable(resourceType.value)}"
                                   th:text="${resourceType.value}"></span>
                         </li>
@@ -65,7 +65,7 @@
                         <li class="ml-6" th:each="materialType : ${resource.materialTypes}">
                             <a th:if="${@vocabService.resolvable(materialType.value)}"
                                th:href="${materialType.value}"
-                               th:text="${@vocabService.resolve(materialType.value)}"></a>
+                               th:text="${@vocabService.resolve(materialType.value)}" class="print:underline"></a>
                             <span th:if="${!@vocabService.resolvable(materialType.value)}"
                                   th:text="${materialType.value}"></span>
                         </li>
@@ -78,7 +78,7 @@
                         <li th:each="classification : ${resource.classifications}">
                             <a th:if="${classification.classificationURI}"
                                th:href="${classification.classificationURI}"
-                               th:text="${classification.value}"></a>
+                               th:text="${classification.value}" class="print:underline"></a>
                             <span th:if="!${classification.classificationURI}"
                                   th:text="${classification.value}"></span>
                         </li>
@@ -115,7 +115,7 @@
                             </li>
                              <li th:if="${resource.location.locality.localityURI}">
                                 <a th:href="${resource.location.locality.localityURI}"
-                                   th:text="${resource.location.locality.value}"></a>
+                                   th:text="${resource.location.locality.value}"class="print:underline"></a>
                             </li>
                             <li   th:if="${resource.location.geometry.geometryURI}">
                                     <a th:href="${resource.location.geometry.geometryURI}" class="print:underline">Geometry URL</a>
@@ -143,7 +143,7 @@
             <h3>Download formats</h3>
             <ul class="space-y-3 items-center">
                 <li>
-                    <a th:href="@{/download(identifierValue=${identifierValue}, schema=${@IGSNRegistryService.ARDCv1})}">
+                    <a th:href="@{/download(identifierValue=${identifierValue}, schema=${@IGSNRegistryService.ARDCv1})}" >
                         <i class="fa fa-download"></i> ARDC IGSN Descriptive v1.0 <span class="tag">xml</span>
                     </a>
                 </li>
@@ -163,7 +163,7 @@
             <h3>Sampled Features</h3>
             <ul>
                 <li th:each="sampledFeature : ${resource.sampledFeatures}">
-                    <a th:href="${sampledFeature.sampledFeatureURI}" th:text="${sampledFeature.value}"></a>
+                    <a th:href="${sampledFeature.sampledFeatureURI}" th:text="${sampledFeature.value}" class="print:underline"></a>
                 </li>
             </ul>
         </div>
@@ -179,7 +179,7 @@
         <div class="content-block" th:if="${resource.method}">
             <h3>Method</h3>
             <p>
-                <a th:href="${resource.method.methodURI}" th:text="${resource.method.value}"></a>
+                <a th:href="${resource.method.methodURI}" th:text="${resource.method.value}" class="print:underline"></a>
             </p>
         </div>
 
@@ -210,7 +210,7 @@
                 <div class="mb-2" th:if="${curation.curatingInstitution}">
                     <p>Curating Institution</p>
                     <a th:href="${curation.curatingInstitution.institutionURI}"
-                       th:text="${curation.curatingInstitution.value} ?: ${curation.curatingInstitution.institutionURI}"></a>
+                       th:text="${curation.curatingInstitution.value} ?: ${curation.curatingInstitution.institutionURI}" class="print:underline"></a>
                 </div>
             </div>
         </div>
@@ -220,7 +220,7 @@
             <div th:each="contributor : ${resource.contributors}">
                 <span th:if="${@vocabService.resolvable(contributor.contributorType)}">
                     <a th:href="${contributor.contributorType}"
-                       th:text="${@vocabService.resolve(contributor.contributorType)}"></a>
+                       th:text="${@vocabService.resolve(contributor.contributorType)}" class="print:underline"></a>
                 </span>
                 <span th:if="!${@vocabService.resolvable(contributor.contributorType)}"
                       th:text="${contributor.contributorType}"></span>
