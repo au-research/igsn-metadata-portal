@@ -90,7 +90,7 @@
                     <h3>Alternate Identifiers</h3>
                     <ul>
                         <li th:each="alternateIdentifier : ${resource.alternateIdentifiers}"
-                            th:text="alternateIdentifier">th:text = ${resource.alternateIdentifiers}</li>
+                            th:text="${alternateIdentifier}"></li>
                     </ul>
                 </div>
 

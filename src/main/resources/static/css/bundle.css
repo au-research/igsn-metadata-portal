@@ -17279,7 +17279,6 @@ a:hover {
     content: " (" attr(href) ") ";
     text-decoration: underline;
     display: inline;
-    text-decoration: underline;
   }
 }
 
