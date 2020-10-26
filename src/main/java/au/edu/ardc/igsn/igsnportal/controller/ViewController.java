@@ -3,6 +3,7 @@ package au.edu.ardc.igsn.igsnportal.controller;
 import au.edu.ardc.igsn.igsnportal.model.igsn.Resource;
 import au.edu.ardc.igsn.igsnportal.model.igsn.Resources;
 import au.edu.ardc.igsn.igsnportal.service.IGSNRegistryService;
+import au.edu.ardc.igsn.igsnportal.service.RenderService;
 import au.edu.ardc.igsn.igsnportal.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -19,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
-* Controller serving the view page
-*/
+ * Controller serving the view page
+ */
 @Controller
 public class ViewController {
 
@@ -30,9 +31,12 @@ public class ViewController {
 
 	UserService userService;
 
-	public ViewController(IGSNRegistryService service, UserService userService) {
+	RenderService renderService;
+
+	public ViewController(IGSNRegistryService service, UserService userService, RenderService renderService) {
 		this.service = service;
 		this.userService = userService;
+		this.renderService = renderService;
 	}
 
 	/**

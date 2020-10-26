@@ -185,10 +185,15 @@ public class IGSNRegistryService {
 
 		try {
 			// identifierValue -> recordID
-			Response recordResponse = getClient().newCall(new Request.Builder()
-					.url(HttpUrl.parse(applicationProperties.getRegistryUrl() + "api/resources/identifiers/").newBuilder()
-							.addQueryParameter("value", identifierValue).build())
-					.addHeader("Authorization", "Bearer " + accessToken).build()).execute();
+			Response recordResponse = getClient()
+					.newCall(
+							new Request.Builder()
+									.url(HttpUrl
+											.parse(applicationProperties.getRegistryUrl()
+													+ "api/resources/identifiers/")
+											.newBuilder().addQueryParameter("value", identifierValue).build())
+									.addHeader("Authorization", "Bearer " + accessToken).build())
+					.execute();
 			String recordID = JsonPath.read(recordResponse.body().string(), "$.content[0].record");
 
 			// recordID -> versionID
@@ -196,7 +201,8 @@ public class IGSNRegistryService {
 					.url(HttpUrl
 							.parse(applicationProperties.getRegistryUrl() + "api/resources/records/" + recordID
 									+ "/versions")
-							.newBuilder().addQueryParameter("schema", ARDCv1).addQueryParameter("current", "true").build())
+							.newBuilder().addQueryParameter("schema", ARDCv1).addQueryParameter("current", "true")
+							.build())
 					.addHeader("Authorization", "Bearer " + accessToken).build()).execute();
 
 			String versionID = JsonPath.read(versionResponse.body().string(), "$.content[0].id");
@@ -206,7 +212,7 @@ public class IGSNRegistryService {
 			return String.format("%s/#/edit/%s/%s", applicationProperties.getEditorUrl(), IGSNRegistryService.ARDCv1,
 					versionID);
 		}
-		catch(Exception e){
+		catch (Exception e) {
 			return null;
 		}
 	}

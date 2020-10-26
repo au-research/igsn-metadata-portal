@@ -90,7 +90,7 @@
                     <h3>Alternate Identifiers</h3>
                     <ul>
                         <li th:each="alternateIdentifier : ${resource.alternateIdentifiers}"
-                            th:text="${alternateIdentifier}"></li>
+                            th:text="${alternateIdentifier}">th:text = ${resource.alternateIdentifiers}</li>
                     </ul>
                 </div>
 
@@ -113,12 +113,14 @@
                                 <strong>Vertical Datum: </strong> <span
                                     th:text="${resource.location.geometry.verticalDatum}"></span>
                             </li>
-                             <li th:if="${resource.location.locality.localityURI}">
-                                <a th:href="${resource.location.locality.localityURI}"
+                             <li th:if="${resource.location.locality}">
+                                <a th:if="${resource.location.locality.localityURI}"
+                                   th:href="${resource.location.locality.localityURI}"
                                    th:text="${resource.location.locality.value}"class="print:underline"></a>
                             </li>
-                            <li   th:if="${resource.location.geometry.geometryURI}">
-                                    <a th:href="${resource.location.geometry.geometryURI}" class="print:underline">Geometry URL</a>
+                            <li   th:if="${resource.location.geometry}">
+                                    <a th:if="${resource.location.geometry.geometryURI}"
+                                       th:href="${resource.location.geometry.geometryURI}" class="print:underline">Geometry URL</a>
                             </li>
                         </ul>
                     </div>
@@ -170,9 +172,10 @@
 
         <div class="content-block" th:if="${resource.date}">
             <h3>Date</h3>
+
             <p th:if="${resource.date.timePeriod}">
-                <span th:text="${resource.date.timePeriod.start}"></span> to <span
-                    th:text="${resource.date.timePeriod.end}"></span>
+                <span th:text="${@renderService.renderDate(resource.date.timePeriod.start)}"></span> to <span
+                    th:text="${@renderService.renderDate(resource.date.timePeriod.end)}"></span>
             </p>
         </div>
 
@@ -201,7 +204,7 @@
                 <h3 th:text="${curation.curator.curatorName}"></h3>
                 <div class="mb-2" th:if="${curation.curationDate}">
                     <p>Curation Date</p>
-                    <p th:text="${curation.curationDate}"></p>
+                    <p th:text="${@renderService.renderDate(curation.curationDate)}"></p>
                 </div>
                 <div class="mb-2" th:if="${curation.curationLocation}">
                     <p>Curation Location</p>
