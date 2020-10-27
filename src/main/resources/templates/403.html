@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout.html :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>IGSN Portal - Error</title>
+</head>
+<body>
+<section>
+    <!--@thymesVar id="exception" type="java.lang.RuntimeException"-->
+    <div class="flex justify-center">
+        <div>
+            <h1 class="text-5xl text-center mb-4">Access denied.</h1>
+            <div class="text-left">
+                <p class="mb-2">You do not have permission to access this resource.</p>
+                <p class="mb-2">For further information please contact services@ardc.edu.au.</p>
+                <p class="font-bold" th:if="${exception} and ${exception.getMessage()}" th:text="${exception.getMessage()}"></p>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,5 +1,8 @@
 package au.edu.ardc.igsn.igsnportal.controller;
 
+import au.edu.ardc.igsn.igsnportal.exception.ForbiddenException;
+import au.edu.ardc.igsn.igsnportal.exception.NotFoundException;
+import au.edu.ardc.igsn.igsnportal.exception.UnauthorizedException;
 import au.edu.ardc.igsn.igsnportal.model.igsn.Resource;
 import au.edu.ardc.igsn.igsnportal.model.igsn.Resources;
 import au.edu.ardc.igsn.igsnportal.service.IGSNRegistryService;
@@ -57,10 +60,25 @@ public class ViewController {
 		log.debug("Viewing identifier value: %s" + identifierValue);
 
 		// obtain the XML to generate view page from
-		String xml = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1);
+		String	xml = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1);
+
+		if(xml.equals("")) throw new NotFoundException("IGSN " + identifierValue + " not found");
 
 		// obtain the JSON-LD to embed within the view page
 		String jsonld = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1JSONLD);
+
+		//check if the record is public
+		if(service.isPublicIGSN(xml).equals("false") && !userService.isLoggedIn(request) ){
+			System.out.println(identifierValue + "is not a public IGSN - Let's check the logged in user");
+			throw new UnauthorizedException("Access Denied");
+		}
+		if(service.isPublicIGSN(xml).equals("false") && userService.isLoggedIn(request) ){
+			String accessToken = userService.getPlainAccessToken(request);
+			if(!service.canEdit(identifierValue, accessToken)){
+				System.out.println(identifierValue + "is not a public IGSN - And logged in user doesn't have access");
+				throw new ForbiddenException("Access Denied");
+			}
+		}
 
 		return renderViewPage(request, model, identifierValue, xml, jsonld);
 	}

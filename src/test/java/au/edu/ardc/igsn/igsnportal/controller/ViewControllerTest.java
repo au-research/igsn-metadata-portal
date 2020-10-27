@@ -33,6 +33,9 @@ class ViewControllerTest {
 		when(service.getContentForIdentifierValue("10273/XX0TUIAYLV", IGSNRegistryService.ARDCv1))
 				.thenReturn(TestHelper.readFile("src/test/resources/xml/sample_ardc_v1.xml"));
 
+		when(service.isPublicIGSN(TestHelper.readFile("src/test/resources/xml/sample_ardc_v1.xml")))
+				.thenReturn("true");
+
 		mockMvc.perform(MockMvcRequestBuilders.get("/view/10273/XX0TUIAYLV")).andExpect(status().isOk())
 				.andExpect(content().string(containsString("XX0TUIAYLV")))
 				.andExpect(content().string(containsString("This Tiltle also left blank on purpose")));

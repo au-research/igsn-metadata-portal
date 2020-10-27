@@ -8,6 +8,8 @@ import au.edu.ardc.igsn.igsnportal.response.PaginatedRecordsResponse;
 import au.edu.ardc.igsn.igsnportal.util.Helpers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -15,8 +17,14 @@ import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
+import java.io.StringReader;
 
 @Service
 public class IGSNRegistryService {
@@ -101,6 +109,7 @@ public class IGSNRegistryService {
 		HttpUrl url = HttpUrl.parse(applicationProperties.getRegistryUrl() + "api/public/igsn-description/")
 				.newBuilder().addQueryParameter("identifier", identifier).addQueryParameter("schema", schema).build();
 		logger.debug("GET url: " + url.toString());
+		System.out.println("GET url: " + url.toString());
 		Request request = new Request.Builder().url(url).build();
 		Response response = client.newCall(request).execute();
 		logger.debug(String.format("Response received, code: %s, length: %s", response.code(),
@@ -155,6 +164,30 @@ public class IGSNRegistryService {
 		String[] values = identifierValue.split("/");
 		String prefix = values[0];
 		return prefix.equals("20.500.11812");
+	}
+
+	/**
+	 * Check if an identifierValue is a public IGSN.
+	 * @since 1.0
+	 * @param xml the of the identifierValue to be tested
+	 * @return true if the identifierValue is a public one, false if not
+	 *
+	 */
+	public String isPublicIGSN(String xml) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
+
+
+		//System.out.println(xml + " is the input xml");
+		try {
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			InputSource src = new InputSource();
+			src.setCharacterStream(new StringReader(xml));
+			Document doc = builder.parse(src);
+			String isPublic = doc.getElementsByTagName("isPublic").item(0).getTextContent();
+			return isPublic;
+		}catch(Exception e){
+			return "false";
+		}
+
 	}
 
 	/**
