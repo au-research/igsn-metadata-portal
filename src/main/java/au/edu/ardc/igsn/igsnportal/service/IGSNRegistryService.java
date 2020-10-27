@@ -109,7 +109,6 @@ public class IGSNRegistryService {
 		HttpUrl url = HttpUrl.parse(applicationProperties.getRegistryUrl() + "api/public/igsn-description/")
 				.newBuilder().addQueryParameter("identifier", identifier).addQueryParameter("schema", schema).build();
 		logger.debug("GET url: " + url.toString());
-		System.out.println("GET url: " + url.toString());
 		Request request = new Request.Builder().url(url).build();
 		Response response = client.newCall(request).execute();
 		logger.debug(String.format("Response received, code: %s, length: %s", response.code(),
@@ -173,10 +172,10 @@ public class IGSNRegistryService {
 	 * @return true if the identifierValue is a public one, false if not
 	 *
 	 */
-	public String isPublicIGSN(String xml) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
+	public String isPublicIGSN(String xml)
+			throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
 
-
-		//System.out.println(xml + " is the input xml");
+		// System.out.println(xml + " is the input xml");
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			InputSource src = new InputSource();
@@ -184,7 +183,8 @@ public class IGSNRegistryService {
 			Document doc = builder.parse(src);
 			String isPublic = doc.getElementsByTagName("isPublic").item(0).getTextContent();
 			return isPublic;
-		}catch(Exception e){
+		}
+		catch (Exception e) {
 			return "false";
 		}
 

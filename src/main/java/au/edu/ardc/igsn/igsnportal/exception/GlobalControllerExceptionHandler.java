@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
 
-	@ExceptionHandler({NotFoundException.class})
+	@ExceptionHandler({ NotFoundException.class })
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	public String handleNotFound(Exception ex, HttpServletRequest request, Model model) {
 		model.addAttribute("exception", ex);
@@ -19,7 +19,7 @@ public class GlobalControllerExceptionHandler {
 		return "404";
 	}
 
-	@ExceptionHandler({UnauthorizedException.class})
+	@ExceptionHandler({ UnauthorizedException.class })
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	public String handleUnauthorized(Exception ex, HttpServletRequest request, Model model) {
 		model.addAttribute("exception", ex);
@@ -27,7 +27,7 @@ public class GlobalControllerExceptionHandler {
 		return "401";
 	}
 
-	@ExceptionHandler({ForbiddenException.class})
+	@ExceptionHandler({ ForbiddenException.class })
 	@ResponseStatus(code = HttpStatus.FORBIDDEN)
 	public String handleForbidden(Exception ex, HttpServletRequest request, Model model) {
 		model.addAttribute("exception", ex);

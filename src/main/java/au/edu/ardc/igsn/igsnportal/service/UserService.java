@@ -35,8 +35,6 @@ public class UserService {
 		}
 
 		logger.debug("keycloakSecurityContext found");
-		System.out.println("User is currently logged in with AccessToken:" + keycloakSecurityContext.getTokenString());
-
 		RefreshableKeycloakSecurityContext ksc = (RefreshableKeycloakSecurityContext) keycloakSecurityContext;
 		String refreshToken = ksc.getRefreshToken();
 		try {

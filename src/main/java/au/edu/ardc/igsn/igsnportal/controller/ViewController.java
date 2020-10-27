@@ -60,25 +60,25 @@ public class ViewController {
 		log.debug("Viewing identifier value: %s" + identifierValue);
 
 		// obtain the XML to generate view page from
-		String	xml = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1);
+		String xml = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1);
 
-		if(xml.equals("")) throw new NotFoundException("IGSN " + identifierValue + " not found");
+		if (xml.equals(""))
+			throw new NotFoundException("IGSN " + identifierValue + " not found");
 
 		// obtain the JSON-LD to embed within the view page
 		String jsonld = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1JSONLD);
 
-		//check if the record is public
-		if(service.isPublicIGSN(xml).equals("false") && !userService.isLoggedIn(request) ){
-			System.out.println(identifierValue + "is not a public IGSN - Let's check the logged in user");
+		// check if the record is public
+		if (service.isPublicIGSN(xml).equals("false") && !userService.isLoggedIn(request)) {
 			throw new UnauthorizedException("Access Denied");
 		}
-		if(service.isPublicIGSN(xml).equals("false") && userService.isLoggedIn(request) ){
+		if (service.isPublicIGSN(xml).equals("false") && userService.isLoggedIn(request)) {
 			String accessToken = userService.getPlainAccessToken(request);
-			if(!service.canEdit(identifierValue, accessToken)){
-				System.out.println(identifierValue + "is not a public IGSN - And logged in user doesn't have access");
+			if (!service.canEdit(identifierValue, accessToken)) {
 				throw new ForbiddenException("Access Denied");
 			}
 		}
+		// todo add check of embargo
 
 		return renderViewPage(request, model, identifierValue, xml, jsonld);
 	}
