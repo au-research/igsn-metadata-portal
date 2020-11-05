@@ -51,20 +51,6 @@ if (qrcodeElement) {
   interactive: true
 });
 
-function convertDate(date) {
-  var d = new Date(date);
-  var ye = new Intl.DateTimeFormat('en', {
-    year: 'numeric'
-  }).format(d);
-  var mo = new Intl.DateTimeFormat('en', {
-    month: 'short'
-  }).format(d);
-  var da = new Intl.DateTimeFormat('en', {
-    day: '2-digit'
-  }).format(d);
-  return "".concat(da, " ").concat(mo, " ").concat(ye);
-}
-
 },{"./map":2,"qrcode-generator":"qrcode-generator","tippy.js":"tippy.js"}],2:[function(require,module,exports){
 "use strict";
 
