@@ -25,6 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Date;
 
 @Service
 public class IGSNRegistryService {
@@ -147,6 +148,42 @@ public class IGSNRegistryService {
 		return response.code() == 200;
 	}
 
+
+	/**
+	 * Return if a provided AccessToken can edit the identifier using the auth-check API
+	 * provided by the registry
+	 * @param identifierValue the identifierValue eg 10273/XX0TUIAYLV
+	 * request
+	 * @return true or false depends on if IGSN is public or private
+	 * @throws IOException when requests fail
+	 */
+	public boolean isPublic(String identifierValue) throws IOException {
+		logger.debug(String.format("Attempting to find out if theIGSN is public, identifierValue:%s",
+				identifierValue));
+		OkHttpClient client = getClient();
+		Request request = new Request.Builder()
+				.url(applicationProperties.getRegistryUrl() + "api/services/isPublic/?identifier=" + identifierValue)
+				.build();
+		Response response = client.newCall(request).execute();
+		return response.code() == 200;
+	}
+
+	/**
+	 * Return if a provided AccessToken can edit the identifier using the auth-check API
+	 * provided by the registry
+	 * @param identifierValue the identifierValue eg 10273/XX0TUIAYLV
+	 * @return return response with the embargoEnd as string date in body if it exists
+	 * @throws IOException when requests fail
+	 */
+	public Response hasEmbargo(String identifierValue) throws IOException {
+		OkHttpClient client = getClient();
+		Request request = new Request.Builder()
+				.url(applicationProperties.getRegistryUrl() + "api/services/hasEmbargo/?identifier=" + identifierValue)
+				.build();
+		Response response = client.newCall(request).execute();
+		return response;
+	}
+
 	public OkHttpClient getClient() {
 		return new OkHttpClient.Builder().build();
 	}
@@ -165,30 +202,6 @@ public class IGSNRegistryService {
 		return prefix.equals("20.500.11812");
 	}
 
-	/**
-	 * Check if an identifierValue is a public IGSN.
-	 * @since 1.0
-	 * @param xml the of the identifierValue to be tested
-	 * @return true if the identifierValue is a public one, false if not
-	 *
-	 */
-	public String isPublicIGSN(String xml)
-			throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
-
-		// System.out.println(xml + " is the input xml");
-		try {
-			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			InputSource src = new InputSource();
-			src.setCharacterStream(new StringReader(xml));
-			Document doc = builder.parse(src);
-			String isPublic = doc.getElementsByTagName("isPublic").item(0).getTextContent();
-			return isPublic;
-		}
-		catch (Exception e) {
-			return "false";
-		}
-
-	}
 
 	/**
 	 * This URL will be used to display in the page as well as generating QR Code

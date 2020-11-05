@@ -10,6 +10,7 @@ import au.edu.ardc.igsn.igsnportal.service.RenderService;
 import au.edu.ardc.igsn.igsnportal.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -68,17 +69,35 @@ public class ViewController {
 		// obtain the JSON-LD to embed within the view page
 		String jsonld = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1JSONLD);
 
+		// check if the record is embargoed
+		Response hasEmbargo = service.hasEmbargo(identifierValue);
+		if (hasEmbargo!=null && service.hasEmbargo(identifierValue).body().string() != ""
+				&& !userService.isLoggedIn(request)) {
+			//Display embargoed unauthorised
+			throw new UnauthorizedException("The resource you have requested is under embargo until " +
+					service.hasEmbargo(identifierValue).body().string());
+		}
+		if (hasEmbargo!=null && service.hasEmbargo(identifierValue).body().string() != ""
+				&& userService.isLoggedIn(request)) {
+			String accessToken = userService.getPlainAccessToken(request);
+			if (!service.canEdit(identifierValue, accessToken)) {
+				//Display embargoed forbidden
+				throw new ForbiddenException("The resource you have requested is under embargo until " +
+						service.hasEmbargo(identifierValue).body().string());
+			}
+		}
+
+
 		// check if the record is public
-		if (service.isPublicIGSN(xml).equals("false") && !userService.isLoggedIn(request)) {
+		if (!service.isPublic(identifierValue) && !userService.isLoggedIn(request)) {
 			throw new UnauthorizedException("Access Denied");
 		}
-		if (service.isPublicIGSN(xml).equals("false") && userService.isLoggedIn(request)) {
+		if (!service.isPublic(identifierValue) && userService.isLoggedIn(request)) {
 			String accessToken = userService.getPlainAccessToken(request);
 			if (!service.canEdit(identifierValue, accessToken)) {
 				throw new ForbiddenException("Access Denied");
 			}
 		}
-		// todo add check of embargo
 
 		return renderViewPage(request, model, identifierValue, xml, jsonld);
 	}
