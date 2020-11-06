@@ -66,6 +66,9 @@ public class ViewController {
 		if (xml.equals(""))
 			throw new NotFoundException("IGSN " + identifierValue + " not found");
 
+		//obtain the status of the identifier
+		model.addAttribute("identifierStatus", service.getIdentifierStatus(identifierValue));
+
 		// obtain the JSON-LD to embed within the view page
 		String jsonld = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1JSONLD);
 

@@ -263,4 +263,15 @@ public class IGSNRegistryService {
 		}
 	}
 
+	public String getIdentifierStatus(String identifierValue) throws IOException {
+
+		OkHttpClient client = getClient();
+		Request request = new Request.Builder()
+				.url(applicationProperties.getRegistryUrl() + "api/services/getIdentifierStatus/?identifier=" + identifierValue)
+				.build();
+		Response response = client.newCall(request).execute();
+		String identifierStatus = response.body().string();
+		return identifierStatus;
+
+	}
 }

@@ -35,6 +35,7 @@ class ViewControllerTest {
 
 		when(service.isPublic("10273/XX0TUIAYLV")).thenReturn(true);
 		when(service.hasEmbargo("10273/XX0TUIAYLV")).thenReturn(null);
+		when(service.getIdentifierStatus("10273/XX0TUIAYLV")).thenReturn("DEPRICATED");
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/view/10273/XX0TUIAYLV")).andExpect(status().isOk())
 				.andExpect(content().string(containsString("XX0TUIAYLV")))
