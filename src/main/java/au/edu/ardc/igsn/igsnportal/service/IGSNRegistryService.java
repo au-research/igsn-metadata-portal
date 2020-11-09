@@ -1,15 +1,12 @@
 package au.edu.ardc.igsn.igsnportal.service;
 
 import au.edu.ardc.igsn.igsnportal.config.ApplicationProperties;
-import au.edu.ardc.igsn.igsnportal.exception.NotFoundException;
 import au.edu.ardc.igsn.igsnportal.response.ErrorResponse;
 import au.edu.ardc.igsn.igsnportal.response.PaginatedIdentifiersResponse;
 import au.edu.ardc.igsn.igsnportal.response.PaginatedRecordsResponse;
 import au.edu.ardc.igsn.igsnportal.util.Helpers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -17,15 +14,8 @@ import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
-import java.io.StringReader;
-import java.util.Date;
+
 
 @Service
 public class IGSNRegistryService {
@@ -263,11 +253,12 @@ public class IGSNRegistryService {
 		}
 	}
 
-	public String getIdentifierStatus(String identifierValue) throws IOException {
+	public String getVersionStatus(String identifierValue, String schema) throws IOException {
 
 		OkHttpClient client = getClient();
 		Request request = new Request.Builder()
-				.url(applicationProperties.getRegistryUrl() + "api/services/getIdentifierStatus/?identifier=" + identifierValue)
+				.url(applicationProperties.getRegistryUrl() +
+						"api/services/getVersionStatus/?identifier=" + identifierValue + "&schema=" + schema)
 				.build();
 		Response response = client.newCall(request).execute();
 		String identifierStatus = response.body().string();
