@@ -1,13 +1,19 @@
 package au.edu.ardc.igsn.igsnportal.service;
 
+import au.edu.ardc.igsn.igsnportal.config.ApplicationProperties;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 @Service
 public class RenderService {
+
+	final ApplicationProperties applicationProperties;
+
+	public RenderService(ApplicationProperties applicationProperties) {
+		this.applicationProperties = applicationProperties;
+	}
 
 	public String renderDate(String inputDate){
 
@@ -41,22 +47,36 @@ public class RenderService {
 		}
 	}
 
-	public String renderIdentifier(String identifier) {
+	public String renderIdentifier(String identifier, String identifierType) {
 		try{
-			String type = getType(identifier);
-			switch (type){
-				case "doi":
+			switch (identifierType){
+				case "DOI":
+					if(!identifier.contains("http")) { identifier = "https://doi.org/" + identifier;}
+					return identifier;
+				case "ORCID":
+					if(!identifier.contains("http")) { identifier = "http://orcid.org/" + identifier;}
 					return identifier;
 				default:
-					return identifier;
+					return null;
 			}
 		}catch (Exception e) {
 			return null;
 		}
 	}
 
-	public String getType(String identifier){
-		return identifier;
+	//public String getType(String curatorIdentifierType){
+	//	if(curatorIdentifierType.contains("DOI"))
+	//		return "DOI";
+	//	if(curatorIdentifierType.contains("ORCID"))
+	//		return "ORCID";
+	//	return "other";
+	//}
+
+	public String getIcon(String curatorIdentifierType){
+		if(curatorIdentifierType.contains("DOI")) 	return "/images/doi_icon.png";
+		return null;
 	}
+
+
 
 }
