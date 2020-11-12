@@ -78,7 +78,7 @@
     },
     {
       "label": "Foliage leaching",
-      "value": "http://vocabulary.odm2.org/specimentype/foliageLeachingFoliage"
+      "value": "http://vocabulary.odm2.org/specimentype/foliageLeaching"
     },
     {
       "label": "Forest floor digestion",
