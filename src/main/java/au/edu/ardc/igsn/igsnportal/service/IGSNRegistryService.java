@@ -201,7 +201,7 @@ public class IGSNRegistryService {
 	public String getIGSNURL(String identifierValue) {
 		// test IGSN will have the handle value instead
 		if (isTestIGSN(identifierValue)) {
-			return String.format("http://hdl.net/%s", identifierValue);
+			return String.format("http://hdl.handle.net/%s", identifierValue);
 		}
 
 		// production IGSN will only have the value bit
