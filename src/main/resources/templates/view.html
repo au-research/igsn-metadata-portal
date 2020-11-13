@@ -23,10 +23,10 @@
                     <a class="print:hidden" href="javascript:window.print()">
                         <i class="fa fa-print" data-tippy-content="Print"></i>
                     </a>
-                    <a href="" class="print:hidden">
+                    <a th:href="@{${'http://www.facebook.com/sharer.php?u='} + ${#request.requestURL}}" class="print:hidden">
                         <i data-tippy-content="Share with Facebook" class="fab fa-facebook"></i>
                     </a>
-                    <a href="" class="print:hidden">
+                    <a th:href="@{${'https://twitter.com/share?url='} + ${#request.requestURL} + '&text=' + ${resource.resourceTitle} + '&hashtags=igsn'}" class="print:hidden">
                         <i data-tippy-content="Share with Twitter" class="fab fa-twitter"></i>
                     </a>
                 </div>
@@ -129,7 +129,8 @@
                 <a th:if="${resource.location.geometry.geometryURI}"
                    th:href="${resource.location.geometry.geometryURI}" class="print:underline">Geometry URL</a>
                 </div>
-
+                <div id="map-detail">
+                </div>
 
             </div>
 

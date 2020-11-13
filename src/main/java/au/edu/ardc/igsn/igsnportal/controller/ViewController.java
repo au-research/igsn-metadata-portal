@@ -70,9 +70,7 @@ public class ViewController {
 		model.addAttribute("identifierStatus", service.getVersionStatus(identifierValue, IGSNRegistryService.ARDCv1));
 
 		//check if the identifier is a test IGSN
-
 		model.addAttribute ("testIGSN" , service.isTestIGSN(identifierValue));
-		System.out.println(identifierValue + " testIGSN " + service.isTestIGSN(identifierValue));
 
 		// obtain the JSON-LD to embed within the view page
 		String jsonld = service.getContentForIdentifierValue(identifierValue, IGSNRegistryService.ARDCv1JSONLD);
