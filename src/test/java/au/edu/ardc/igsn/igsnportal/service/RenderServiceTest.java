@@ -31,7 +31,6 @@ public class RenderServiceTest {
 	@Test
 	@DisplayName("When provided with an YYYY-MM string return MMM YYYY formatted date string")
 	void testRenderDateYYYYMM(){
-
 		String ISODate = "2020-10";
 		String expectedFormat = "Oct 2020";
 

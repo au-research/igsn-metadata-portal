@@ -9,12 +9,6 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class RenderService {
 
-	final ApplicationProperties applicationProperties;
-
-	public RenderService(ApplicationProperties applicationProperties) {
-		this.applicationProperties = applicationProperties;
-	}
-
 	public String renderDate(String inputDate){
 
 		String [] dateParts = inputDate.split("-");
