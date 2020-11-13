@@ -26,7 +26,7 @@
                     <a th:href="@{${'http://www.facebook.com/sharer.php?u='} + ${#request.requestURL}}" class="print:hidden">
                         <i data-tippy-content="Share with Facebook" class="fab fa-facebook"></i>
                     </a>
-                    <a th:href="@{${'https://twitter.com/share?url='} + ${#request.requestURL} + '&text=' + ${resource.resourceTitle} + '&hashtags=igsn'}" class="print:hidden">
+                    <a th:href="@{${'https://twitter.com/share?url='} + ${#request.requestURL} + '&text=' + ${resource.resourceTitle} + '&hashtags=igsn'}"  class="print:hidden">
                         <i data-tippy-content="Share with Twitter" class="fab fa-twitter"></i>
                     </a>
                 </div>
@@ -97,8 +97,13 @@
                 <div class="content-block" th:if="${resource.alternateIdentifiers}">
                     <h3>Alternate Identifiers</h3>
                     <ul>
-                        <li th:each="alternateIdentifier : ${resource.alternateIdentifiers}"
-                            th:text = "${alternateIdentifier}"></li>
+                          <li th:each="identifier : ${resource.alternateIdentifiers}">
+                            <span th:if="${@vocabService.resolve(identifier.alternateIdentifierType)}" th:text="${@vocabService.resolve(identifier.alternateIdentifierType)} + ': '"></span>
+                            <a th:href="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.alternateIdentifierType))}"
+                               th:text="${identifier.value}"/>
+                           <img class="inline-flex" th:if="${@vocabService.resolve(identifier.alternateIdentifierType)}"
+                                 th:src="@{${@renderService.getIcon(@vocabService.resolve(identifier.alternateIdentifierType))}}"/>
+                        </li>
                     </ul>
                 </div>
 

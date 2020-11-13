@@ -58,16 +58,8 @@ public class RenderService {
 		}
 	}
 
-	//public String getType(String curatorIdentifierType){
-	//	if(curatorIdentifierType.contains("DOI"))
-	//		return "DOI";
-	//	if(curatorIdentifierType.contains("ORCID"))
-	//		return "ORCID";
-	//	return "other";
-	//}
-
-	public String getIcon(String curatorIdentifierType){
-		if(curatorIdentifierType.contains("DOI")) 	return "/images/doi_icon.png";
+	public String getIcon(String identifierType){
+		if(identifierType.contains("DOI")) 	return "/images/doi_icon.png";
 		return null;
 	}
 

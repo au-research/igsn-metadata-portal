@@ -35,7 +35,7 @@ class ViewControllerTest {
 
 		when(service.isPublic("10273/XX0TUIAYLV")).thenReturn(true);
 		when(service.hasEmbargo("10273/XX0TUIAYLV")).thenReturn(null);
-		when(service.getVersionStatus("10273/XX0TUIAYLV", IGSNRegistryService.ARDCv1 )).thenReturn("depricated");
+		when(service.getVersionStatus("10273/XX0TUIAYLV", IGSNRegistryService.ARDCv1 )).thenReturn("deprecated");
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/view/10273/XX0TUIAYLV")).andExpect(status().isOk())
 				.andExpect(content().string(containsString("XX0TUIAYLV")))

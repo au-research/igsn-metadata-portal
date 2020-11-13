@@ -178,7 +178,7 @@ public class ViewController {
 	 */
 	private void sanitize(Resource resource) {
 		if (!resource.alternateIdentifiers.isEmpty()) {
-			resource.alternateIdentifiers.removeIf(String::isEmpty);
+			resource.alternateIdentifiers.removeIf(item -> isEmpty(item.alternateIdentifierType) && isEmpty(item.value));
 		}
 		if (!resource.classifications.isEmpty()) {
 			resource.classifications.removeIf(item -> isEmpty(item.classificationURI) && isEmpty(item.value));

@@ -18,7 +18,7 @@ public class Resource {
 
 	public String resourceTitle;
 
-	public List<String> alternateIdentifiers;
+	public List<AlternateIdentifier> alternateIdentifiers;
 
 	public List<ResourceType> resourceTypes;
 
