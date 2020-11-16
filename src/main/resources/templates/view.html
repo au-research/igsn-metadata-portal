@@ -241,10 +241,10 @@
         <div class="content-block" th:if="${resource.contributors}">
             <h2>Contributors</h2>
             <div th:each="contributor : ${resource.contributors}">
-                <span th:if="${@vocabService.resolvable(contributor.contributorType)}">
+                <i><span th:if="${@vocabService.resolvable(contributor.contributorType)}">
                     <a th:href="${contributor.contributorType}"
                        th:text="${@vocabService.resolve(contributor.contributorType)}" class="print:underline"></a>
-                </span>
+                </span></i>
                 <span th:if="!${@vocabService.resolvable(contributor.contributorType)}"
                       th:text="${contributor.contributorType}"></span>
                 <span th:text="${contributor.contributorName}"></span>
