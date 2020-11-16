@@ -218,8 +218,8 @@
                         <span th:text="${@vocabService.resolve(curatorIdentifier.curatorIdentifierType)} + ': '"></span>
                         <a th:href="${@renderService.renderIdentifier(curatorIdentifier.value, @vocabService.resolve(curatorIdentifier.curatorIdentifierType))}"
                            th:text="${curatorIdentifier.value}"/>
-                        <img class="inline-flex" th:if="${@renderService.getIcon(curatorIdentifier.curatorIdentifierType)}"
-                             th:src="@{${@renderService.getIcon(curatorIdentifier.curatorIdentifierType)}}"/>
+                        <img class="inline-flex" th:if="${@renderService.getIcon(@vocabService.resolve(curatorIdentifier.curatorIdentifierType))}"
+                             th:src="@{${@renderService.getIcon(@vocabService.resolve(curatorIdentifier.curatorIdentifierType))}}"/>
                     </p>
                 </div>
                 <div class="mb-2" th:if="${curation.curationDate}">
@@ -253,8 +253,8 @@
                     <span th:text="${@vocabService.resolve(identifier.contributorIdentifierType )} + ': '"></span>
                     <a th:href="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.contributorIdentifierType))}"
                        th:text="${identifier.value}"/>
-                    <img class="inline-flex" th:if="${@renderService.getIcon(identifier.contributorIdentifierType)}"
-                         th:src="@{${@renderService.getIcon(identifier.contributorIdentifierType)}}"/>
+                    <img class="inline-flex" th:if="${@renderService.getIcon(@vocabService.resolve(identifier.contributorIdentifierType))}"
+                         th:src="@{${@renderService.getIcon(@vocabService.resolve(identifier.contributorIdentifierType))}}" />
                 </span>
                 </span>
             </div>
@@ -264,15 +264,18 @@
         <div class="content-block" th:if="${resource.relatedResources}">
             <h2>Related Resources</h2>
             <div th:each="relatedResource : ${resource.relatedResources}">
-                <span th:if="${relatedResource.relatedResourceTitle}" th:text="${relatedResource.relatedResourceTitle}"/>
+                <i><span th:if="${relatedResource.relatedResourceTitle}" th:text="${relatedResource.relatedResourceTitle}"/> </i>
                 <span th:text="${@vocabService.resolve(relatedResource.relationType)}"></span>
                 <span th:if="${relatedResource.relatedResourceIdentifier}">
                     <span th:each="identifier : ${relatedResource.relatedResourceIdentifier}">
                     <span th:text="${@vocabService.resolve(identifier.relatedResourceIdentifierType )} + ': '"></span>
-                    <a th:href="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.relatedResourceIdentifierType))}"
+                    <a th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.relatedResourceIdentifierType))}"
+                       th:href="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.relatedResourceIdentifierType))}"
                        th:text="${identifier.value}"/>
-                    <img class="inline-flex" th:if="${@renderService.getIcon(identifier.relatedResourceIdentifierType)}"
-                         th:src="@{${@renderService.getIcon(identifier.relatedResourceIdentifierType)}}"/>
+                    <span th:if="!${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.relatedResourceIdentifierType))}"
+                       th:text="${identifier.value}"/>
+                    <img class="inline-flex" th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.relatedResourceIdentifierType))}"
+                         th:src="@{${@renderService.getIcon(@vocabService.resolve(identifier.relatedResourceIdentifierType))}}" />
                     </span>
                 </span>
             </div>

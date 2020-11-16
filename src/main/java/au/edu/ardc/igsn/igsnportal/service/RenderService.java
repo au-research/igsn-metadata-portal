@@ -50,6 +50,30 @@ public class RenderService {
 				case "ORCID":
 					if(!identifier.contains("http")) { identifier = "http://orcid.org/" + identifier;}
 					return identifier;
+				case "ARK":
+					if(identifier.contains("http")) { return identifier; }
+					return null;
+				case "Handle":
+					if(!identifier.contains("http")) { identifier = "http://hdl.handle.net/" + identifier; }
+					return identifier;
+				case "IGSN":
+					if(!identifier.contains("http://") && !identifier.contains("https://") && !identifier.contains("/"))
+						{ identifier = "http://igsn.org/" + identifier; }
+					if(!identifier.contains("http://") && !identifier.contains("https://") && identifier.contains("/"))
+					{ identifier = "http://hnd.handle.net/" + identifier; }
+					return identifier;
+				case "ISNI":
+					if(!identifier.contains("http://") && !identifier.contains("https://"))
+					{ identifier = "http://www.isni.org/" + identifier;}
+					return identifier;
+				case "ISSN":
+					if(!identifier.contains("http://") && !identifier.contains("https://"))
+					{ identifier = "https://urn.issn.org/urn:issn:" + identifier;}
+					return identifier;
+				case "PURL":
+					if(!identifier.contains("http://") && !identifier.contains("https://"))
+					{ identifier = "http://purl.org/" + identifier;}
+					return identifier;
 				default:
 					return null;
 			}
@@ -59,8 +83,23 @@ public class RenderService {
 	}
 
 	public String getIcon(String identifierType){
-		if(identifierType.contains("DOI")) 	return "/images/doi_icon.png";
-		return null;
+		System.out.println(identifierType + " is the identifier type");
+		try{
+			switch (identifierType){
+				case "DOI":
+					return "/images/doi_icon.png";
+				case "ORCID":
+					return "/images/orcid_icon.png";
+				case "NLA":
+					return "/images/nla_icon.png";
+				case "Handle":
+					return "/images/handle_icon.png";
+				default:
+					return "/images/external_link.png";
+			}
+		}catch (Exception e) {
+			return null;
+		}
 	}
 
 
