@@ -70,11 +70,48 @@ public class RenderService {
 					if(!identifier.contains("http://") && !identifier.contains("https://"))
 					{ identifier = "https://urn.issn.org/urn:issn:" + identifier;}
 					return identifier;
+				case "LISSN":
+					if(!identifier.contains("http://") && !identifier.contains("https://"))
+					{ identifier = "https://urn.issn.org/urn:issn:" + identifier + "?+issnl" ;}
+					return identifier;
+				case "ISSN-L":
+					if(!identifier.contains("http://") && !identifier.contains("https://"))
+					{ identifier = "https://urn.issn.org/urn:issn:" + identifier + "?+issnl" ;}
+					return identifier;
+				case "EISSN":
+					if(!identifier.contains("http://") && !identifier.contains("https://"))
+					{ identifier = "https://urn.issn.org/urn:issn:" + identifier;}
+					return identifier;
 				case "PURL":
 					if(!identifier.contains("http://") && !identifier.contains("https://"))
 					{ identifier = "http://purl.org/" + identifier;}
 					return identifier;
+				case "RAID":
+					if(!identifier.contains("http://") && !identifier.contains("https://"))
+					{ identifier = "http://hdl.handle.net/" + identifier; }
+					return identifier;
+				case "VIAF":
+					if(!identifier.contains("http://") && !identifier.contains("https://"))
+					{ identifier = "http://viaf.org/viaf/" + identifier; }
+					return identifier;
+				case "arXiv":
+					if(!identifier.contains("http://") && !identifier.contains("https://"))
+					{ identifier = "https://arxiv.org/abs/" + identifier; }
+					return identifier;
+				case "NLA":
+					if(!identifier.contains("http://") && !identifier.contains("https://"))
+					{ identifier = "http://nla.gov.au/" + identifier; }
+					return identifier;
+				case "PMID":
+					if(!identifier.contains("http://") && !identifier.contains("https://"))
+					{ identifier = "https://pubmed.ncbi.nlm.nih.gov/" + identifier; }
+					return identifier;
+				case "ROR":
+					if(!identifier.contains("http://") && !identifier.contains("https://"))
+					{ identifier = "https://ror.org/" + identifier; }
+					return identifier;
 				default:
+					if(identifier.contains("http://") || identifier.contains("https://") ) { return identifier; }
 					return null;
 			}
 		}catch (Exception e) {

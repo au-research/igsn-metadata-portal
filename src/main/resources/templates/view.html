@@ -99,10 +99,13 @@
                     <ul>
                           <li th:each="identifier : ${resource.alternateIdentifiers}">
                             <span th:if="${@vocabService.resolve(identifier.alternateIdentifierType)}" th:text="${@vocabService.resolve(identifier.alternateIdentifierType)} + ': '"></span>
-                            <a th:href="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.alternateIdentifierType))}"
-                               th:text="${identifier.value}"/>
-                           <img class="inline-flex" th:if="${@vocabService.resolve(identifier.alternateIdentifierType)}"
-                                 th:src="@{${@renderService.getIcon(@vocabService.resolve(identifier.alternateIdentifierType))}}"/>
+                              <a th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.alternateIdentifierType))}"
+                                 th:href="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.alternateIdentifierType))}"
+                                 th:text="${identifier.value}"/>
+                              <span th:if="!${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.alternateIdentifierType))}"
+                                    th:text="${identifier.value}"/>
+                              <img class="inline-flex" th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.alternateIdentifierType))}"
+                                   th:src="@{${@renderService.getIcon(@vocabService.resolve(identifier.alternateIdentifierType))}}" />
                         </li>
                     </ul>
                 </div>
@@ -238,22 +241,27 @@
             </div>
         </div>
 
-        <div class="content-block" th:if="${resource.contributors}">
+        <div class="content-block"  th:if="${resource.contributors}">
             <h2>Contributors</h2>
-            <div th:each="contributor : ${resource.contributors}">
-                <i><span th:if="${@vocabService.resolvable(contributor.contributorType)}">
+            <div class="content-block" th:each="contributor : ${resource.contributors}">
+                <span th:if="${@vocabService.resolvable(contributor.contributorType)}">
+                    <i><span>
                     <a th:href="${contributor.contributorType}"
                        th:text="${@vocabService.resolve(contributor.contributorType)}" class="print:underline"></a>
-                </span></i>
+                    </span></i><br/>
+                </span>
                 <span th:if="!${@vocabService.resolvable(contributor.contributorType)}"
                       th:text="${contributor.contributorType}"></span>
-                <span th:text="${contributor.contributorName}"></span>
+                <span th:text="${contributor.contributorName}"></span><br/>
                 <span th:if="${contributor.contributorIdentifier}">
                 <span th:each="identifier : ${contributor.contributorIdentifier}">
                     <span th:text="${@vocabService.resolve(identifier.contributorIdentifierType )} + ': '"></span>
-                    <a th:href="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.contributorIdentifierType))}"
+                    <a th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.contributorIdentifierType))}"
+                            th:href="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.contributorIdentifierType))}"
                        th:text="${identifier.value}"/>
-                    <img class="inline-flex" th:if="${@renderService.getIcon(@vocabService.resolve(identifier.contributorIdentifierType))}"
+                    <span th:if="!${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.contributorIdentifierType))}"
+                          th:text="${identifier.value}"/>
+                    <img class="inline-flex" th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.contributorIdentifierType))}"
                          th:src="@{${@renderService.getIcon(@vocabService.resolve(identifier.contributorIdentifierType))}}" />
                 </span>
                 </span>
@@ -263,10 +271,10 @@
         <hr>
         <div class="content-block" th:if="${resource.relatedResources}">
             <h2>Related Resources</h2>
-            <div th:each="relatedResource : ${resource.relatedResources}">
-                <i><span th:if="${relatedResource.relatedResourceTitle}" th:text="${relatedResource.relatedResourceTitle}"/> </i>
-                <span th:text="${@vocabService.resolve(relatedResource.relationType)}"></span>
-                <span th:if="${relatedResource.relatedResourceIdentifier}">
+            <div class="content-block" th:each="relatedResource : ${resource.relatedResources}">
+                <i><span th:text="${@vocabService.resolve(relatedResource.relationType)}"></span></i>
+                <p th:if="${relatedResource.relatedResourceTitle}" th:text="${relatedResource.relatedResourceTitle}"/>
+                <p th:if="${relatedResource.relatedResourceIdentifier}">
                     <span th:each="identifier : ${relatedResource.relatedResourceIdentifier}">
                     <span th:text="${@vocabService.resolve(identifier.relatedResourceIdentifierType )} + ': '"></span>
                     <a th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.relatedResourceIdentifierType))}"
@@ -277,7 +285,7 @@
                     <img class="inline-flex" th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.relatedResourceIdentifierType))}"
                          th:src="@{${@renderService.getIcon(@vocabService.resolve(identifier.relatedResourceIdentifierType))}}" />
                     </span>
-                </span>
+                </p>
             </div>
         </div>
     </div>
