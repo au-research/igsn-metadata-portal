@@ -118,7 +118,7 @@
 
                 <h2 th:if="${resource.location}">Location</h2>
                 <div class="content-block" th:if="${resource.location.geometry}">
-                    <h3> WKT</h3> <span th:text="${resource.location.geometry.value}"></span>
+                    <h3 th:if="${resource.location.geometry.value}"> WKT</h3> <span th:text="${resource.location.geometry.value}"></span>
                 </div>
                 <div class="content-block" th:if="${resource.location.geometry.srid}">
                     <h3>SRID</h3> <span th:text="${resource.location.geometry.srid}"></span>
@@ -126,16 +126,17 @@
                 <div class="content-block"  th:if="${resource.location.geometry.verticalDatum}">
                     <h3>Vertical Datum</h3> <span th:text="${resource.location.geometry.verticalDatum}"></span>
                 </div>
-                <div class="content-block"  th:if="${resource.location.locality.localityURI}">
-                    <h3> Locality URI</h3>
+                <div class="content-block"  th:if="${resource.location.locality}">
+                    <h3 th:if="${resource.location.locality.localityURI}"> Locality</h3>
                     <a th:if="${resource.location.locality.localityURI}"
                       th:href="${resource.location.locality.localityURI}"
-                      th:text="${resource.location.locality.value}" class="print:underline"></a>
+                      th:text="${resource.location.locality.value} ?: ${resource.location.locality.localityURI}" class="print:underline"></a>
+                    <span th:if="!${resource.location.locality.localityURI}" th:text="${resource.location.locality.value}"/>
                 </div>
                 <div class="content-block"  th:if="${resource.location.geometry.geometryURI}">
                 <h3>Geometry URI</h3>
                 <a th:if="${resource.location.geometry.geometryURI}"
-                   th:href="${resource.location.geometry.geometryURI}" class="print:underline">Geometry URL</a>
+                   th:href="${resource.location.geometry.geometryURI}" th:text="${resource.location.geometry.geometryURI}"class="print:underline"/>
                 </div>
                 <div id="map-detail">
                 </div>

@@ -120,7 +120,6 @@ public class RenderService {
 	}
 
 	public String getIcon(String identifierType){
-		System.out.println(identifierType + " is the identifier type");
 		try{
 			switch (identifierType){
 				case "DOI":
