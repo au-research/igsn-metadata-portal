@@ -80,11 +80,21 @@
        class="mr-2 relative uppercase inline-flex items-center px-4 py-2 text-xs leading-5 font-medium rounded-md text-black bg-yellow hover:text-black focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 shadow-lg">
         <i class="fas fa-question-circle mr-1"></i> Help
     </a>
-    <a href=""
+    <a id="feedbackTrigger" href=""
        class="relative uppercase inline-flex items-center px-4 py-2 text-xs leading-5 font-medium rounded-md text-black bg-yellow hover:text-black focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 shadow-lg">
         Feedback
     </a>
 </div>
+
+<script type="text/javascript" src="https://jira.ardc.edu.au/s/7539bee66a37fdc5687c48b41df6db7a-T/c1nhiz/712004/2fc3039b5d3120316878493c953a001f/2.0.31/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-UK&collectorId=77ab6797"></script>
+<script type="text/javascript">window.ATL_JQ_PAGE_PROPS =  {
+    "triggerFunction": function(showCollectorDialog) {
+        //Requires that jQuery is available!
+        jQuery("#feedbackTrigger").click(function(e) {
+            e.preventDefault();
+            showCollectorDialog();
+        });
+    }};</script>
 
 <script th:src="@{/js/vendor.js}"></script>
 <script th:src="@{/js/bundle.js}"></script>
