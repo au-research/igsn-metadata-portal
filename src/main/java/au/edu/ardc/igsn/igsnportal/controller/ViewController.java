@@ -77,35 +77,47 @@ public class ViewController {
 
 		// check if the record is embargoed
 		Response hasEmbargo = service.hasEmbargo(identifierValue);
-		if (hasEmbargo!=null && service.hasEmbargo(identifierValue).body().string() != ""
-				&& !userService.isLoggedIn(request)) {
+		Boolean isLoggedIn = userService.isLoggedIn(request);
+		Boolean isPublic = service.isPublic(identifierValue);
+		String accessToken = "";
+		if(isLoggedIn){
+			accessToken = userService.getPlainAccessToken(request);
+		}
+		Boolean canEdit = service.canEdit(identifierValue, accessToken);
+
+		// check if the record is under embargo
+		if (!isLoggedIn && hasEmbargo!=null && hasEmbargo.body().string() != "" ) {
 			//Display embargoed unauthorised
 			throw new UnauthorizedException("The resource you have requested is under embargo until " +
-					service.hasEmbargo(identifierValue).body().string());
+					hasEmbargo.body().string());
 		}
-		if (hasEmbargo!=null && service.hasEmbargo(identifierValue).body().string() != ""
-				&& userService.isLoggedIn(request)) {
-			String accessToken = userService.getPlainAccessToken(request);
-			if (!service.canEdit(identifierValue, accessToken)) {
+		if (isLoggedIn && hasEmbargo!=null && hasEmbargo.body().string() != "") {
+			if (!canEdit) {
 				//Display embargoed forbidden
 				throw new ForbiddenException("The resource you have requested is under embargo until " +
-						service.hasEmbargo(identifierValue).body().string());
+						hasEmbargo.body().string());
 			}
 		}
 
-
 		// check if the record is public
-		if (!service.isPublic(identifierValue) && !userService.isLoggedIn(request)) {
+		if (!isPublic && !isLoggedIn) {
 			throw new UnauthorizedException("Access Denied");
 		}
-		if (!service.isPublic(identifierValue) && userService.isLoggedIn(request)) {
-			String accessToken = userService.getPlainAccessToken(request);
-			if (!service.canEdit(identifierValue, accessToken)) {
+		if (!isPublic && isLoggedIn) {
+			if (!canEdit) {
 				throw new ForbiddenException("Access Denied");
 			}
 		}
 
-		return renderViewPage(request, model, identifierValue, xml, jsonld);
+		// editing capabilities
+		String editURL = "";
+		if (isLoggedIn && canEdit) {
+			editURL = service.getEditIGSNLink(identifierValue, accessToken);
+		}
+		model.addAttribute("canEdit", canEdit);
+		model.addAttribute("editURL", editURL);
+
+		return renderViewPage(model, identifierValue, xml, jsonld);
 	}
 
 	/**
@@ -121,7 +133,7 @@ public class ViewController {
 	public String preview(HttpServletRequest request, Model model, @RequestParam String identifierValue,
 			@RequestParam String xml) throws Exception {
 		log.debug("Previewing identifier = {}", identifierValue);
-		return renderViewPage(request, model, identifierValue, xml, "");
+		return renderViewPage(model, identifierValue, xml, "");
 	}
 
 	/**
@@ -133,7 +145,7 @@ public class ViewController {
 	 * @return String of the thymeleaf template
 	 * @throws JsonProcessingException when failing to map xml to {@link Resources}
 	 */
-	private String renderViewPage(HttpServletRequest request, Model model, String identifierValue, String xml,
+	private String renderViewPage(Model model, String identifierValue, String xml,
 			String jsonld) throws IOException, ServletException {
 		model.addAttribute("jsonld", jsonld);
 
@@ -152,19 +164,7 @@ public class ViewController {
 		model.addAttribute("identifierValue", identifierValue);
 		model.addAttribute("resource", resources.resource);
 		model.addAttribute("xml", xml);
-
 		model.addAttribute("igsnURL", service.getIGSNURL(identifierValue));
-
-		// editing capabilities
-		boolean canEdit = false;
-		String editURL = "";
-		if (userService.isLoggedIn(request)) {
-			String accessToken = userService.getPlainAccessToken(request);
-			canEdit = service.canEdit(identifierValue, accessToken);
-			editURL = service.getEditIGSNLink(identifierValue, accessToken);
-		}
-		model.addAttribute("canEdit", canEdit);
-		model.addAttribute("editURL", editURL);
 
 		return "view";
 	}
