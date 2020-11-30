@@ -176,16 +176,21 @@ public class ViewController {
 	 * This sanitization cleans up those values to make rendering easier
 	 * @param resource the ARDCv1 {@link Resource}
 	 */
-	private void sanitize(Resource resource) {
-		if (!resource.alternateIdentifiers.isEmpty()) {
-			resource.alternateIdentifiers.removeIf(item -> isEmpty(item.alternateIdentifierType) && isEmpty(item.value));
+	private void sanitize(Resource resource) throws Exception{
+		try{
+			if (resource.alternateIdentifiers != null && !resource.alternateIdentifiers.isEmpty()) {
+				resource.alternateIdentifiers.removeIf(item -> isEmpty(item.alternateIdentifierType) && isEmpty(item.value));
+			}
+			if (resource.classifications != null && !resource.classifications.isEmpty()) {
+				resource.classifications.removeIf(item -> isEmpty(item.classificationURI) && isEmpty(item.value));
+			}
+			if (resource.sampledFeatures != null && !resource.sampledFeatures.isEmpty()) {
+				resource.sampledFeatures.removeIf(item -> isEmpty(item.sampledFeatureURI) && isEmpty(item.value));
+			}
+		}catch (Exception e){
+			throw new Exception(e);
 		}
-		if (!resource.classifications.isEmpty()) {
-			resource.classifications.removeIf(item -> isEmpty(item.classificationURI) && isEmpty(item.value));
-		}
-		if (!resource.sampledFeatures.isEmpty()) {
-			resource.sampledFeatures.removeIf(item -> isEmpty(item.sampledFeatureURI) && isEmpty(item.value));
-		}
+
 	}
 
 	/**

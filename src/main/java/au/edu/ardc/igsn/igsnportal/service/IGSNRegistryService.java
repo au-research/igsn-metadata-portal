@@ -47,7 +47,8 @@ public class IGSNRegistryService {
 			recordsResponse = objectMapper.readValue(response.body().string(), PaginatedRecordsResponse.class);
 		}
 		catch (IOException e) {
-			e.printStackTrace();
+			logger.error("Exception while getting Public Records:" + e.getMessage());
+			//e.printStackTrace();
 		}
 
 		return recordsResponse;
@@ -71,7 +72,7 @@ public class IGSNRegistryService {
 		}
 		catch (IOException e) {
 			logger.error("Exception while deserialize getPublicIdentifiers message:" + e.getMessage());
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return recordsResponse;
 	}

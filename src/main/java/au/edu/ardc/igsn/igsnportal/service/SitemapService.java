@@ -50,6 +50,11 @@ public class SitemapService {
 
 		// todo handle more than 50000 results
 		PaginatedRecordsResponse response = service.getPublicRecords(0, 50000);
+		if(response == null){
+			log.info("Unable to generate Sitemap from registry {}", baseUrl);
+			return;
+		}
+
 		for (Record record : response.content) {
 
 			// find the Identifier.type=IGSN
