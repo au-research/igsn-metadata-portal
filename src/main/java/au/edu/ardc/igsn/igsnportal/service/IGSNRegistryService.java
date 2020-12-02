@@ -214,44 +214,10 @@ public class IGSNRegistryService {
 	 * Obtain the URL to edit identifier. Identifier - record - version the url would be
 	 * {app.editor.url}/#/edit/{schema}/{version.id}
 	 * @param identifierValue the identifier string
-	 * @param accessToken the accessToken to access the protected resources
 	 * @return the URL to edit the identifier
-	 * @throws IOException when failing to contact the Registry API
 	 */
-	public String getEditIGSNLink(String identifierValue, String accessToken) throws IOException {
-
-		try {
-			// identifierValue -> recordID
-			Response recordResponse = getClient()
-					.newCall(
-							new Request.Builder()
-									.url(HttpUrl
-											.parse(applicationProperties.getRegistryUrl()
-													+ "api/resources/identifiers/")
-											.newBuilder().addQueryParameter("value", identifierValue).build())
-									.addHeader("Authorization", "Bearer " + accessToken).build())
-					.execute();
-			String recordID = JsonPath.read(recordResponse.body().string(), "$.content[0].record");
-
-			// recordID -> versionID
-			Response versionResponse = getClient().newCall(new Request.Builder()
-					.url(HttpUrl
-							.parse(applicationProperties.getRegistryUrl() + "api/resources/records/" + recordID
-									+ "/versions")
-							.newBuilder().addQueryParameter("schema", ARDCv1).addQueryParameter("current", "true")
-							.build())
-					.addHeader("Authorization", "Bearer " + accessToken).build()).execute();
-
-			String versionID = JsonPath.read(versionResponse.body().string(), "$.content[0].id");
-
-			// only supports ARDCv1 editing right now,
-			// otherwise obtain the schema from the record
-			return String.format("%s/#/edit/%s/%s", applicationProperties.getEditorUrl(), IGSNRegistryService.ARDCv1,
-					versionID);
-		}
-		catch (Exception e) {
-			return null;
-		}
+	public String getEditIGSNLink(String identifierValue) {
+		return String.format("%s/#/edit/%s/%s", applicationProperties.getEditorUrl(), IGSNRegistryService.ARDCv1, identifierValue);
 	}
 
 	public String getVersionStatus(String identifierValue, String schema) throws IOException {

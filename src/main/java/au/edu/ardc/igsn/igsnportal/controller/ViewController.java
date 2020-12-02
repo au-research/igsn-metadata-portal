@@ -112,7 +112,7 @@ public class ViewController {
 		// editing capabilities
 		String editURL = "";
 		if (isLoggedIn && canEdit) {
-			editURL = service.getEditIGSNLink(identifierValue, accessToken);
+			editURL = service.getEditIGSNLink(identifierValue);
 		}
 		model.addAttribute("canEdit", canEdit);
 		model.addAttribute("editURL", editURL);
