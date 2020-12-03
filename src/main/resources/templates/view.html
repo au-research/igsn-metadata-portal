@@ -115,8 +115,9 @@
                     <p th:text="${resource.comments}"></p>
                 </div>
 
+                <div th:if="${resource.location}">
+                <h2 >Location</h2>
 
-                <h2 th:if="${resource.location}">Location</h2>
                 <div class="content-block" th:if="${resource.location.geometry}">
                     <h3 th:if="${resource.location.geometry.value}"> WKT</h3> <span th:text="${resource.location.geometry.value}"></span>
                 </div>
@@ -138,17 +139,14 @@
                 <a th:if="${resource.location.geometry.geometryURI}"
                    th:href="${resource.location.geometry.geometryURI}" th:text="${resource.location.geometry.geometryURI}"class="print:underline"/>
                 </div>
-                <div id="map-detail">
                 </div>
-
             </div>
 
             <div class="flex-1" th:if="${resource.location}">
                 <h2 id="location-heading" class="hidden">Location</h2>
 
-                <div class="content-block" th:if="${resource.location.locality}">
-                    <div id="map" class="w-full" style="height:420px" th:attr="wkt=${resource.location.geometry.value}"
-                         th:if="${resource.location.geometry}">
+                <div class="content-block" th:if="${resource.location.geometry}">
+                    <div id="map" class="w-full" style="height:420px" th:attr="wkt=${resource.location.geometry.value}">                       >
                     </div>
                 </div>
             </div>
