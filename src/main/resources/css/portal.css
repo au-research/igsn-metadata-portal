@@ -10,6 +10,10 @@
 @import 'tippy.js/themes/light-border.css';
 
 @import './page-view.css';
+@import './container.css';
+@import './table.css';
+@import './tag.css';
+@import './button.css';
 
 body {
     @apply .text-gray-900 .font-sans;
@@ -18,11 +22,15 @@ body {
 }
 
 a {
-    @apply .text-blue-dark;
+    @apply .text-blue;
 }
 
 a:hover {
-    @apply .text-blue;
+    @apply .text-blue-dark .underline;
+}
+
+p {
+    @apply my-2;
 }
 
 #footer-links li a{
@@ -34,11 +42,6 @@ a:hover {
 }
 
 /*components*/
-
-.tag {
-    @apply .px-2 .inline-flex .text-xs .leading-5 .font-semibold .rounded-full .bg-blue-dark .text-white;
-}
-
 @media print {
     a:after {
         content: " (" attr(href) ") ";
