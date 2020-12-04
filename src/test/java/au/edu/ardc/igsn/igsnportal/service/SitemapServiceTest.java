@@ -32,6 +32,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { SitemapService.class, ApplicationProperties.class })
 @TestPropertySource(locations = "/application.properties")
+@TestPropertySource(properties="app.sitemap.enabled=true")
 class SitemapServiceTest {
 
 	@Autowired
