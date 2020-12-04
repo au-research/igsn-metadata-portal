@@ -8,6 +8,7 @@ import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 @Service
+@ConditionalOnProperty(name = "app.sitemap.enabled")
 public class SitemapService {
 
 	private static final Logger log = LoggerFactory.getLogger(SitemapService.class);
@@ -27,6 +29,8 @@ public class SitemapService {
 	public SitemapService(IGSNRegistryService service, ApplicationProperties applicationProperties) {
 		this.service = service;
 		this.applicationProperties = applicationProperties;
+
+		log.info("Sitemap Generation is enabled");
 	}
 
 	/**

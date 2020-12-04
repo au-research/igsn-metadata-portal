@@ -3,24 +3,20 @@ package au.edu.ardc.igsn.igsnportal.controller;
 import au.edu.ardc.igsn.igsnportal.service.SitemapService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Controller for Admin related tasks The method(s) here should be protected by the admin
- * role configured in the Security Configuration
- */
 @RestController
-@RequestMapping("/api/admin")
-public class AdminController {
+@ConditionalOnProperty(name = "app.sitemap.enabled")
+public class AdminSitemapController {
 
-	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AdminSitemapController.class);
 
 	final SitemapService sitemapService;
 
-	public AdminController(SitemapService sitemapService) {
+	public AdminSitemapController(SitemapService sitemapService) {
 		this.sitemapService = sitemapService;
 	}
 
@@ -28,20 +24,21 @@ public class AdminController {
 	 * Generate or regenerate the sitemap on demand
 	 * @return ResponseEntity of `done` if the request successful
 	 */
-	@GetMapping("generate-sitemap")
+	@GetMapping("/api/admin/generate-sitemap")
+	@ConditionalOnProperty(name = "app.sitemap_enabled")
 	public ResponseEntity<?> generateSitemap() {
-		log.info("Request to generate sitemap received");
+		logger.info("Request to generate sitemap received");
 		try {
-			log.info("Generating sitemap");
+			logger.info("Generating sitemap");
 			sitemapService.generate();
 		}
 		catch (Exception e) {
-			log.error("Failed to generate sitemap. Reason = {}", e.getMessage());
+			logger.error("Failed to generate sitemap. Reason = {}", e.getMessage());
 			e.printStackTrace();
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 
-		log.info("Sitemap Generated");
+		logger.info("Sitemap Generated");
 		return ResponseEntity.ok().body("Done");
 	}
 
