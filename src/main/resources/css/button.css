@@ -1,5 +1,5 @@
 .btn {
-    @apply font-bold py-2 px-4 rounded;
+    @apply font-medium py-2 px-4 rounded border border-gray-500 shadow-sm;
 }
 
 .btn:hover {
@@ -7,7 +7,7 @@
 }
 
 .btn-sm {
-    @apply text-sm;
+    @apply py-1 px-3 text-sm;
 }
 
 .btn-blue {
@@ -19,11 +19,15 @@
 }
 
 .btn-red {
-    @apply bg-red text-white;
+    @apply bg-red text-white border-transparent;
 }
 
 .btn-white {
     @apply bg-white text-black;
+}
+
+.btn-clear {
+    @apply bg-white border-transparent shadow-none
 }
 
 .btn-red:hover {
@@ -35,7 +39,7 @@
 }
 
 .btn-disabled {
-    @apply bg-gray-700 text-white
+    @apply bg-gray-500 text-white
 }
 
 .btn-disabled:hover {
@@ -43,7 +47,7 @@
 }
 
 .btn-yellow {
-    @apply bg-yellow text-white
+    @apply bg-yellow text-black border-transparent;
 }
 
 .btn-yellow:hover {

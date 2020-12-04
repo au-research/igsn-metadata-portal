@@ -17962,6 +17962,15 @@ table.table td {
   border-radius: 9999px;
 }
 
+.tag-blue {
+  --bg-opacity: 1;
+  background-color: #00819D;
+  background-color: rgba(0, 129, 157, var(--bg-opacity));
+  --text-opacity: 1;
+  color: #fff;
+  color: rgba(255, 255, 255, var(--text-opacity));
+}
+
 .tag-green {
   --bg-opacity: 1;
   background-color: #D1FAE5;
@@ -17999,12 +18008,17 @@ table.table td {
 }
 
 .btn {
-  font-weight: 700;
+  font-weight: 500;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 1rem;
   padding-right: 1rem;
   border-radius: 0.25rem;
+  border-width: 1px;
+  --border-opacity: 1;
+  border-color: #a0aec0;
+  border-color: rgba(160, 174, 192, var(--border-opacity));
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .btn:hover {
@@ -18013,6 +18027,10 @@ table.table td {
 }
 
 .btn-sm {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
   font-size: 0.875rem;
 }
 
@@ -18041,6 +18059,7 @@ table.table td {
   --text-opacity: 1;
   color: #fff;
   color: rgba(255, 255, 255, var(--text-opacity));
+  border-color: transparent;
 }
 
 .btn-white {
@@ -18050,6 +18069,14 @@ table.table td {
   --text-opacity: 1;
   color: #000;
   color: rgba(0, 0, 0, var(--text-opacity));
+}
+
+.btn-clear {
+  --bg-opacity: 1;
+  background-color: #fff;
+  background-color: rgba(255, 255, 255, var(--bg-opacity));
+  border-color: transparent;
+  box-shadow: none
 }
 
 .btn-red:hover {
@@ -18069,8 +18096,8 @@ table.table td {
 
 .btn-disabled {
   --bg-opacity: 1;
-  background-color: #4a5568;
-  background-color: rgba(74, 85, 104, var(--bg-opacity));
+  background-color: #a0aec0;
+  background-color: rgba(160, 174, 192, var(--bg-opacity));
   --text-opacity: 1;
   color: #fff;
   color: rgba(255, 255, 255, var(--text-opacity))
@@ -18088,8 +18115,9 @@ table.table td {
   background-color: #f8b20e;
   background-color: rgba(248, 178, 14, var(--bg-opacity));
   --text-opacity: 1;
-  color: #fff;
-  color: rgba(255, 255, 255, var(--text-opacity))
+  color: #000;
+  color: rgba(0, 0, 0, var(--text-opacity));
+  border-color: transparent;
 }
 
 .btn-yellow:hover {

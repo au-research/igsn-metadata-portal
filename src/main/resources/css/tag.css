@@ -2,6 +2,10 @@
     @apply .px-2 .inline-flex .text-xs .leading-5 .font-semibold .rounded-full;
 }
 
+.tag-blue {
+    @apply bg-blue text-white;
+}
+
 .tag-green {
     @apply .bg-green-light .text-green-dark;
 }
