@@ -96,6 +96,7 @@ var getWKTFromString = function getWKTFromString(wktValue) {
  * Display a leaflet map that take in the wkt value from the wkt data attribute
  *
  * @param {string} elemID - The id of the element on the page
+ * @param {string} popUpContentID - The id of the content to display in the popup
  * @return {Map} map - the leaflet map object
  */
 
@@ -133,12 +134,18 @@ var leafletMap = function leafletMap(elemID, popUpContentID) {
   if (_wicket["default"].isArray(obj)) {
     obj.forEach(function (i) {
       if (obj.hasOwnProperty(i) && !_wicket["default"].isArray(obj[i])) {
-        obj[i].bindPopup(document.getElementById(popUpContentID).innerHTML).openPopup();
+        if (document.getElementById(popUpContentID)) {
+          obj[i].bindPopup(document.getElementById(popUpContentID).innerHTML).openPopup();
+        }
+
         obj[i].addTo(map);
       }
     });
   } else {
-    obj.bindPopup(document.getElementById(popUpContentID).innerHTML).openPopup();
+    if (document.getElementById(popUpContentID)) {
+      obj.bindPopup(document.getElementById(popUpContentID).innerHTML).openPopup();
+    }
+
     obj.addTo(map);
   } // focus on the obj
 

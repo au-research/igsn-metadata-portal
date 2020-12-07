@@ -153,9 +153,8 @@
                 <h2 id="location-heading" class="hidden">Location</h2>
 
                 <div class="content-block" th:if="${resource.location.geometry}">
-                    <div id="map" class="w-full" style="height:420px" th:attr="wkt=${resource.location.geometry.value}">
-                        >
-                    </div>
+                    <div id="map" class="w-full" style="height:420px" th:attr="wkt=${resource.location.geometry.value}"></div>
+                    <div id="map-detail" class="hidden" th:text="${resource.location.geometry.value}"></div>
                 </div>
             </div>
 

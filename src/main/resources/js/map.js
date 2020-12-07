@@ -32,6 +32,7 @@ export const getWKTFromString = wktValue => {
  * Display a leaflet map that take in the wkt value from the wkt data attribute
  *
  * @param {string} elemID - The id of the element on the page
+ * @param {string} popUpContentID - The id of the content to display in the popup
  * @return {Map} map - the leaflet map object
  */
 export const leafletMap = (elemID, popUpContentID) => {
@@ -62,15 +63,21 @@ export const leafletMap = (elemID, popUpContentID) => {
   if (Wkt.isArray(obj)) {
     obj.forEach(i => {
       if (obj.hasOwnProperty(i) && !Wkt.isArray(obj[i])) {
-        obj[i].bindPopup(document.getElementById(popUpContentID).innerHTML).
-          openPopup()
+        if (document.getElementById(popUpContentID)) {
+          obj[i].bindPopup(document.getElementById(popUpContentID).innerHTML).
+            openPopup()
+        }
         obj[i].addTo(map)
       }
     })
   } else {
-    obj.bindPopup(document.getElementById(popUpContentID).innerHTML).openPopup()
+    if (document.getElementById(popUpContentID)) {
+      obj.bindPopup(document.getElementById(popUpContentID).innerHTML).openPopup()
+    }
     obj.addTo(map)
   }
+
+
 
   // focus on the obj
   if (obj.getBounds !== undefined && typeof obj.getBounds === 'function') {
