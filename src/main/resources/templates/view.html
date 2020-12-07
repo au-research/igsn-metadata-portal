@@ -132,7 +132,7 @@
                         <h3>Vertical Datum</h3> <span th:text="${resource.location.geometry.verticalDatum}"></span>
                     </div>
                     <div class="content-block" th:if="${resource.location.locality}">
-                        <h3 th:if="${resource.location.locality.localityURI}"> Locality</h3>
+                        <h3 th:if="${resource.location.locality}"> Locality</h3>
                         <a th:if="${resource.location.locality.localityURI}"
                            th:href="${resource.location.locality.localityURI}"
                            th:text="${resource.location.locality.value} ?: ${resource.location.locality.localityURI}"
@@ -245,9 +245,10 @@
                 </div>
                 <div class="mb-2" th:if="${curation.curatingInstitution}">
                     <p>Curating Institution</p>
-                    <a th:href="${curation.curatingInstitution.institutionURI}"
+                    <a th:if="${curation.curatingInstitution.institutionURI}" th:href="${curation.curatingInstitution.institutionURI}"
                        th:text="${curation.curatingInstitution.value} ?: ${curation.curatingInstitution.institutionURI}"
                        class="print:underline"></a>
+                    <span th:if="!${curation.curatingInstitution.institutionURI}" th:text="${curation.curatingInstitution.value}"/>
                 </div>
             </div>
         </div>
