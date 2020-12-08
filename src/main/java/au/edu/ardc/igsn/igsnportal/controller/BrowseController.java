@@ -23,7 +23,6 @@ public class BrowseController {
 		this.service = service;
 	}
 
-	@GetMapping(value = { "/", "browse" })
 	public String index(Model model, @RequestParam(required = false, defaultValue = "0") int page,
 			@RequestParam(required = false, defaultValue = "10") int size) {
 		log.debug(String.format("Browsing page %s size %s", page, size));
