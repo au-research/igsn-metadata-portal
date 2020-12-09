@@ -10,7 +10,7 @@
     <div class="flex flex-col page-view">
         <div class="flex mb-4">
             <div class="mr-10 w-full">
-                <h1 class="text-2xl text-gray mb-3 font-serif" th:text="${resource.resourceTitle}"></h1>
+                <h1 th:text="${resource.resourceTitle}"></h1>
             </div>
             <div class="flex flex-col space-y-1">
                 <div id="qrcode" th:attr="url=${igsnURL}">
