@@ -31,6 +31,7 @@ public class RenderService {
 			default:
 				try {
 					// Parses the full date
+					if(inputDate.length()>10) inputDate = inputDate.substring(0,10);
 					LocalDate dt = LocalDate.parse(inputDate);
 					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM YYYY");
 					return formatter.format(dt);

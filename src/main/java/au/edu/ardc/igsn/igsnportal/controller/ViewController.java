@@ -77,6 +77,12 @@ public class ViewController {
 
 		// check if the record is embargoed
 		Response hasEmbargo = service.hasEmbargo(identifierValue);
+		String embargoDate = "";
+		if(hasEmbargo != null){
+			embargoDate = hasEmbargo.body().string();
+			model.addAttribute("embargoDate", embargoDate );
+		}
+
 		Boolean isLoggedIn = userService.isLoggedIn(request);
 		Boolean isPublic = service.isPublic(identifierValue);
 		String accessToken = "";
@@ -86,16 +92,12 @@ public class ViewController {
 		Boolean canEdit = service.canEdit(identifierValue, accessToken);
 
 		// check if the record is under embargo
-		if (!isLoggedIn && hasEmbargo!=null && hasEmbargo.body().string() != "" ) {
-			//Display embargoed unauthorised
-			throw new UnauthorizedException("The resource you have requested is under embargo until " +
-					hasEmbargo.body().string());
+		if (!isLoggedIn && embargoDate != "" ) {
+			return renderEmbargoedPage(model, identifierValue, xml, jsonld);
 		}
-		if (isLoggedIn && hasEmbargo!=null && hasEmbargo.body().string() != "") {
+		if (isLoggedIn && embargoDate != "" ) {
 			if (!canEdit) {
-				//Display embargoed forbidden
-				throw new ForbiddenException("The resource you have requested is under embargo until " +
-						hasEmbargo.body().string());
+				return renderEmbargoedPage(model, identifierValue, xml, jsonld);
 			}
 		}
 
@@ -167,6 +169,36 @@ public class ViewController {
 		model.addAttribute("igsnURL", service.getIGSNURL(identifierValue));
 
 		return "view";
+	}
+
+	/**
+	 * Render the IGSN View Page
+	 * @param model the UI {@link Model}
+	 * @param identifierValue string identifier in the form of {prefix/namespace+value}
+	 * @param xml string ardc-igsn-desc-1.0 schema
+	 * @param jsonld string ardc-json-ld
+	 * @return String of the thymeleaf template
+	 * @throws JsonProcessingException when failing to map xml to {@link Resources}
+	 */
+	private String renderEmbargoedPage(Model model, String identifierValue, String xml,
+								  String jsonld) throws IOException, ServletException {
+		model.addAttribute("jsonld", jsonld);
+
+		log.debug("Obtained xml from getContentForIdentifierValue");
+		XmlMapper xmlMapper = new XmlMapper();
+		Resources resources = xmlMapper.readValue(xml, Resources.class);
+
+		try {
+			sanitize(resources.resource);
+		}
+		catch (Exception ex) {
+			log.error("Failed to sanitize resource {}", ex.getMessage());
+		}
+
+		log.debug("Mapped xml to resources");
+		model.addAttribute("identifierValue", identifierValue);
+		System.out.println("about to flick to the template");
+		return "viewembargo";
 	}
 
 	/**
