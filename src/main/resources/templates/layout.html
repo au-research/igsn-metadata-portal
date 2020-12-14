@@ -13,7 +13,7 @@
     <div class="w-full h-32 bg-black flex items-center justify-between">
         <div class="flex items-center print:flex-col">
             <img class="h-16 mx-6" src="https://ardc.edu.au/wp-content/themes/ardc/img/ardc_logo.svg" alt="ARDC Logo"/>
-            <a th:href="@{/}"><h1 class="text-3xl text-white mx-4 font-serif print:text-black">IGSN Portal</h1></a>
+            <h1 class="text-3xl text-white mx-4 font-serif print:text-black">IGSN Portal</h1>
         </div>
 
         <div class="flex items-center mr-10 print:hidden" th:with="isLoggedIn=${@userService.isLoggedIn(#request)}">
