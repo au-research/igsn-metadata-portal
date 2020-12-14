@@ -220,6 +220,10 @@ public class IGSNRegistryService {
 		return String.format("%s/#/edit/%s/%s", applicationProperties.getEditorUrl(), IGSNRegistryService.ARDCv1, identifierValue);
 	}
 
+	public String getEditorLink() {
+		return String.format(applicationProperties.getEditorUrl());
+	}
+
 	public String getVersionStatus(String identifierValue, String schema) throws IOException {
 
 		OkHttpClient client = getClient();

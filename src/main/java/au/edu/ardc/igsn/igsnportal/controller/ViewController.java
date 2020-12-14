@@ -118,6 +118,7 @@ public class ViewController {
 		}
 		model.addAttribute("canEdit", canEdit);
 		model.addAttribute("editURL", editURL);
+		model.addAttribute("editorLink", service.getEditorLink());
 
 		return renderViewPage(model, identifierValue, xml, jsonld);
 	}
@@ -135,6 +136,7 @@ public class ViewController {
 	public String preview(HttpServletRequest request, Model model, @RequestParam String identifierValue,
 			@RequestParam String xml) throws Exception {
 		log.debug("Previewing identifier = {}", identifierValue);
+		model.addAttribute("editorLink", service.getEditorLink());
 		return renderViewPage(model, identifierValue, xml, "");
 	}
 
@@ -198,6 +200,7 @@ public class ViewController {
 		log.debug("Mapped xml to resources");
 		model.addAttribute("identifierValue", identifierValue);
 		System.out.println("about to flick to the template");
+		model.addAttribute("editorLink", service.getEditorLink());
 		return "viewembargo";
 	}
 
