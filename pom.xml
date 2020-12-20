@@ -10,7 +10,7 @@
     </parent>
     <groupId>au.edu.ardc.igsn</groupId>
     <artifactId>igsn-portal</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>igsn-portal</name>
     <description>Portal for IGSN Registry</description>
 
@@ -135,7 +135,7 @@
             <plugin>
                 <groupId>io.spring.javaformat</groupId>
                 <artifactId>spring-javaformat-maven-plugin</artifactId>
-                <version>0.0.25</version>
+                <version>0.0.26</version>
             </plugin>
         </plugins>
     </build>
