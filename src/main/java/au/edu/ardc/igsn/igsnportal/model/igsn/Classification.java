@@ -1,10 +1,16 @@
 package au.edu.ardc.igsn.igsnportal.model.igsn;
 
-public class Classification {
-    public String classificationURI;
-    public String value;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
-    public Classification(String value) {
-        this.value = value;
-    }
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Classification {
+
+	@JacksonXmlProperty(isAttribute = true)
+	public String classificationURI;
+
+	@JacksonXmlText
+	public String value;
+
 }

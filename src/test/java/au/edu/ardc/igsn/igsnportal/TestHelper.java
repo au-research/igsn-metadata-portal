@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class TestHelper {
-    public static String readFile(String path) throws IOException {
-        File file = new File(path);
-        return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-    }
+
+	public static String readFile(String path) throws IOException {
+		File file = new File(path);
+		return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+	}
+
 }

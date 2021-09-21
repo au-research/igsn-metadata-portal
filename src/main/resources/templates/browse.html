@@ -5,10 +5,11 @@
 </head>
 <body>
 <section>
-    <div class="font-sans flex w-full py-8">
+    <h1 class="text-2xl text-center font-serif">IGSN Records</h1>
+    <div class="font-sans flex w-full pb-8">
         <div class="overflow-hidden bg-white rounded w-full shadow-lg">
             <div class="block p-4 border-b" th:each="identifier : ${identifiers}">
-                <a class="text-grey-darker mb-2"
+                <a class="text-grey-darker mb-2 hover:text-blue"
                    th:href="@{view/{value}(value=${identifier.value})}"
                    th:text="${identifier.value}"></a>
             </div>

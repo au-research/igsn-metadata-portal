@@ -37,3 +37,6 @@ node_modules/
 
 ### configuration
 src/main/resources/application.properties
+
+### logs artifacts ###
+logs
