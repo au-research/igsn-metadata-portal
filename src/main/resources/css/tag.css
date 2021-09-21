@@ -1,0 +1,23 @@
+.tag {
+    @apply .px-2 .inline-flex .text-xs .leading-5 .font-semibold .rounded-full;
+}
+
+.tag-blue {
+    @apply bg-blue text-white;
+}
+
+.tag-green {
+    @apply .bg-green-light .text-green-dark;
+}
+
+.tag-red {
+    @apply bg-red-light text-red-dark;
+}
+
+.tag-yellow {
+    @apply bg-yellow-light text-yellow-dark;
+}
+
+.tag-gray {
+    @apply bg-gray-500 text-gray-100
+}

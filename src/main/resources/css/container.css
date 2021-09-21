@@ -1,0 +1,27 @@
+.container h1 {
+    @apply .text-3xl .text-black .mb-3 .font-serif .font-medium;
+}
+
+.container h2 {
+    @apply .text-xl .text-black .my-2 .font-serif;
+}
+
+.container h3 {
+    @apply .text-lg .text-black .mb-1 .font-serif;
+}
+
+.container ul {
+    @apply .list-disc .mx-2;
+}
+
+.container ul > li {
+    @apply .ml-6;
+}
+
+.container ol {
+    @apply .list-decimal .mx-2;
+}
+
+.container ol > li {
+    @apply .ml-6;
+}

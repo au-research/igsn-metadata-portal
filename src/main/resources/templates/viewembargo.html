@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout.html :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>IGSN Portal - Under Embargo</title>
+</head>
+<body>
+<section>
+    <!--@thymesVar id="exception" type="java.lang.RuntimeException"-->
+    <div class="flex justify-center">
+        <div>
+            <h1>Under Embargo</h1>
+            <div class="text-left">
+                <p class="mb-2">The resource you have requested is under embargo until
+                    <span th:text="${@renderService.renderDate(embargoDate)}"/>.</p>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -5,5 +5,35 @@ server.servlet.context-path=/igsn-portal
 # Registry Configuration
 registry.url=https://test.identifiers.ardc.edu.au/igsn-registry/
 
+# App configuration
+app.registry_url=https://identifiers.ardc.edu.au/igsn-registry/
+app.portal_url=https://identifiers.ardc.edu.au/igsn-portal/
+app.editor_url=https://identifiers.ardc.edu.au/igsn-editor/
+app.data_path=/tmp/igsn-portal/
+
 # Caching Configuration
 #spring.thymeleaf.cache=false
+
+# Versioning Content Path
+spring.resources.chain.strategy.content.enabled=true
+spring.resources.chain.strategy.content.paths=/js/**,/css/*.css
+spring.resources.cache.cachecontrol.max-age=365d
+spring.resources.cache.cachecontrol.no-cache=false
+spring.resources.cache.cachecontrol.no-store=false
+spring.resources.cache.cachecontrol.cache-public=true
+
+# keycloak
+keycloak.enabled=false
+keycloak.realm=ARDC
+keycloak.auth-server-url=
+keycloak.ssl-required=external
+keycloak.resource=
+keycloak.credentials.secret=
+keycloak.public-client=true
+keycloak.autodetect-bearer-only=true
+keycloak.enable-basic-auth=true
+keycloak.principal-attribute=preferred_username
+keycloak.security-constraints[0].authRoles[0]=*
+keycloak.security-constraints[0].securityCollections[0].patterns[0]=/login/*
+keycloak.security-constraints[1].authRoles[0]=IGSN_ADMIN
+keycloak.security-constraints[1].securityCollections[0].patterns[0]=/api/admin/*

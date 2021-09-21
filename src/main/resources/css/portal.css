@@ -1,12 +1,51 @@
 /* purgecss start ignore */
-@tailwind base;
-@tailwind components;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "leaflet/dist/leaflet.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
 /* purgecss end ignore */
-@tailwind utilities;
+@import "tailwindcss/utilities";
+
+@import 'tippy.js/dist/tippy.css';
+@import 'tippy.js/themes/light-border.css';
+
+@import './page-view.css';
+@import './container.css';
+@import './table.css';
+@import './tag.css';
+@import './button.css';
 
 body {
-    @apply text-gray-900;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    @apply .text-gray-900 .font-sans;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    @apply .text-blue;
+}
+
+a:hover {
+    @apply .text-blue-dark .underline;
+}
+
+p {
+    @apply my-2;
+}
+
+#footer-links li a{
+    @apply .text-white .font-semibold .text-sm .uppercase;
+}
+
+#footer-links li a:hover {
+    @apply .text-gray-400;
+}
+
+/*components*/
+@media print {
+    a:after {
+        content: " (" attr(href) ") ";
+        text-decoration: underline;
+        display: inline;
+    }
 }

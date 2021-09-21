@@ -5,5 +5,7 @@ import au.edu.ardc.igsn.igsnportal.model.Identifier;
 import java.util.List;
 
 public class PaginatedIdentifiersResponse extends PaginatedResponse {
-    public List<Identifier> content;
+
+	public List<Identifier> content;
+
 }

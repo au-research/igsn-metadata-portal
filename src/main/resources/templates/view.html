@@ -1,61 +1,308 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout.html :: layout(~{::title}, ~{::section})}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout.html :: layout(~{::title}, ~{::section})}" th:with="jsonld=${jsonld}">
 <head>
     <title th:text="${resource.resourceTitle}"></title>
 </head>
 <body>
 <section>
-    <div class="flex">
-        <div class="w-1/4 pr-4 border-gray-300 border-r-2">
-            <h1 class="text-2xl text-gray">Location</h1>
-            <img class="w-full" src="https://via.placeholder.com/250" alt="">
-            <p>123 Example, South West St, Moss Vale NSW 2357</p>
-        </div>
-        <div class="flex-1 pl-4">
-            <div class="flex mb-4">
-                <div class="mr-10">
-                    <h1 class="text-2xl text-gray mb-3" th:text="${resource.resourceTitle}"></h1>
-                    IGSN: <span class="text-grey-darker mb-2" th:text="${resource.resourceIdentifier}"></span>
+
+    <div class="flex flex-col page-view">
+        <div class="flex mb-4">
+            <div class="mr-10 w-full">
+                <h1 th:text="${resource.resourceTitle}"></h1>
+            </div>
+            <div class="flex flex-col space-y-1">
+                <div id="qrcode" th:attr="url=${igsnURL}">
+                    <img src="https://via.placeholder.com/100" alt="">
                 </div>
-                <img class="" src="https://via.placeholder.com/100" alt="">
-            </div>
-            <h1>Sample or Item Type:</h1>
-            <ul class="list-disc text-grey-darker mb-2">
-                <li class="ml-6" th:each="resourceType : ${resource.resourceTypes}" th:text="${resourceType.value}"></li>
-            </ul>
-            <h1>Material Type:</h1>
-            <ul class="list-disc text-grey-darker mb-2">
-                <li class="ml-6" th:each="materialType : ${resource.materialTypes}" th:text="${materialType.value}"></li>
-            </ul>
-<!--            <h1>Classifications</h1>-->
-<!--            <ul class="list-disc text-grey-darker mb-2">-->
-<!--                <li class="ml-6" th:each="classification : ${resource.classifications}" th:text="${classification.value}"></li>-->
-<!--            </ul>-->
-            <h1>Sampled Features</h1>
-            <h1>Collection/Creation Date</h1>
-            <h1>Purpose of collection/creation</h1>
-        </div>
-    </div>
-
-    <div class="font-sans flex w-full py-8">
-        <div class="overflow-hidden bg-white rounded w-full shadow-lg">
-            <div class="block p-4 border-b">
-                <p class="font-bold mb-1 text-black">Registered Object Type</p>
-                <p class="text-grey-darker mb-2" th:text="${resource.registeredObjectType}"></p>
-            </div>
-            <div class="block p-4 border-b">
-                <p class="font-bold mb-1 text-black">Landing Page</p>
-                <p class="text-grey-darker mb-2" th:text="${resource.landingPage}"></p>
-            </div>
-            <div class="block p-4 border-b">
-                <p class="font-bold mb-1 text-black">Public</p>
-                <p class="text-grey-darker mb-2" th:text="${resource.isPublic}"></p>
+                <div class="flex items-end justify-center space-x-2 ">
+                    <a href="javascript:void(0);" class="tip-content print:hidden" data-template="download">
+                        <i class="fa fa-download" data-tippy-content="Download"></i>
+                    </a>
+                    <a class="print:hidden" href="javascript:window.print()">
+                        <i class="fa fa-print" data-tippy-content="Print"></i>
+                    </a>
+                    <a th:href="@{${'http://www.facebook.com/sharer.php?u='} + ${#request.requestURL}}"
+                       class="print:hidden">
+                        <i data-tippy-content="Share with Facebook" class="fab fa-facebook"></i>
+                    </a>
+                    <a th:href="@{${'https://twitter.com/share?url='} + ${#request.requestURL} + '&text=' + ${resource.resourceTitle} + '&hashtags=igsn'}"
+                       class="print:hidden">
+                        <i data-tippy-content="Share with Twitter" class="fab fa-twitter"></i>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <h2 class="text-2xl text-gray mb-3">XML</h2>
-    <pre><code class="lang-xml" th:text="${xml}"></code></pre>
+        <div class="flex items-stretch lg:space-x-32 md:space-x-16 flex-col lg:flex-row md:flex-row sm:flex-col print:flex-col">
+            <div class="md:w-1/3">
+
+                <div class="content-block">
+                    <h3>IGSN </h3>
+                    <p>
+                        <a th:href="${igsnURL}" th:text="${resource.resourceIdentifier}" target="_blank"
+                           class="print:underline"></a>
+                    </p>
+                    <label th:if="${testIGSN}" class="tag tag-yellow">TEST IGSN</label>
+                    <label th:if="${identifierStatus}=='destroyed' or ${identifierStatus}=='deprecated'"
+                           th:text="${identifierStatus}"
+                           class="tag tag-red"></label>
+                    <p class="mt-3" th:if="${canEdit}">
+                        <a th:href="${editURL}" target="_blank" class="print:underline btn btn-sm btn-blue">
+                            <i class="fas fa-edit"></i> Edit this record
+                        </a>
+                    </p>
+                </div>
+
+                <div class="content-block">
+                    <h3>Sample or Item Type</h3>
+                    <ul>
+                        <li th:each="resourceType : ${resource.resourceTypes}">
+                            <a th:if="${@vocabService.resolvable(resourceType.value)}"
+                               th:href="${resourceType.value}"
+                               th:text="${@vocabService.resolve(resourceType.value)}" class="print:underline"></a>
+                            <span th:if="${!@vocabService.resolvable(resourceType.value)}"
+                                  th:text="${resourceType.value}"></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-block">
+                    <h3>Material Type</h3>
+                    <ul class="list-disc text-grey-darker mb-2">
+                        <li class="ml-6" th:each="materialType : ${resource.materialTypes}">
+                            <a th:if="${@vocabService.resolvable(materialType.value)}"
+                               th:href="${materialType.value}"
+                               th:text="${@vocabService.resolve(materialType.value)}" class="print:underline"></a>
+                            <span th:if="${!@vocabService.resolvable(materialType.value)}"
+                                  th:text="${materialType.value}"></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-block" th:if="${resource.classifications}">
+                    <h3>Classifications</h3>
+                    <ul>
+                        <li th:each="classification : ${resource.classifications}">
+                            <a th:if="${classification.classificationURI}"
+                               th:href="${classification.classificationURI}"
+                               th:text="${classification.value}" class="print:underline"></a>
+                            <span th:if="!${classification.classificationURI}"
+                                  th:text="${classification.value}"></span>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="content-block" th:if="${resource.alternateIdentifiers}">
+                    <h3>Alternate Identifiers</h3>
+                    <ul>
+                        <li th:each="identifier : ${resource.alternateIdentifiers}">
+                            <span th:if="${@vocabService.resolve(identifier.alternateIdentifierType)}"
+                                  th:text="${@vocabService.resolve(identifier.alternateIdentifierType)} + ': '"></span>
+                            <a th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.alternateIdentifierType))}"
+                               th:href="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.alternateIdentifierType))}"
+                               th:text="${identifier.value}"/>
+                            <span th:if="!${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.alternateIdentifierType))}"
+                                  th:text="${identifier.value}"/>
+                            <img class="inline-flex"
+                                 th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.alternateIdentifierType))}"
+                                 th:src="@{${@renderService.getIcon(@vocabService.resolve(identifier.alternateIdentifierType))}}"/>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-block" th:if="${resource.comments}">
+                    <h3>Comments</h3>
+                    <p th:text="${resource.comments}"></p>
+                </div>
+
+                <div th:if="${resource.location}">
+                    <h2>Location</h2>
+
+                    <div class="content-block" th:if="${resource.location.geometry}">
+                        <h3 th:if="${resource.location.geometry.value}"> WKT</h3> <span
+                            th:text="${resource.location.geometry.value}"></span>
+                    </div>
+                    <div class="content-block" th:if="${resource.location.geometry.srid}">
+                        <h3>SRID</h3> <span th:text="${resource.location.geometry.srid}"></span>
+                    </div>
+                    <div class="content-block" th:if="${resource.location.geometry.verticalDatum}">
+                        <h3>Vertical Datum</h3> <span th:text="${resource.location.geometry.verticalDatum}"></span>
+                    </div>
+                    <div class="content-block" th:if="${resource.location.locality}">
+                        <h3 th:if="${resource.location.locality}"> Locality</h3>
+                        <a th:if="${resource.location.locality.localityURI}"
+                           th:href="${resource.location.locality.localityURI}"
+                           th:text="${resource.location.locality.value} ?: ${resource.location.locality.localityURI}"
+                           class="print:underline"></a>
+                        <span th:if="!${resource.location.locality.localityURI}"
+                              th:text="${resource.location.locality.value}"/>
+                    </div>
+                    <div class="content-block" th:if="${resource.location.geometry.geometryURI}">
+                        <h3>Geometry URI</h3>
+                        <a th:if="${resource.location.geometry.geometryURI}"
+                           th:href="${resource.location.geometry.geometryURI}"
+                           th:text="${resource.location.geometry.geometryURI}" class="print:underline"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1" th:if="${resource.location}">
+                <h2 id="location-heading" class="hidden">Location</h2>
+
+                <div class="content-block" th:if="${resource.location.geometry}">
+                    <div id="map" class="w-full" style="height:420px" th:attr="wkt=${resource.location.geometry.value}"></div>
+                    <div id="map-detail" class="hidden" th:text="${resource.location.geometry.value}"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="download" class="hidden">
+            <h3>Download formats</h3>
+            <ul class="space-y-3 items-center">
+                <li>
+                    <a th:href="@{/download(identifierValue=${identifierValue}, schema=${@IGSNRegistryService.ARDCv1})}">
+                        <i class="fa fa-download"></i> ARDC IGSN Descriptive v1.0 <span class="tag">xml</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/download(identifierValue=${identifierValue}, schema=${@IGSNRegistryService.ARDCv1JSONLD})}">
+                        <i class="fa fa-download"></i> IGSN JSON-LD <span class="tag">json</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <h2 th:if="${resource.sampledFeatures} or ${resource.date} or ${resource.method} or ${resource.campaign}">
+            Collection/Creation</h2>
+
+        <div class="content-block" th:if="${resource.sampledFeatures}">
+            <h3>Sampled Features</h3>
+            <ul>
+                <li th:each="sampledFeature : ${resource.sampledFeatures}">
+                    <a th:href="${sampledFeature.sampledFeatureURI}" th:text="${sampledFeature.value}"
+                       class="print:underline"></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content-block" th:if="${resource.date}">
+            <h3>Date</h3>
+
+            <p th:if="${resource.date.timePeriod}">
+                <span th:text="${@renderService.renderDate(resource.date.timePeriod.start)}"></span> to <span
+                    th:text="${@renderService.renderDate(resource.date.timePeriod.end)}"></span>
+            </p>
+        </div>
+
+        <div class="content-block" th:if="${resource.method}">
+            <h3>Method</h3>
+            <p>
+                <a th:href="${resource.method.methodURI}" th:text="${resource.method.value}"
+                   class="print:underline"></a>
+            </p>
+        </div>
+
+        <div class="content-block" th:if="${resource.purpose}">
+            <h3>Purpose</h3>
+            <p th:text="${resource.purpose}"></p>
+        </div>
+
+        <div class="content-block" th:if="${resource.campaign}">
+            <h3>Project</h3>
+            <p th:text="${resource.campaign}"></p>
+        </div>
+
+
+        <hr>
+        <div class="content-block" th:if="${resource.curationDetails}">
+            <h2>Curators</h2>
+            <div class="content-block" th:each="curation : ${resource.curationDetails}">
+
+                <h3 th:text="${curation.curator.curatorName}"></h3>
+                <div th:if="${curation.curator.curatorIdentifier}">
+                    <p th:each="curatorIdentifier : ${curation.curator.curatorIdentifier}">
+                        <span th:text="${@vocabService.resolve(curatorIdentifier.curatorIdentifierType)} + ': '"></span>
+                        <a th:href="${@renderService.renderIdentifier(curatorIdentifier.value, @vocabService.resolve(curatorIdentifier.curatorIdentifierType))}"
+                           th:text="${curatorIdentifier.value}"/>
+                        <img class="inline-flex"
+                             th:if="${@renderService.getIcon(@vocabService.resolve(curatorIdentifier.curatorIdentifierType))}"
+                             th:src="@{${@renderService.getIcon(@vocabService.resolve(curatorIdentifier.curatorIdentifierType))}}"/>
+                    </p>
+                </div>
+                <div class="mb-2" th:if="${curation.curationDate}">
+                    <p>Curation Date</p>
+                    <p th:text="${@renderService.renderDate(curation.curationDate)}"></p>
+                </div>
+                <div class="mb-2" th:if="${curation.curationLocation}">
+                    <p>Curation Location</p>
+                    <p th:text="${curation.curationLocation}"></p>
+                </div>
+                <div class="mb-2" th:if="${curation.curatingInstitution}">
+                    <p>Curating Institution</p>
+                    <a th:if="${curation.curatingInstitution.institutionURI}" th:href="${curation.curatingInstitution.institutionURI}"
+                       th:text="${curation.curatingInstitution.value} ?: ${curation.curatingInstitution.institutionURI}"
+                       class="print:underline"></a>
+                    <span th:if="!${curation.curatingInstitution.institutionURI}" th:text="${curation.curatingInstitution.value}"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-block" th:if="${resource.contributors}">
+            <h2>Contributors</h2>
+            <div class="content-block" th:each="contributor : ${resource.contributors}">
+                <span th:if="${@vocabService.resolvable(contributor.contributorType)}">
+                    <i><span>
+                    <a th:href="${contributor.contributorType}"
+                       th:text="${@vocabService.resolve(contributor.contributorType)}" class="print:underline"></a>
+                    </span></i><br/>
+                </span>
+                <span th:if="!${@vocabService.resolvable(contributor.contributorType)}"
+                      th:text="${contributor.contributorType}"></span>
+                <span th:text="${contributor.contributorName}"></span><br/>
+                <span th:if="${contributor.contributorIdentifier}">
+                <span th:each="identifier : ${contributor.contributorIdentifier}">
+                    <span th:text="${@vocabService.resolve(identifier.contributorIdentifierType )} + ': '"></span>
+                    <a th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.contributorIdentifierType))}"
+                       th:href="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.contributorIdentifierType))}"
+                       th:text="${identifier.value}"/>
+                    <span th:if="!${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.contributorIdentifierType))}"
+                          th:text="${identifier.value}"/>
+                    <img class="inline-flex"
+                         th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.contributorIdentifierType))}"
+                         th:src="@{${@renderService.getIcon(@vocabService.resolve(identifier.contributorIdentifierType))}}"/>
+                </span>
+                </span>
+            </div>
+        </div>
+
+        <hr>
+        <div class="content-block" th:if="${resource.relatedResources}">
+            <h2>Related Resources</h2>
+            <div class="content-block" th:each="relatedResource : ${resource.relatedResources}">
+                <i><span th:text="${@vocabService.resolve(relatedResource.relationType)}"></span></i>
+                <p th:if="${relatedResource.relatedResourceTitle}" th:text="${relatedResource.relatedResourceTitle}"/>
+                <p th:if="${relatedResource.relatedResourceIdentifier}">
+                    <span th:each="identifier : ${relatedResource.relatedResourceIdentifier}">
+                    <span th:text="${@vocabService.resolve(identifier.relatedResourceIdentifierType )} + ': '"></span>
+                    <a th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.relatedResourceIdentifierType))}"
+                       th:href="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.relatedResourceIdentifierType))}"
+                       th:text="${identifier.value}"/>
+                    <span th:if="!${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.relatedResourceIdentifierType))}"
+                          th:text="${identifier.value}"/>
+                    <img class="inline-flex"
+                         th:if="${@renderService.renderIdentifier(identifier.value, @vocabService.resolve(identifier.relatedResourceIdentifierType))}"
+                         th:src="@{${@renderService.getIcon(@vocabService.resolve(identifier.relatedResourceIdentifierType))}}"/>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
 </section>
 </body>
 </html>

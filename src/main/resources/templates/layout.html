@@ -3,26 +3,97 @@
 <head>
     <title th:replace="${title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" th:href="@{/css/portal.css}"/>
-    <link rel="stylesheet"
-          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css">
+    <link rel="stylesheet" th:href="@{/css/bundle.css}"/>
+    <link rel="icon" type="image/png" th:href="@{/favicon.ico}">
 
+    <script type="application/ld+json" th:if="${jsonld}" th:utext="${jsonld}"></script>
 </head>
-<body>
-
+<body class="flex flex-col min-h-screen">
 <div class="w-full h-40 bg-black">
-    <div class="w-full h-32 bg-black flex items-center">
-        <img class="h-16 mx-6" src="https://ardc.edu.au/wp-content/themes/ardc/img/ardc_logo.svg" alt="ARDC Logo"/>
-        <a th:href="@{/}"><h1 class="text-3xl text-white mx-4">IGSN Portal</h1></a>
+    <div class="w-full h-32 bg-black flex items-center justify-between">
+        <div class="flex items-center print:flex-col">
+            <img class="h-16 mx-6" src="https://ardc.edu.au/wp-content/themes/ardc/img/ardc_logo.svg" alt="ARDC Logo"/>
+            <h1 class="text-3xl text-white mx-4 font-serif print:text-black">IGSN Portal</h1>
+        </div>
+
+        <div class="flex items-center mr-10 print:hidden" th:with="isLoggedIn=${@userService.isLoggedIn(#request)}">
+            <div th:if="!${isLoggedIn}" class="text-white">
+                <a class="px-6 py-3 rounded-lg border-2 border-white text-white hover:text-white hover:bg-blue hover:border-blue-dark uppercase"
+                   th:href="@{/login(redirect=${@userService.getCurrentPath(#request)} )}">Log In </a>
+            </div>
+            <div th:if="${isLoggedIn}" class="text-white flex items-center">
+                <p class="mr-5 text-lg" th:text="${@userService.getPrincipal(#request).getName()}"></p>
+                <a class="px-6 py-3 rounded-lg border-2 border-white text-white hover:text-white hover:bg-blue hover:border-blue-dark uppercase"
+                   th:href="@{/logout(redirect=${@userService.getCurrentPath(#request)})}">Log Out </a>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="container w-10/12 mx-auto p-4 py-4 px-8 shadow-lg rounded-lg border-solid border-1 -mt-8 bg-white">
+<div class="flex-grow container lg:w-10/12 md:w-full lg:mx-auto p-4 py-4 px-8 lg:shadow-lg lg:rounded-lg lg:-mt-8 bg-white">
     <div th:replace="${content}"></div>
 </div>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad()</script>
+<div class="w-full bg-black mt-8 flex px-8 py-10 pb-16 justify-between print:hidden">
 
+    <div class="flex flex-col space-x-6 space-y-6 md:flex-row md:space-y-0">
+        <div class="print:hidden">
+            <a href="https://ardc.edu.au/">
+                <img src="" class="h-16 mx-6" th:src="@{/images/ardc_logo_white.png}" alt="ARDC Logo"/>
+            </a>
+        </div>
+        <div id="footer-links">
+            <ul class="space-y-2">
+                <li>
+                    <a th:href="${editorLink}" target="_blank">IGSN Editor</a></li>
+                <li>
+                    <a href="https://documentation.ardc.edu.au/display/DOC/IGSN+Service"
+                       target="_blank">Documentation</a>
+                </li>
+                <li>
+                    <a href="https://ardc.edu.au/privacy-policy/" target="_blank">ARDC Privacy Policy</a>
+                </li>
+                <li>
+                    <a href="https://ardc.edu.au/" target="_blank">ARDC Website</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="flex flex-col md:space-x-6 space-y-6 md:flex-row md:space-y-0">
+        <div style="width:140px;">
+            <p class="text-white xl:text-xs">The Australian Research Data Commons (ARDC) is enabled by NCRIS.</p>
+            <a href="https://education.gov.au/national-collaborative-research-infrastructure-strategy-ncris">
+                <img src="https://researchdata.edu.au/assets/core/images/NCRIS_PROVIDER_rev.png" alt="">
+            </a>
+        </div>
+        <div style="width:140px">
+            <a href="https://www.igsn.org/">
+                <img src="" alt="" th:src="@{/images/igsn-original.jpg}">
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="fixed flex bottom-0 right-0 mr-4 mb-2 print:hidden z-900">
+    <a href="https://documentation.ardc.edu.au/display/DOC/IGSN+Service" target="_blank"
+       class="btn btn-yellow mr-2 z-900"><i class="fas fa-question-circle"></i> Help</a>
+    <a id="feedbackTrigger" href="" class="btn btn-yellow z-900">Feedback</a>
+</div>
+
+<script type="text/javascript"
+        src="https://jira.ardc.edu.au/s/7539bee66a37fdc5687c48b41df6db7a-T/c1nhiz/712004/2fc3039b5d3120316878493c953a001f/2.0.31/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-UK&collectorId=77ab6797"></script>
+<script type="text/javascript">window.ATL_JQ_PAGE_PROPS = {
+  'triggerFunction': function (showCollectorDialog) {
+    //Requires that jQuery is available!
+    jQuery('#feedbackTrigger').click(function (e) {
+      e.preventDefault()
+      showCollectorDialog()
+    })
+  },
+}</script>
+
+<script th:src="@{/js/vendor.js}"></script>
+<script th:src="@{/js/bundle.js}"></script>
 </body>
 </html>
